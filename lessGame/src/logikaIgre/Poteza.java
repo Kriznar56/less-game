@@ -31,11 +31,5 @@ public class Poteza {
 		return y_koncna;
 	}
 	
-	public int cena() {
-		// Koliko moramo odsteti od preostalih potez za to potezo.
-		int cena = Math.abs(y_koncna-y_zacetna) + Math.abs(x_koncna-x_zacetna);
-		// dodaj odvisnost od tega, ce kaj preskoci -> preverjamo plosco?. Tu ne preverjamo legalnosti poteze.
-		return cena; 
-	}
 	
 }

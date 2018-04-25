@@ -96,7 +96,8 @@ public class Igra {
 	}
 	
 	public boolean Odigraj(Poteza p) {
-		// dodaj pogoje za legalnost
+		// dodaj pogoje za legalnost,
+		// nastavi novega igralca naPotezi in nastavi preostale potezi, spremeni plosco
 		return false;
 	}
 	
