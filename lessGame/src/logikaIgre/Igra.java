@@ -17,11 +17,8 @@ public class Igra {
 	private int krediti;
 	private LinkedList<Point> zacetna_crna;
 	private LinkedList<Point> zacetna_bela;  // uporabni listi pri preverjanju zmagovalca
-<<<<<<< HEAD
 	public LinkedList<Poteza> seznam_legalnih_potez;
-=======
 	private LinkedList<LinkedList<String>> ovire;
->>>>>>> c3d51eb70b4215aadc1f03d43a8c91f0a6a2564d
 	/**
 	 * List manjkajocih funkcij
 	 * - Odigraj <- preveris, ce je poteza legalna in jo odigras.
@@ -47,48 +44,46 @@ public class Igra {
 	
 	
 	/**
-	 * Generira začetno stanje igre, na potezi bel igralec in ima 3 preostale poteze.
+	 * Generira zacetno stanje igre, na potezi bel igralec in ima 3 preostale poteze.
 	 * Beli zacne desno spodaj, crni levo zgoraj.
-<<<<<<< HEAD
 	 * Kasneje bomo dodali se stene/ovire, kot so v polni igri.
-	 * ko bodo dodane ovire je treba tudi naključno generirati ploščo.
+	 * ko bodo dodane ovire je treba tudi nakljucno generirati plosco.
 =======
 	 * Prav tako vsakemu polju dodelimo ovire, glej dokumentacijo funckije "dobiOvire()".									
 	 * @throws IOException 
->>>>>>> c3d51eb70b4215aadc1f03d43a8c91f0a6a2564d
 	 */
 	public Igra() throws IOException {
 		plosca = new Polje[N][N];
 		ovire = dobiOvire();
 		for(int i = 0; i<N; i++) {
 			for(int j = 0; j<N; j++) {
-//				//Prvih 6 stevilk v datoteki ovire predstavljajo ovire levo in desno
-//				if(ovire.get(i).get(j)==Character.toString('1')) {
-//					plosca[i][j].levo = true;
-//				}
-//				if(ovire.get(i).get(j)==Character.toString('2')) {
-//					plosca[i][j].desno = true;
-//				}
-//				if(ovire.get(i).get(j)==Character.toString('3')) {
-//					plosca[i][j].levo = true;
-//					plosca[i][j].desno = true;
-//				//Drugih 6 stevilk v datoteki ovire predstavljajo ovire gor in dol
-//				}
-//				if(ovire.get(i*2).get(j*2)==Character.toString('1')) {
-//					plosca[i][j].gor = true;
-//				}
-//				if(ovire.get(i*2).get(j*2)==Character.toString('2')) {
-//					plosca[i][j].dol = true;
-//				}
-//				if(ovire.get(i*2).get(j*2)==Character.toString('3')) {
-//					plosca[i][j].gor = true;
-//					plosca[i][j].dol = true;
-//				}
-				
-				if(i>= 4 && j<=1) {
+				//Prvih 6 stevilk v datoteki ovire predstavljajo ovire levo in desno
+				if(ovire.get(i).get(j)==Character.toString('1')) {
+					plosca[i][j].ovira_levo = true;
+				}
+				if(ovire.get(i).get(j)==Character.toString('2')) {
+					plosca[i][j].ovira_desno = true;
+				}
+				if(ovire.get(i).get(j)==Character.toString('3')) {
+					plosca[i][j].ovira_levo = true;
+					plosca[i][j].ovira_desno = true;
+				//Drugih 6 stevilk v datoteki ovire predstavljajo ovire gor in dol
+				}
+				if(ovire.get(i*2).get(j*2)==Character.toString('1')) {
+					plosca[i][j].ovira_zgoraj = true;
+				}
+				if(ovire.get(i*2).get(j*2)==Character.toString('2')) {
+					plosca[i][j].ovira_spodaj = true;
+				}
+				if(ovire.get(i*2).get(j*2)==Character.toString('3')) {
+					plosca[i][j].ovira_zgoraj = true;
+					plosca[i][j].ovira_spodaj = true;
+				}
+				// Nastavi zgornja-leva polja na bela, ter spodnja desna na crna
+				if(i<= 1 && j<=1) {
 					plosca[i][j] = Polje.BELO;
 				}
-				if(i<=1 && j>= 4) {
+				if(i>=4 && j>= 4) {
 					plosca[i][j] = Polje.CRNO;
 				}
 				else {
@@ -125,7 +120,7 @@ public class Igra {
 		if (bele == 4) {
 			return Stanje.ZMAGAL_BEL;
 		}
-		// če smo do sem prišli, ni zmagal še nihče in je nekdo na potezi.
+		// Ce smo do sem prisli, ni zmagal ce nihce in je nekdo na potezi.
 		if(naPotezi == Igralec.BEL) {
 			return Stanje.NA_POTEZI_BEL;
 		}
@@ -134,17 +129,16 @@ public class Igra {
 		}	
 	}
 	
-<<<<<<< HEAD
 	public boolean odigraj(Poteza p) {
-		// poglej če je na seznamu leganih potez.
-		// izračunaj ceno poteze in odštej to ceno od ''credita''.
-		// nastavi novega igralca naPotezi(če potrebno) in nastavi preostale potezi, spremeni plosco
-=======
+		// poglej ce je na seznamu leganih potez.
+		// izracunaj ceno poteze in odstej to ceno od ''credita''.
+		// nastavi novega igralca naPotezi(ce potrebno) in nastavi preostale potezi, spremeni plosco
+		return false;
+	}
 	
 	public boolean Odigraj(Poteza p) {
 		// dodaj pogoje za legalnost,
 		// nastavi novega igralca naPotezi in nastavi preostale potezi, spremeni plosco
->>>>>>> c3d51eb70b4215aadc1f03d43a8c91f0a6a2564d
 		return false;
 	}
 	
@@ -201,7 +195,7 @@ public class Igra {
 				if(plosca[i][j] == checkpolje) {
 					for(int k = 0; k<krediti; k++) {
 						int premik = k+1;
-						//preverimo, če so poteze v okolici ''stevilo kreditov'' legalne, saj dalje zagotovo ne moremo.
+						//preverimo, ce so poteze v okolici ''stevilo kreditov'' legalne, saj dalje zagotovo ne moremo.
 						if(jeLegalna(i, j, i+premik, j)) {
 							seznam_legalnih_potez.add(new Poteza(i, j, i+premik, j));
 							}
@@ -244,24 +238,24 @@ public class Igra {
 		//gordol
 		if(x_final-x_start > 0) { 
 			for(int i =x_start; i<=x_final;  i++) {
-			cena_ovir += 
+			//cena_ovir += 								<---Tukej mas svojo nedokoncano kodo sm ti jo zakomentiru -vid
 			}
 		}
 		if(x_final-x_start < 0) {
 			for(int i =x_start; i>=x_final;  i--) {
-				cena_ovir += 
+				//cena_ovir += 
 			}
 		}
 		//levodesno
 		if(y_final-y_start > 0) { 
 			for(int i =y_start; i<=y_final;  i++) {
-				cena_ovir += 
+				//cena_ovir += 
 			}
 		}
 		
 		if(y_final-y_start < 0) {
 			for(int i =y_start; i>=y_final;  i--) {
-					cena_ovir += 
+					//cena_ovir += 
 			}
 		}
 		

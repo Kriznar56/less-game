@@ -6,5 +6,5 @@ public enum Stanje {
 	ZMAGAL_CRN,
 	ZMAGAL_BEL;
 
-	//Neodloceno se mi zdi da ni možno? + razlog za zmago vedno enak, torej tudi tisti drug del v primeru ni proteben
+	//Neodloceno se mi zdi da ni mozno? + razlog za zmago vedno enak, torej tudi tisti drug del v primeru ni proteben
 }
