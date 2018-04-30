@@ -20,10 +20,7 @@ public class Igra {
 	public LinkedList<Poteza> seznam_legalnih_potez;
 	private LinkedList<LinkedList<String>> ovire;
 	/**
-	 * List manjkajocih funkcij
-	 * - Odigraj <- preveris, ce je poteza legalna in jo odigras.
-	 * - Stanje <- vrne, kdo je na potezi oziroma ce je igre konec in kdo je zmagal.
-	 * - List potez <- preverjas, katere legalne glede na ceno/ preostale poteze in preverjas ce ostane na plosci.
+	 * List manjkajocih funkcij: pomoje nobene
 	 */
 	
 	{ 		
@@ -129,18 +126,40 @@ public class Igra {
 		}	
 	}
 	
+	/**
+	 * Ce je poteza na seznamu legalnih jo odigras, ter posodobis plosco in zamenjas igralca ce je trenutnemu igralcu zmanjkalo kreditov
+	 * Ta funkcija bi pomoje lahko bla void?
+	 * V to funkcijo je treba vpeljati se pregled Stanja
+	 */
+	
 	public boolean odigraj(Poteza p) {
 		// poglej ce je na seznamu leganih potez.
-		// izracunaj ceno poteze in odstej to ceno od ''credita''.
-		// nastavi novega igralca naPotezi(ce potrebno) in nastavi preostale potezi, spremeni plosco
-		return false;
+		if(seznam_legalnih_potez.contains(p)) {
+			// izracunaj ceno poteze in odstej to ceno od ''credita''.
+			krediti -= cenaPoteze(p.getX_start(), p.getY_start(), p.getX_final(), p.getY_final());
+			// spremeni plosco
+			if(plosca[p.getX_start()][p.getY_start()] == Polje.BELO) {
+				plosca[p.getX_final()][p.getY_final()] = Polje.BELO;
+			}
+			else {plosca[p.getX_final()][p.getY_final()] = Polje.CRNO;}
+			plosca[p.getX_start()][p.getY_start()] = Polje.PRAZNO;
+			// nastavi novega igralca naPotezi(ce potrebno)
+			if(krediti == 0) {
+				if(naPotezi == Igralec.BEL) {
+					naPotezi = Igralec.CRN;
+				}
+				else {naPotezi = Igralec.BEL;}
+				krediti = 3;
+			}
+			posodobi_legalne_poteze();
+			return true;
+			
+		}
+		else {
+			return false;	
+		}
 	}
 	
-	public boolean Odigraj(Poteza p) {
-		// dodaj pogoje za legalnost,
-		// nastavi novega igralca naPotezi in nastavi preostale potezi, spremeni plosco
-		return false;
-	}
 	
 	/** 
 	 *	Iz tekstovne datoteke, ki je vnaprej napisana, prebere zaporedje stevilk, ki predstavljajo ovire za polja na plosci
@@ -208,19 +227,15 @@ public class Igra {
 						if(jeLegalna(i, j, i, j+premik)) {
 							seznam_legalnih_potez.add(new Poteza(i, j, i, j+premik));
 							}
-						}
-						
-						
+						}		
 					}
 				}
-				
-				
 			}
 		}
 	
 
 	/**
-	 * Preveri, ce je poteza legalna, ni najbolj elegantno, ideje dobrodosle.
+	 * Preveri, ce je poteza legalna.
 	 * @param x_start
 	 * @param y_start
 	 * @param x_final
@@ -354,5 +369,89 @@ public class Igra {
 				}
 			}
 		}
+	}
+	
+	/**
+	 * Skoraj identicna metoda kot jeLegalna(), le da sedaj vracamo koliko poteza stane.
+	 */
+	private int cenaPoteze(int x_start,int y_start,int x_final, int y_final) {
+		int cena_premika = Math.abs(x_final-x_start) + Math.abs(y_final-y_start);
+		int cena_ovir = 0;
+		if(x_final-x_start > 0) { 
+			for(int i =x_start; i<=x_final;  i++) {
+				if(plosca[i][y_final] == Polje.BELO || plosca[i][y_final] == Polje.CRNO) {
+					cena_premika--;
+					i++;
+				}
+				else {
+					if(plosca[i][y_final].ovira_desno && plosca[i+1][y_final].ovira_levo) {
+						cena_ovir += 2;
+					}
+					else {
+						//ce je ena ovira na meji
+						if(plosca[i][y_final].ovira_desno || plosca[i+1][y_final].ovira_levo) {
+							cena_ovir++;
+						}
+					}
+				}
+			}
+		}
+		if(x_final-x_start < 0) {
+			for(int i =x_start; i>=x_final;  i--) {
+				if(plosca[i][y_final] == Polje.BELO || plosca[i][y_final] == Polje.CRNO) {
+					cena_premika--;
+					i--;
+
+				}
+				else {
+					if(plosca[i][y_final].ovira_levo && plosca[i-1][y_final].ovira_desno) {
+						cena_ovir += 2;
+					}
+					else {
+						if(plosca[i][y_final].ovira_levo || plosca[i-1][y_final].ovira_desno) {
+							cena_ovir++;
+						}
+					}
+				}
+			}
+		}
+		if(y_final-y_start > 0) { 
+			for(int i =y_start; i<=y_final;  i++) {
+				if(plosca[x_final][i] == Polje.BELO || plosca[x_final][i] == Polje.CRNO) {
+					cena_premika--;
+					i++;
+				}
+				else {
+					if(plosca[x_final][i].ovira_zgoraj && plosca[x_final][i+1].ovira_spodaj) {
+						cena_ovir += 2;
+					}
+					else {
+						if(plosca[x_final][i].ovira_zgoraj || plosca[x_final][i+1].ovira_spodaj) {
+							cena_ovir++;
+						}
+					}
+				}
+			}
+		}
+		
+		if(y_final-y_start < 0) {
+			for(int i =y_start; i>=y_final;  i--) {
+				if(plosca[x_final][i] == Polje.BELO || plosca[x_final][i] == Polje.CRNO) {
+					cena_premika--;
+					i--;
+				}
+				else {
+					if(plosca[x_final][i].ovira_spodaj && plosca[x_final][i-1].ovira_zgoraj) {
+						cena_ovir += 2;
+					}
+					else {
+						if(plosca[x_final][i].ovira_spodaj || plosca[x_final][i-1].ovira_zgoraj) {
+							cena_ovir++;
+						}
+					}
+				} 
+			}
+		}
+		return cena_ovir+cena_premika;
 	}
 }
