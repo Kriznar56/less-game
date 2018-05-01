@@ -14,13 +14,13 @@ public class Igra {
 	
 	private Polje[][] plosca;
 	private Igralec naPotezi;
-	private int krediti;
+	public int krediti;
 	private LinkedList<Point> zacetna_crna;
 	private LinkedList<Point> zacetna_bela;  // uporabni listi pri preverjanju zmagovalca
 	public LinkedList<Poteza> seznam_legalnih_potez;
 	private LinkedList<LinkedList<String>> ovire;
 	/**
-	 * List manjkajocih funkcij: pomoje nobene
+	 * List manjkajocih funkcij: None
 	 */
 	
 	{ 		
