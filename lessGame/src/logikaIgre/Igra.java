@@ -15,10 +15,10 @@ public class Igra {
 	private Polje[][] plosca;
 	private Igralec naPotezi;
 	public int krediti;
-	private LinkedList<Point> zacetna_crna;
-	private LinkedList<Point> zacetna_bela;  // uporabni listi pri preverjanju zmagovalca
-	public LinkedList<Poteza> seznam_legalnih_potez;
-	private LinkedList<LinkedList<String>> ovire;
+	private LinkedList<Point> zacetna_crna = new LinkedList<Point>();
+	private LinkedList<Point> zacetna_bela =  new LinkedList<Point>();  // uporabni listi pri preverjanju zmagovalca
+	public LinkedList<Poteza> seznam_legalnih_potez = new LinkedList<Poteza>();
+	private LinkedList<LinkedList<String>> ovire =  new LinkedList<LinkedList<String>>(); 
 	/**
 	 * List manjkajocih funkcij: None
 	 */
@@ -171,7 +171,7 @@ public class Igra {
 	 */
 	
 	public LinkedList<LinkedList<String>> dobiOvire() throws IOException{
-		// dodaj da nakljuèno izbere 6 vrstic izmed vseh v txt datoteki
+		// dodaj da nakljuï¿½no izbere 6 vrstic izmed vseh v txt datoteki
 		// da program deluje, si je treba tekstovno datoteki namestiki v mapo projekta/workspaca(kjer je tudi mapa 'src')
 		FileReader fileOvire = new FileReader("ovire.txt");
 		BufferedReader buffOvire = new BufferedReader(fileOvire);
