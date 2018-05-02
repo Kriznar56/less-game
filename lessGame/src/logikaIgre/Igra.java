@@ -12,9 +12,10 @@ public class Igra {
 	// Work in progress.
 	public static final int N = 6; //<- delava samo za dva igralca oz. vs. racunalnik.
 	
-	private Polje[][] plosca;
+	public Polje[][] plosca;
 	private Igralec naPotezi;
 	public int krediti;
+	public boolean testing;
 	private LinkedList<Point> zacetna_crna = new LinkedList<Point>();
 	private LinkedList<Point> zacetna_bela =  new LinkedList<Point>();  // uporabni listi pri preverjanju zmagovalca
 	public LinkedList<Poteza> seznam_legalnih_potez = new LinkedList<Poteza>();
@@ -27,10 +28,10 @@ public class Igra {
 		// Iniciraliziramo zacetne bele in crne
 		for(int i = 0; i<N; i++) {
 			for(int j = 0; j<N; j++) {
-				if(i>= 4 && j<=1) {
+				if(i<= 1 && j<=1) {
 					zacetna_bela.add(new Point(i,j));
 				}
-				if(i<=1 && j>= 4) {
+				if(i>=4 && j>= 4) {
 					zacetna_crna.add(new Point(i,j));
 				}
 			}	
@@ -50,6 +51,7 @@ public class Igra {
 	 * @throws IOException 
 	 */
 	public Igra() throws IOException {
+		testing = true;
 		plosca = new Polje[N][N];
 		ovire = dobiOvire();
 		for(int i = 0; i<N; i++) {
@@ -66,13 +68,13 @@ public class Igra {
 					plosca[i][j].ovira_desno = true;
 				//Drugih 6 stevilk v datoteki ovire predstavljajo ovire gor in dol
 				}
-				if(ovire.get(i*2).get(j*2)==Character.toString('1')) {
+				if(ovire.get(i).get(j*2)==Character.toString('1')) {
 					plosca[i][j].ovira_zgoraj = true;
 				}
-				if(ovire.get(i*2).get(j*2)==Character.toString('2')) {
+				if(ovire.get(i).get(j*2)==Character.toString('2')) {
 					plosca[i][j].ovira_spodaj = true;
 				}
-				if(ovire.get(i*2).get(j*2)==Character.toString('3')) {
+				if(ovire.get(i).get(j*2)==Character.toString('3')) {
 					plosca[i][j].ovira_zgoraj = true;
 					plosca[i][j].ovira_spodaj = true;
 				}
@@ -80,7 +82,7 @@ public class Igra {
 				if(i<= 1 && j<=1) {
 					plosca[i][j] = Polje.BELO;
 				}
-				if(i>=4 && j>= 4) {
+				else if(i>=4 && j>= 4) {
 					plosca[i][j] = Polje.CRNO;
 				}
 				else {
@@ -141,7 +143,9 @@ public class Igra {
 			if(plosca[p.getX_start()][p.getY_start()] == Polje.BELO) {
 				plosca[p.getX_final()][p.getY_final()] = Polje.BELO;
 			}
-			else {plosca[p.getX_final()][p.getY_final()] = Polje.CRNO;}
+			if(plosca[p.getX_start()][p.getY_start()] == Polje.CRNO){
+				plosca[p.getX_final()][p.getY_final()] = Polje.CRNO;
+			}
 			plosca[p.getX_start()][p.getY_start()] = Polje.PRAZNO;
 			// nastavi novega igralca naPotezi(ce potrebno)
 			if(krediti == 0) {
@@ -248,7 +252,7 @@ public class Igra {
 			return false;
 		}
 		else {
-			if(x_final-x_start >= 1 && y_final-y_start >= 1) {
+			if(Math.abs(x_final-x_start) >= 1 && Math.abs(y_final-y_start) >= 1) {
 				//Premike diagonalno ne dovolimo, saj pot npr. gor-levo oz. levo-gor lahko razlicno staneta v odvisnosti od ovir
 				return false;
 			}
@@ -262,7 +266,7 @@ public class Igra {
 						//ce preskakujemo ploscek
 						if(plosca[i][y_final] == Polje.BELO || plosca[i][y_final] == Polje.CRNO) {
 							//ce je levo oz. desno od ploscka ki ga preskakujemo polje ovira, vrni false ker to ni dovoljeno
-							if(plosca[i-1][y_final].ovira_desno || plosca[i][y_final].ovira_levo || plosca[i][y_final].ovira_desno || plosca[i+1][y_final].ovira_levo) {
+							if(plosca[i][y_final].ovira_desno || plosca[i+1][y_final].ovira_levo) {
 								return false;
 							}
 							else {
@@ -290,7 +294,7 @@ public class Igra {
 					for(int i =x_start; i>=x_final;  i--) {
 						if(plosca[i][y_final] == Polje.BELO || plosca[i][y_final] == Polje.CRNO) {
 							// ko gremo levo je vse isto le parametri se obrnejo
-							if(plosca[i+1][y_final].ovira_levo || plosca[i][y_final].ovira_desno || plosca[i][y_final].ovira_levo || plosca[i-1][y_final].ovira_desno) {
+							if(plosca[i][y_final].ovira_levo || plosca[i-1][y_final].ovira_desno) {
 								return false;
 							}
 							else {
@@ -314,7 +318,7 @@ public class Igra {
 					//gor
 					for(int i =y_start; i<=y_final;  i++) {
 						if(plosca[x_final][i] == Polje.BELO || plosca[x_final][i] == Polje.CRNO) {
-							if(plosca[x_final][i-1].ovira_zgoraj || plosca[x_final][i].ovira_spodaj || plosca[x_final][i].ovira_zgoraj || plosca[x_final][i+1].ovira_spodaj) {
+							if(plosca[x_final][i].ovira_zgoraj || plosca[x_final][i+1].ovira_spodaj) {
 								return false;
 							}
 							else {
@@ -339,7 +343,7 @@ public class Igra {
 					//dol
 					for(int i =y_start; i>=y_final;  i--) {
 						if(plosca[x_final][i] == Polje.BELO || plosca[x_final][i] == Polje.CRNO) {
-							if(plosca[x_final][i+1].ovira_spodaj || plosca[x_final][i].ovira_zgoraj || plosca[x_final][i].ovira_spodaj || plosca[x_final][i-1].ovira_zgoraj) {
+							if(plosca[x_final][i].ovira_spodaj || plosca[x_final][i-1].ovira_zgoraj) {
 								return false;
 							}
 							else {
