@@ -28,10 +28,10 @@ public class Igra {
 		// Iniciraliziramo zacetne bele in crne
 		for(int i = 0; i<N; i++) {
 			for(int j = 0; j<N; j++) {
-				if(i<= 1 && j<=1) {
+				if(i<= 1 && j>=4) {
 					zacetna_bela.add(new Point(i,j));
 				}
-				if(i>=4 && j>= 4) {
+				if(i>=4 && j<= 1) {
 					zacetna_crna.add(new Point(i,j));
 				}
 			}	
@@ -79,10 +79,10 @@ public class Igra {
 					plosca[i][j].ovira_spodaj = true;
 				}
 				// Nastavi zgornja-leva polja na bela, ter spodnja desna na crna
-				if(i<= 1 && j<=1) {
+				if(i<= 1 && j>=4) {
 					plosca[i][j] = Polje.BELO;
 				}
-				else if(i>=4 && j>= 4) {
+				else if(i>=4 && j<= 1) {
 					plosca[i][j] = Polje.CRNO;
 				}
 				else {
@@ -157,7 +157,6 @@ public class Igra {
 			}
 			posodobi_legalne_poteze();
 			return true;
-			
 		}
 		else {
 			return false;	
@@ -246,9 +245,13 @@ public class Igra {
 	 * @param y_final
 	 * @return
 	 */
-	private boolean jeLegalna(int x_start,int y_start,int x_final, int y_final) {
+	public boolean jeLegalna(int x_start,int y_start,int x_final, int y_final) {
 		if(x_final < 0 || x_final > 5 || y_final < 0 || y_final > 5) {
 			// figurica je padla iz plosce.
+			return false;
+		}
+		//Ne moremo skokici na polje na katerem je ze figurica
+		if(plosca[x_final][y_final] == Polje.BELO || plosca[x_final][y_final] == Polje.CRNO) {
 			return false;
 		}
 		else {
@@ -262,17 +265,19 @@ public class Igra {
 				//premiki po vrsti, desno, levo, gor in dol
 				if(x_final-x_start > 0) { 
 					//desno
-					for(int i =x_start; i<=x_final;  i++) {
+					for(int i =x_start; i<x_final;  i++) {
 						//ce preskakujemo ploscek
 						if(plosca[i][y_final] == Polje.BELO || plosca[i][y_final] == Polje.CRNO) {
 							//ce je levo oz. desno od ploscka ki ga preskakujemo polje ovira, vrni false ker to ni dovoljeno
-							if(plosca[i][y_final].ovira_desno || plosca[i+1][y_final].ovira_levo) {
-								return false;
-							}
-							else {
-								//ker smo preskocili eno polje moramo odsteti 1 od cene premika, in prestavimo se na naslednje polje
-								cena_premika--;
-								i++;
+							if(i!=x_start) {
+								if(plosca[i][y_final].ovira_desno || plosca[i+1][y_final].ovira_levo) {
+									return false;
+								}
+								else {
+									//ker smo preskocili eno polje moramo odsteti 1 od cene premika, in prestavimo se na naslednje polje
+									cena_premika--;
+									i++;
+								}
 							}
 						}
 						else {
@@ -291,15 +296,17 @@ public class Igra {
 				}
 				if(x_final-x_start < 0) {
 					//levo
-					for(int i =x_start; i>=x_final;  i--) {
+					for(int i =x_start; i>x_final;  i--) {
 						if(plosca[i][y_final] == Polje.BELO || plosca[i][y_final] == Polje.CRNO) {
 							// ko gremo levo je vse isto le parametri se obrnejo
-							if(plosca[i][y_final].ovira_levo || plosca[i-1][y_final].ovira_desno) {
-								return false;
-							}
-							else {
-								cena_premika--;
-								i--;
+							if(i!=x_start) {
+								if(plosca[i][y_final].ovira_levo || plosca[i-1][y_final].ovira_desno) {
+									return false;
+								}
+								else {
+									cena_premika--;
+									i--;
+								}
 							}
 						}
 						else {
@@ -316,14 +323,16 @@ public class Igra {
 				}
 				if(y_final-y_start > 0) { 
 					//gor
-					for(int i =y_start; i<=y_final;  i++) {
+					for(int i =y_start; i<y_final;  i++) {
 						if(plosca[x_final][i] == Polje.BELO || plosca[x_final][i] == Polje.CRNO) {
-							if(plosca[x_final][i].ovira_zgoraj || plosca[x_final][i+1].ovira_spodaj) {
-								return false;
-							}
-							else {
-								cena_premika--;
-								i++;
+							if(i!=y_start) {
+								if(plosca[x_final][i].ovira_zgoraj || plosca[x_final][i+1].ovira_spodaj) {
+									return false;
+								}
+								else {
+									cena_premika--;
+									i++;
+								}
 							}
 						}
 						else {
@@ -341,14 +350,16 @@ public class Igra {
 				
 				if(y_final-y_start < 0) {
 					//dol
-					for(int i =y_start; i>=y_final;  i--) {
+					for(int i =y_start; i>y_final;  i--) {
 						if(plosca[x_final][i] == Polje.BELO || plosca[x_final][i] == Polje.CRNO) {
-							if(plosca[x_final][i].ovira_spodaj || plosca[x_final][i-1].ovira_zgoraj) {
-								return false;
-							}
-							else {
-								cena_premika--;
-								i--;
+							if(i!=y_start) {
+								if(plosca[x_final][i].ovira_spodaj || plosca[x_final][i-1].ovira_zgoraj) {
+									return false;
+								}
+								else {
+									cena_premika--;
+									i--;
+								}
 							}
 						}
 						else {
@@ -378,14 +389,16 @@ public class Igra {
 	/**
 	 * Skoraj identicna metoda kot jeLegalna(), le da sedaj vracamo koliko poteza stane.
 	 */
-	private int cenaPoteze(int x_start,int y_start,int x_final, int y_final) {
+	public int cenaPoteze(int x_start,int y_start,int x_final, int y_final) {
 		int cena_premika = Math.abs(x_final-x_start) + Math.abs(y_final-y_start);
 		int cena_ovir = 0;
 		if(x_final-x_start > 0) { 
-			for(int i =x_start; i<=x_final;  i++) {
+			for(int i =x_start; i<x_final;  i++) {
 				if(plosca[i][y_final] == Polje.BELO || plosca[i][y_final] == Polje.CRNO) {
-					cena_premika--;
-					i++;
+					if(i!=x_start) {
+						cena_premika--;
+						i++;
+					}
 				}
 				else {
 					if(plosca[i][y_final].ovira_desno && plosca[i+1][y_final].ovira_levo) {
@@ -401,11 +414,12 @@ public class Igra {
 			}
 		}
 		if(x_final-x_start < 0) {
-			for(int i =x_start; i>=x_final;  i--) {
+			for(int i =x_start; i>x_final;  i--) {
 				if(plosca[i][y_final] == Polje.BELO || plosca[i][y_final] == Polje.CRNO) {
-					cena_premika--;
-					i--;
-
+					if(i!=x_start) {
+						cena_premika--;
+						i--;
+					}
 				}
 				else {
 					if(plosca[i][y_final].ovira_levo && plosca[i-1][y_final].ovira_desno) {
@@ -420,10 +434,12 @@ public class Igra {
 			}
 		}
 		if(y_final-y_start > 0) { 
-			for(int i =y_start; i<=y_final;  i++) {
+			for(int i =y_start; i<y_final;  i++) {
 				if(plosca[x_final][i] == Polje.BELO || plosca[x_final][i] == Polje.CRNO) {
-					cena_premika--;
-					i++;
+					if(i!=y_start) {
+						cena_premika--;
+						i++;
+					}
 				}
 				else {
 					if(plosca[x_final][i].ovira_zgoraj && plosca[x_final][i+1].ovira_spodaj) {
@@ -439,10 +455,12 @@ public class Igra {
 		}
 		
 		if(y_final-y_start < 0) {
-			for(int i =y_start; i>=y_final;  i--) {
+			for(int i =y_start; i>y_final;  i--) {
 				if(plosca[x_final][i] == Polje.BELO || plosca[x_final][i] == Polje.CRNO) {
-					cena_premika--;
-					i--;
+					if(i!=y_start) {
+						cena_premika--;
+						i--;
+					}
 				}
 				else {
 					if(plosca[x_final][i].ovira_spodaj && plosca[x_final][i-1].ovira_zgoraj) {
@@ -456,6 +474,6 @@ public class Igra {
 				} 
 			}
 		}
-		return cena_ovir+cena_premika;
+		return cena_ovir + cena_premika;
 	}
 }
