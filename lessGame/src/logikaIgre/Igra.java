@@ -16,6 +16,7 @@ public class Igra {
 	private Igralec naPotezi;
 	public int krediti;
 	public boolean testing;
+	public boolean jePreskocil;
 	private LinkedList<Point> zacetna_crna = new LinkedList<Point>();
 	private LinkedList<Point> zacetna_bela =  new LinkedList<Point>();  // uporabni listi pri preverjanju zmagovalca
 	public LinkedList<Poteza> seznam_legalnih_potez = new LinkedList<Poteza>();
@@ -203,7 +204,7 @@ public class Igra {
 	/**
 	 * posodobi seznam legalnih potez
 	 */
-	private void posodobi_legalne_poteze() {
+	public void posodobi_legalne_poteze() {
 		seznam_legalnih_potez.clear();
 		Polje checkpolje = Polje.PRAZNO;
 		if(naPotezi == Igralec.BEL) {
@@ -227,9 +228,12 @@ public class Igra {
 						if(jeLegalna(i, j, i, j+premik)) {
 							seznam_legalnih_potez.add(new Poteza(i, j, i, j+premik));
 							}
-						if(jeLegalna(i, j, i, j+premik)) {
-							seznam_legalnih_potez.add(new Poteza(i, j, i, j+premik));
+						if(jeLegalna(i, j, i, j-premik)) {
+							seznam_legalnih_potez.add(new Poteza(i, j, i, j-premik));
 							}
+						if(jePreskocil) {
+							jePreskocil = false;
+						}
 						}		
 					}
 				}
@@ -275,6 +279,7 @@ public class Igra {
 								}
 								else {
 									//ker smo preskocili eno polje moramo odsteti 1 od cene premika, in prestavimo se na naslednje polje
+									jePreskocil = true;
 									cena_premika--;
 									i++;
 								}
@@ -304,6 +309,7 @@ public class Igra {
 									return false;
 								}
 								else {
+									jePreskocil = true;
 									cena_premika--;
 									i--;
 								}
@@ -330,6 +336,7 @@ public class Igra {
 									return false;
 								}
 								else {
+									jePreskocil = true;
 									cena_premika--;
 									i++;
 								}
@@ -350,6 +357,7 @@ public class Igra {
 				
 				if(y_final-y_start < 0) {
 					//dol
+
 					for(int i =y_start; i>y_final;  i--) {
 						if(plosca[x_final][i] == Polje.BELO || plosca[x_final][i] == Polje.CRNO) {
 							if(i!=y_start) {
@@ -357,6 +365,7 @@ public class Igra {
 									return false;
 								}
 								else {
+									jePreskocil = true;
 									cena_premika--;
 									i--;
 								}
@@ -375,6 +384,9 @@ public class Igra {
 					}
 				}
 				
+				if(jePreskocil && cena_premika > 1) {
+					return false;
+				}
 				if(cena_ovir + cena_premika <= krediti) {
 					return true;
 				}
