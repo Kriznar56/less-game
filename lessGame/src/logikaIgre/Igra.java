@@ -61,13 +61,13 @@ public class Igra {
 		for(int i = 0; i<N; i++) {
 			for(int j = 0; j<N; j++) {
 				if(i<= 1 && j>=4) {
-					plosca[i][j] = Polje.BELO;
+					plosca[i][j].tip = TipPolja.BELO;
 				}
 				else if(i>=4 && j<= 1) {
-					plosca[i][j] = Polje.CRNO;
+					plosca[i][j].tip = TipPolja.CRNO;
 				}
 				else {
-					plosca[i][j] = Polje.PRAZNO;
+					plosca[i][j].tip = TipPolja.PRAZNO;
 					}
 			}
 		}
@@ -107,7 +107,7 @@ public class Igra {
 		int crne = 0;
 		int bele = 0;
 		for(Point p: zacetna_bela) {
-			if (plosca[p.x][p.y] == Polje.CRNO) {
+			if (plosca[p.x][p.y].tip == TipPolja.CRNO) {
 				crne++;
 				continue;
 			}
@@ -117,7 +117,7 @@ public class Igra {
 			return Stanje.ZMAGAL_CRN;
 		}
 		for(Point p: zacetna_crna) {
-			if (plosca[p.x][p.y] == Polje.BELO) {
+			if (plosca[p.x][p.y].tip == TipPolja.BELO) {
 				bele++;
 				continue;
 			}
@@ -147,13 +147,13 @@ public class Igra {
 			// izracunaj ceno poteze in odstej to ceno od ''credita''.
 			krediti -= cenaPoteze(p.getX_start(), p.getY_start(), p.getX_final(), p.getY_final());
 			// spremeni plosco
-			if(plosca[p.getX_start()][p.getY_start()] == Polje.BELO) {
-				plosca[p.getX_final()][p.getY_final()] = Polje.BELO;
+			if(plosca[p.getX_start()][p.getY_start()].tip == TipPolja.BELO) {
+				plosca[p.getX_final()][p.getY_final()].tip = TipPolja.BELO;
 			}
-			if(plosca[p.getX_start()][p.getY_start()] == Polje.CRNO){
-				plosca[p.getX_final()][p.getY_final()] = Polje.CRNO;
+			if(plosca[p.getX_start()][p.getY_start()].tip == TipPolja.CRNO){
+				plosca[p.getX_final()][p.getY_final()].tip = TipPolja.CRNO;
 			}
-			plosca[p.getX_start()][p.getY_start()] = Polje.PRAZNO;
+			plosca[p.getX_start()][p.getY_start()].tip= TipPolja.PRAZNO;
 			// nastavi novega igralca naPotezi(ce potrebno)
 			if(krediti == 0) {
 				if(naPotezi == Igralec.BEL) {
@@ -212,16 +212,16 @@ public class Igra {
 	 */
 	public void posodobi_legalne_poteze() {
 		seznam_legalnih_potez.clear();
-		Polje checkpolje = Polje.PRAZNO;
+		TipPolja checkpolje = TipPolja.PRAZNO;
 		if(naPotezi == Igralec.BEL) {
-			checkpolje = Polje.BELO;
+			checkpolje = TipPolja.BELO;
 			}
 		else {
-			checkpolje = Polje.CRNO;
+			checkpolje = TipPolja.CRNO;
 		}
 		for(int i = 0; i<N; i++) {
 			for(int j = 0; j<N; j++) {
-				if(plosca[i][j] == checkpolje) {
+				if(plosca[i][j].tip == checkpolje) {
 					for(int k = 0; k<krediti; k++) {
 						int premik = k+1;
 						//preverimo, ce so poteze v okolici ''stevilo kreditov'' legalne, saj dalje zagotovo ne moremo.
@@ -244,7 +244,7 @@ public class Igra {
 			}
 		}
 	
-	//Se zavedava, da sta funkciji jeLegalna in cenaPoteze med bolj gršimi, namerava popraviti
+	//Se zavedava, da sta funkciji jeLegalna in cenaPoteze med bolj grï¿½imi, namerava popraviti
 	
 	/**
 	 * Preveri, ce je poteza legalna.
@@ -265,7 +265,7 @@ public class Igra {
 			return false;
 		}
 		//Ne moremo skokici na polje na katerem je ze figurica
-		if(plosca[x_final][y_final] == Polje.BELO || plosca[x_final][y_final] == Polje.CRNO) {
+		if(plosca[x_final][y_final].tip == TipPolja.BELO || plosca[x_final][y_final].tip == TipPolja.CRNO) {
 			return false;
 		}
 		else {
@@ -281,7 +281,7 @@ public class Igra {
 					//desno
 					for(int i =x_start; i<x_final;  i++) {
 						//ce preskakujemo ploscek
-						if(plosca[i][y_final] == Polje.BELO || plosca[i][y_final] == Polje.CRNO) {
+						if(plosca[i][y_final].tip == TipPolja.BELO || plosca[i][y_final].tip == TipPolja.CRNO) {
 							//ce je levo oz. desno od ploscka ki ga preskakujemo polje ovira, vrni false ker to ni dovoljeno
 							if(i!=x_start) {
 								if(plosca[i][y_final].ovira_desno || plosca[i+1][y_final].ovira_levo) {
@@ -312,7 +312,7 @@ public class Igra {
 				if(x_final-x_start < 0) {
 					//levo
 					for(int i =x_start; i>x_final;  i--) {
-						if(plosca[i][y_final] == Polje.BELO || plosca[i][y_final] == Polje.CRNO) {
+						if(plosca[i][y_final].tip == TipPolja.BELO || plosca[i][y_final].tip == TipPolja.CRNO) {
 							// ko gremo levo je vse isto le parametri se obrnejo
 							if(i!=x_start) {
 								if(plosca[i][y_final].ovira_levo || plosca[i-1][y_final].ovira_desno) {
@@ -340,7 +340,7 @@ public class Igra {
 				if(y_final-y_start > 0) { 
 					//gor
 					for(int i =y_start; i<y_final;  i++) {
-						if(plosca[x_final][i] == Polje.BELO || plosca[x_final][i] == Polje.CRNO) {
+						if(plosca[x_final][i].tip == TipPolja.BELO || plosca[x_final][i].tip == TipPolja.CRNO) {
 							if(i!=y_start) {
 								if(plosca[x_final][i].ovira_zgoraj || plosca[x_final][i+1].ovira_spodaj) {
 									return false;
@@ -369,7 +369,7 @@ public class Igra {
 					//dol
 
 					for(int i =y_start; i>y_final;  i--) {
-						if(plosca[x_final][i] == Polje.BELO || plosca[x_final][i] == Polje.CRNO) {
+						if(plosca[x_final][i].tip == TipPolja.BELO || plosca[x_final][i].tip == TipPolja.CRNO) {
 							if(i!=y_start) {
 								if(plosca[x_final][i].ovira_spodaj || plosca[x_final][i-1].ovira_zgoraj) {
 									return false;
@@ -416,7 +416,7 @@ public class Igra {
 		int cena_ovir = 0;
 		if(x_final-x_start > 0) { 
 			for(int i =x_start; i<x_final;  i++) {
-				if(plosca[i][y_final] == Polje.BELO || plosca[i][y_final] == Polje.CRNO) {
+				if(plosca[i][y_final].tip == TipPolja.BELO || plosca[i][y_final].tip == TipPolja.CRNO) {
 					if(plosca[i][y_final].ovira_desno && plosca[i+1][y_final].ovira_levo) {
 						cena_ovir += 2;
 					}
@@ -441,7 +441,7 @@ public class Igra {
 		}
 		if(x_final-x_start < 0) {
 			for(int i =x_start; i>x_final;  i--) {
-				if(plosca[i][y_final] == Polje.BELO || plosca[i][y_final] == Polje.CRNO) {
+				if(plosca[i][y_final].tip == TipPolja.BELO || plosca[i][y_final].tip == TipPolja.CRNO) {
 					if(plosca[i][y_final].ovira_levo && plosca[i-1][y_final].ovira_desno) {
 						cena_ovir += 2;
 					}
@@ -465,7 +465,7 @@ public class Igra {
 		}
 		if(y_final-y_start > 0) { 
 			for(int i =y_start; i<y_final;  i++) {
-				if(plosca[x_final][i] == Polje.BELO || plosca[x_final][i] == Polje.CRNO) {
+				if(plosca[x_final][i].tip == TipPolja.BELO || plosca[x_final][i].tip == TipPolja.CRNO) {
 					if(plosca[x_final][i].ovira_zgoraj && plosca[x_final][i+1].ovira_spodaj) {
 						cena_ovir += 2;
 					}
@@ -490,7 +490,7 @@ public class Igra {
 		
 		if(y_final-y_start < 0) {
 			for(int i =y_start; i>y_final;  i--) {
-				if(plosca[x_final][i] == Polje.BELO || plosca[x_final][i] == Polje.CRNO) {
+				if(plosca[x_final][i].tip == TipPolja.BELO || plosca[x_final][i].tip == TipPolja.CRNO) {
 					if(plosca[x_final][i].ovira_spodaj && plosca[x_final][i-1].ovira_zgoraj) {
 						cena_ovir += 2;
 					}

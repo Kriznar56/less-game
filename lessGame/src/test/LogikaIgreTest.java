@@ -4,8 +4,8 @@ import java.io.IOException;
 
 import junit.framework.TestCase;
 import logikaIgre.Igra;
-import logikaIgre.Polje;
 import logikaIgre.Stanje;
+import logikaIgre.TipPolja;
 
 public class LogikaIgreTest extends TestCase{
 	
@@ -31,7 +31,7 @@ public class LogikaIgreTest extends TestCase{
 		assertEquals(Stanje.NA_POTEZI_BEL, igra.stanje());
 		//Preverimo da je na zacetku stevilo kreditov res 3
 		assertEquals(3, igra.krediti);
-		assertEquals(Polje.BELO, igra.plosca[1][4]);
+		assertEquals(TipPolja.BELO, igra.plosca[1][4].tip);
 		//Naredimo eno potezo iz seznama potez
 		for(int i = 0; i<igra.seznam_legalnih_potez.size(); i++) {
 			System.out.println(""+igra.seznam_legalnih_potez.get(i).getX_start()+igra.seznam_legalnih_potez.get(i).getY_start()+igra.seznam_legalnih_potez.get(i).getX_final()+igra.seznam_legalnih_potez.get(i).getY_final());
