@@ -57,27 +57,24 @@ public class Igra {
 		for(int i = 0; i<N; i++) {
 			for(int j = 0; j<N; j++) {
 				//Prvih 6 stevilk v datoteki ovire predstavljajo ovire levo in desno
-				if(ovire.get(i).get(j)==Integer.toString(1)) {
+				if(Integer.parseInt(ovire.get(i).get(j))==1) {
 					plosca[j][i].ovira_levo = true;
 				}
-				if(ovire.get(i).get(j)==Integer.toString(2)) {
-					if(testing) {
-						testing=false;
-					}
+				if(Integer.parseInt(ovire.get(i).get(j))==2) {
 					plosca[j][i].ovira_desno = true;
 				}
-				if(ovire.get(i).get(j)==Integer.toString(3)) {
+				if(Integer.parseInt(ovire.get(i).get(j))==3) {
 					plosca[j][i].ovira_levo = true;
 					plosca[j][i].ovira_desno = true;
 				//Drugih 6 stevilk v datoteki ovire predstavljajo ovire gor in dol
 				}
-				if(ovire.get(i).get(j*2)==Integer.toString(1)) {
+				if(Integer.parseInt(ovire.get(i).get(j))==1) {
 					plosca[j][i].ovira_zgoraj = true;
 				}
-				if(ovire.get(i).get(j*2)==Integer.toString(2)) {
+				if(Integer.parseInt(ovire.get(i).get(j))==2) {
 					plosca[j][i].ovira_spodaj = true;
 				}
-				if(ovire.get(i).get(j*2)==Integer.toString(3)) {
+				if(Integer.parseInt(ovire.get(i).get(j))==3) {
 					plosca[j][i].ovira_zgoraj = true;
 					plosca[j][i].ovira_spodaj = true;
 				}

@@ -8,6 +8,7 @@ public enum Polje {
 	public boolean ovira_spodaj = false;
 	public boolean ovira_levo = false;
 	public boolean ovira_desno = false;
+
 	public String toString() {
 		switch(this) {
 		case PRAZNO: return " ";

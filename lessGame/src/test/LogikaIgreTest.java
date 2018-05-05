@@ -12,8 +12,7 @@ public class LogikaIgreTest extends TestCase{
 	public void testIgra() throws IOException {
 		Igra igra = new Igra();
 		//Na zacetku na potezi beli
-		System.out.println(igra.ovire);
-		System.out.println(igra.testing);
+		System.out.println(igra.plosca[1][1].ovira_desno);
 		for(int i = 0; i<6; i++) {
 			for(int j = 0; j<6; j++) {
 				System.out.println(igra.ovire.get(i).get(j));
