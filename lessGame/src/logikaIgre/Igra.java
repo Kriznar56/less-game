@@ -16,7 +16,6 @@ public class Igra {
 	private Igralec naPotezi;
 	public int krediti;
 	public boolean testing;
-	public boolean jePreskocil;
 	private LinkedList<Point> zacetna_crna = new LinkedList<Point>();
 	private LinkedList<Point> zacetna_bela =  new LinkedList<Point>();  // uporabni listi pri preverjanju zmagovalca
 	public LinkedList<Poteza> seznam_legalnih_potez = new LinkedList<Poteza>();
@@ -76,25 +75,25 @@ public class Igra {
 			for(int j = 0; j<N; j++) {
 				//Prvih 6 stevilk v datoteki ovire predstavljajo ovire levo in desno
 				if(Integer.parseInt(ovire.get(i).get(j))==1) {
-					plosca[j][i].ovira_levo = true;
+					plosca[i][j].ovira_levo = true;
 				}
 				if(Integer.parseInt(ovire.get(i).get(j))==2) {
-					plosca[j][i].ovira_desno = true;
+					plosca[i][j].ovira_desno = true;
 				}
 				if(Integer.parseInt(ovire.get(i).get(j))==3) {
-					plosca[j][i].ovira_levo = true;
-					plosca[j][i].ovira_desno = true;
+					plosca[i][j].ovira_levo = true;
+					plosca[i][j].ovira_desno = true;
 				//Drugih 6 stevilk v datoteki ovire predstavljajo ovire gor in dol
 				}
 				if(Integer.parseInt(ovire.get(i).get(j+6))==1) {
-					plosca[j][i].ovira_zgoraj = true;
+					plosca[i][j].ovira_zgoraj = true;
 				}
 				if(Integer.parseInt(ovire.get(i).get(j+6))==2) {
-					plosca[j][i].ovira_spodaj = true;
+					plosca[i][j].ovira_spodaj = true;
 				}
 				if(Integer.parseInt(ovire.get(i).get(j+6))==3) {
-					plosca[j][i].ovira_zgoraj = true;
-					plosca[j][i].ovira_spodaj = true;
+					plosca[i][j].ovira_zgoraj = true;
+					plosca[i][j].ovira_spodaj = true;
 				}
 			}
 		}
@@ -238,9 +237,7 @@ public class Igra {
 						if(jeLegalna(i, j, i, j-premik)) {
 							seznam_legalnih_potez.add(new Poteza(i, j, i, j-premik));
 							}
-						if(jePreskocil) {
-							jePreskocil = false;
-						}
+						
 						}		
 					}
 				}
@@ -257,6 +254,7 @@ public class Igra {
 	 * @return
 	 */
 	public boolean jeLegalna(int x_start,int y_start,int x_final, int y_final) {
+		boolean jePreskocil = false;
 		if(x_final < 0 || x_final > 5 || y_final < 0 || y_final > 5) {
 			// figurica je padla iz plosce.
 			return false;
@@ -413,7 +411,15 @@ public class Igra {
 		int cena_ovir = 0;
 		if(x_final-x_start > 0) { 
 			for(int i =x_start; i<x_final;  i++) {
+				
 				if(plosca[i][y_final] == Polje.BELO || plosca[i][y_final] == Polje.CRNO) {
+					if(plosca[i][y_final].ovira_desno && plosca[i+1][y_final].ovira_levo) {
+						cena_ovir += 2;
+					}
+					//ce je ena ovira na meji
+					if(plosca[i][y_final].ovira_desno || plosca[i+1][y_final].ovira_levo) {
+						cena_ovir++;
+					}
 					if(i!=x_start) {
 						cena_premika--;
 						i++;
@@ -423,11 +429,9 @@ public class Igra {
 					if(plosca[i][y_final].ovira_desno && plosca[i+1][y_final].ovira_levo) {
 						cena_ovir += 2;
 					}
-					else {
-						//ce je ena ovira na meji
-						if(plosca[i][y_final].ovira_desno || plosca[i+1][y_final].ovira_levo) {
-							cena_ovir++;
-						}
+					//ce je ena ovira na meji
+					else if(plosca[i][y_final].ovira_desno || plosca[i+1][y_final].ovira_levo) {
+						cena_ovir++;
 					}
 				}
 			}
