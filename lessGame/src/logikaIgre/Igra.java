@@ -58,7 +58,7 @@ public class Igra {
 		testing = true;
 		plosca = new Polje[N][N];
 		ovire = dobiOvire();
-	
+		// Nastavi zgornja-leva polja na bela, ter spodnja desna na crna
 		for(int i = 0; i<N; i++) {
 			for(int j = 0; j<N; j++) {
 				if(i<= 1 && j>=4) {
@@ -86,17 +86,16 @@ public class Igra {
 					plosca[j][i].ovira_desno = true;
 				//Drugih 6 stevilk v datoteki ovire predstavljajo ovire gor in dol
 				}
-				if(Integer.parseInt(ovire.get(i).get(2*j))==1) {
+				if(Integer.parseInt(ovire.get(i).get(j+6))==1) {
 					plosca[j][i].ovira_zgoraj = true;
 				}
-				if(Integer.parseInt(ovire.get(i).get(2*j))==2) {
+				if(Integer.parseInt(ovire.get(i).get(j+6))==2) {
 					plosca[j][i].ovira_spodaj = true;
 				}
-				if(Integer.parseInt(ovire.get(i).get(2*j))==3) {
+				if(Integer.parseInt(ovire.get(i).get(j+6))==3) {
 					plosca[j][i].ovira_zgoraj = true;
 					plosca[j][i].ovira_spodaj = true;
 				}
-				// Nastavi zgornja-leva polja na bela, ter spodnja desna na crna
 			}
 		}
 		naPotezi = Igralec.BEL;
