@@ -54,6 +54,20 @@ public class Igra {
 		testing = true;
 		plosca = new Polje[N][N];
 		ovire = dobiOvire();
+	
+		for(int i = 0; i<N; i++) {
+			for(int j = 0; j<N; j++) {
+				if(i<= 1 && j>=4) {
+					plosca[i][j] = Polje.BELO;
+				}
+				else if(i>=4 && j<= 1) {
+					plosca[i][j] = Polje.CRNO;
+				}
+				else {
+					plosca[i][j] = Polje.PRAZNO;
+					}
+			}
+		}
 		for(int i = 0; i<N; i++) {
 			for(int j = 0; j<N; j++) {
 				//Prvih 6 stevilk v datoteki ovire predstavljajo ovire levo in desno
@@ -79,15 +93,6 @@ public class Igra {
 					plosca[j][i].ovira_spodaj = true;
 				}
 				// Nastavi zgornja-leva polja na bela, ter spodnja desna na crna
-				if(i<= 1 && j>=4) {
-					plosca[i][j] = Polje.BELO;
-				}
-				else if(i>=4 && j<= 1) {
-					plosca[i][j] = Polje.CRNO;
-				}
-				else {
-					plosca[i][j] = Polje.PRAZNO;
-					}
 			}
 		}
 		naPotezi = Igralec.BEL;
