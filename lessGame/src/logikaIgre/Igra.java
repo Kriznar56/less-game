@@ -86,13 +86,13 @@ public class Igra {
 					plosca[j][i].ovira_desno = true;
 				//Drugih 6 stevilk v datoteki ovire predstavljajo ovire gor in dol
 				}
-				if(Integer.parseInt(ovire.get(i).get(j))==1) {
+				if(Integer.parseInt(ovire.get(i).get(2*j))==1) {
 					plosca[j][i].ovira_zgoraj = true;
 				}
-				if(Integer.parseInt(ovire.get(i).get(j))==2) {
+				if(Integer.parseInt(ovire.get(i).get(2*j))==2) {
 					plosca[j][i].ovira_spodaj = true;
 				}
-				if(Integer.parseInt(ovire.get(i).get(j))==3) {
+				if(Integer.parseInt(ovire.get(i).get(2*j))==3) {
 					plosca[j][i].ovira_zgoraj = true;
 					plosca[j][i].ovira_spodaj = true;
 				}
