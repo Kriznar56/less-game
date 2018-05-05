@@ -20,7 +20,7 @@ public class Igra {
 	private LinkedList<Point> zacetna_crna = new LinkedList<Point>();
 	private LinkedList<Point> zacetna_bela =  new LinkedList<Point>();  // uporabni listi pri preverjanju zmagovalca
 	public LinkedList<Poteza> seznam_legalnih_potez = new LinkedList<Poteza>();
-	private LinkedList<LinkedList<String>> ovire =  new LinkedList<LinkedList<String>>(); 
+	public LinkedList<LinkedList<String>> ovire =  new LinkedList<LinkedList<String>>(); 
 	/**
 	 * List manjkajocih funkcij: None
 	 */
@@ -47,7 +47,6 @@ public class Igra {
 	 * Beli zacne desno spodaj, crni levo zgoraj.
 	 * Kasneje bomo dodali se stene/ovire, kot so v polni igri.
 	 * ko bodo dodane ovire je treba tudi nakljucno generirati plosco.
-=======
 	 * Prav tako vsakemu polju dodelimo ovire, glej dokumentacijo funckije "dobiOvire()".									
 	 * @throws IOException 
 	 */
@@ -58,26 +57,29 @@ public class Igra {
 		for(int i = 0; i<N; i++) {
 			for(int j = 0; j<N; j++) {
 				//Prvih 6 stevilk v datoteki ovire predstavljajo ovire levo in desno
-				if(ovire.get(i).get(j)==Character.toString('1')) {
-					plosca[i][j].ovira_levo = true;
+				if(ovire.get(i).get(j)==Integer.toString(1)) {
+					plosca[j][i].ovira_levo = true;
 				}
-				if(ovire.get(i).get(j)==Character.toString('2')) {
-					plosca[i][j].ovira_desno = true;
+				if(ovire.get(i).get(j)==Integer.toString(2)) {
+					if(testing) {
+						testing=false;
+					}
+					plosca[j][i].ovira_desno = true;
 				}
-				if(ovire.get(i).get(j)==Character.toString('3')) {
-					plosca[i][j].ovira_levo = true;
-					plosca[i][j].ovira_desno = true;
+				if(ovire.get(i).get(j)==Integer.toString(3)) {
+					plosca[j][i].ovira_levo = true;
+					plosca[j][i].ovira_desno = true;
 				//Drugih 6 stevilk v datoteki ovire predstavljajo ovire gor in dol
 				}
-				if(ovire.get(i).get(j*2)==Character.toString('1')) {
-					plosca[i][j].ovira_zgoraj = true;
+				if(ovire.get(i).get(j*2)==Integer.toString(1)) {
+					plosca[j][i].ovira_zgoraj = true;
 				}
-				if(ovire.get(i).get(j*2)==Character.toString('2')) {
-					plosca[i][j].ovira_spodaj = true;
+				if(ovire.get(i).get(j*2)==Integer.toString(2)) {
+					plosca[j][i].ovira_spodaj = true;
 				}
-				if(ovire.get(i).get(j*2)==Character.toString('3')) {
-					plosca[i][j].ovira_zgoraj = true;
-					plosca[i][j].ovira_spodaj = true;
+				if(ovire.get(i).get(j*2)==Integer.toString(3)) {
+					plosca[j][i].ovira_zgoraj = true;
+					plosca[j][i].ovira_spodaj = true;
 				}
 				// Nastavi zgornja-leva polja na bela, ter spodnja desna na crna
 				if(i<= 1 && j>=4) {
@@ -169,7 +171,7 @@ public class Igra {
 	 *	Iz tekstovne datoteke, ki je vnaprej napisana, prebere zaporedje stevilk, ki predstavljajo ovire za polja na plosci
 	 *	Funkcija vrne seznam seznamov, ki predstavlja zapis za ovire celotnega polja medtem ko podseznami predstavljajo vrstice polj.
 	 *	Prvih 6 stevilk predstavlja ovire levo in desno od polja, drugih 6 pa za ovire nad in pod poljem.
-	 *	Stevilo '1' pomeni da je ovira na levi oziroma nad poljem, stevilo '2' da je desno in pod poljem, stevilo '3' pa da je na obeh straneh.
+	 *	Stevilo '1' pomeni da je ovira na levi oz. nad poljem, stevilo '2' da je desno oz. pod poljem, stevilo '3' pa da je na obeh straneh.
 	 * @return List listov stevilk, ki predstavljajo vrstice polj na igralni plosci
 	 * @throws IOException
 	 */
