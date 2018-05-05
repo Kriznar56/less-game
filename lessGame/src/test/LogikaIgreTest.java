@@ -36,7 +36,6 @@ public class LogikaIgreTest extends TestCase{
 		for(int i = 0; i<igra.seznam_legalnih_potez.size(); i++) {
 			System.out.println(""+igra.seznam_legalnih_potez.get(i).getX_start()+igra.seznam_legalnih_potez.get(i).getY_start()+igra.seznam_legalnih_potez.get(i).getX_final()+igra.seznam_legalnih_potez.get(i).getY_final());
 		}
-		System.out.println(igra.cenaPoteze(1,4,4,4));
 		System.out.println("___________________________________");
 		igra.odigraj(igra.seznam_legalnih_potez.get(0));
 		for(int i = 0; i<igra.seznam_legalnih_potez.size(); i++) {
