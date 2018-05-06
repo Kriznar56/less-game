@@ -20,7 +20,7 @@ public class LogikaIgreTest extends TestCase{
 		//Na zacetku na potezi beli
 		for(int i = 0; i<6; i++) {
 			for(int j = 0; j<6; j++) {
-				System.out.println(String.format("na tem mestu v ovire.txt stoji stevilo %d", Integer.parseInt(igra.ovire.get(i).get(j))));
+				System.out.println(String.format("v ovire.txt stevilo %d za levo/desno in %d za gor/dol", Integer.parseInt(igra.ovire.get(i).get(j)), Integer.parseInt(igra.ovire.get(i).get(j+6))));
 				System.out.println(String.format("[%d][%d] --> ovira levo: %s", i, j, igra.plosca[i][j].ovira_levo));
 				System.out.println(String.format("[%d][%d] --> ovira desno: %s", i, j, igra.plosca[i][j].ovira_desno));
 				System.out.println(String.format("[%d][%d] --> ovira zgoraj: %s", i, j, igra.plosca[i][j].ovira_zgoraj));

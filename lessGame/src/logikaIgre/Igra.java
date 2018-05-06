@@ -60,6 +60,7 @@ public class Igra {
 		// Nastavi zgornja-leva polja na bela, ter spodnja desna na crna
 		for(int i = 0; i<N; i++) {
 			for(int j = 0; j<N; j++) {
+				plosca[i][j] = new Polje();
 				if(i<= 1 && j>=4) {
 					plosca[i][j].tip = TipPolja.BELO;
 				}
