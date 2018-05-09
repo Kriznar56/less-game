@@ -12,11 +12,12 @@ import javax.swing.JPanel;
 import logikaIgre.Igra;
 
 public class IgralnoPolje extends JPanel implements MouseListener {
-	
+	//mogoce bi se lahko odlocila za en jezik
 	private Okno master;
 	
-	
+	//line width nekoliko manjsi kot v tictactoe primeru
 	private final static double LINE_WIDTH = 0.025;
+	// cez padding bodo prisle ovire, kjer bodo pac generirane.
 	private final static double PADDING = 0.1;
 	
 
@@ -27,26 +28,38 @@ public class IgralnoPolje extends JPanel implements MouseListener {
 		this.addMouseListener(this);
 		}
 
-	
-	private void paintBLACK(Graphics2D g2, int i, int j) {
+	//naslikaj CRNO in BELO vzeto iz tictactoe, tako kot vecina tega dela kode.
+	private void naslikajCRNO(Graphics2D g2, int i, int j) {
 		double w = squareWidth();
 		double r = w * (1.0 - LINE_WIDTH - 2.0 * PADDING); // premer O
 		double x = w * (i + 0.5 * LINE_WIDTH + PADDING);
 		double y = w * (j + 0.5 * LINE_WIDTH + PADDING);
 		g2.setColor(Color.black);
 		g2.setStroke(new BasicStroke((float) (w * LINE_WIDTH)));
-		g2.drawOval((int)x, (int)y, (int)r , (int)r);
+		g2.fillOval((int)x, (int)y, (int)r , (int)r);
 	}
 	
-	private void paintWHTIE(Graphics2D g2, int i, int j) {
+	private void naslikajBELO(Graphics2D g2, int i, int j) {
 		double w = squareWidth();
 		double r = w * (1.0 - LINE_WIDTH - 2.0 * PADDING); // premer O
 		double x = w * (i + 0.5 * LINE_WIDTH + PADDING);
 		double y = w * (j + 0.5 * LINE_WIDTH + PADDING);
 		g2.setColor(Color.white);
 		g2.setStroke(new BasicStroke((float) (w * LINE_WIDTH)));
-		g2.drawOval((int)x, (int)y, (int)r , (int)r);
+		g2.fillOval((int)x, (int)y, (int)r , (int)r);
 	}
+	
+	// manjka metoda za ovire
+	
+	private void naslikajOVIRO(Graphics2D g2, int i, int j) {
+		double h = squareWidth();
+		double w = PADDING;
+		g2.setColor(Color.blue); //morda bi lahko zamenjala barvo.
+		g2.setStroke(new BasicStroke((float) (w * LINE_WIDTH))); //rabiva tu sploh stroke, pravokotnik bo itak nafilan?
+		g2.fillRect((int)i, (int)j, (int)w, (int)h);
+		
+	}
+	
 
 	public Dimension getPreferredSize() {
 		return new Dimension(800, 800);
