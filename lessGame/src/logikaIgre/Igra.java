@@ -103,6 +103,20 @@ public class Igra {
 		posodobi_legalne_poteze();
 	}
 	
+	public Igra(Igra igra) {
+		this.plosca = igra.plosca;
+		this.naPotezi = igra.naPotezi;
+		this.krediti = igra.krediti;
+		this.ovire = igra.ovire;
+		this.seznam_legalnih_potez = igra.seznam_legalnih_potez;
+		this.testing = igra.testing; // <- kriznar, kaj je ze ta param?
+		
+	}
+	
+	// vrne plosco, trenutno uporabljeno v IgralnoPolje
+	public  Polje[][] getPlosca(){
+		return plosca;
+	}
 	
 	public Stanje stanje() {
 		int crne = 0;
