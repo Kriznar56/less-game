@@ -18,6 +18,7 @@ import logikaIgre.Igra;
 import logikaIgre.Polje;
 import logikaIgre.Poteza;
 
+@SuppressWarnings("serial")
 public class Okno extends JFrame implements ActionListener{
 	private IgralnoPolje polje;
 	private Igra igra;
@@ -36,7 +37,7 @@ public class Okno extends JFrame implements ActionListener{
 		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
 		this.setLayout(new GridBagLayout());
 		
-		// menu, sem lahko še kaj dodava, naprimer prekini igro, začni novo igro za 2 igralca / za eno igro
+		// menu, sem lahko se kaj dodava, naprimer prekini igro, zacni novo igro za 2 igralca / za eno igro
 		JMenuBar menu_bar = new JMenuBar();
 		this.setJMenuBar(menu_bar);
 		JMenu igra_menu = new JMenu("Igra");
@@ -127,9 +128,9 @@ public class Okno extends JFrame implements ActionListener{
 		else {
 			switch(igra.stanje()) {
 			case NA_POTEZI_BEL: status.setText("Na potezi je BEL"); break;
-			case NA_POTEZI_CRN: status.setText("Na potezi je ČRN"); break;
-			case ZMAGAL_BEL: status.setText("Zmagal je BEL"); break;
-			case ZMAGAL_CRN: status.setText("Zmagal je ČRN"); break;
+			case NA_POTEZI_CRN: status.setText("Na potezi je CRN"); break;
+			case ZMAGAL_BEL: status.setText("Zmagal je BELI"); break;
+			case ZMAGAL_CRN: status.setText("Zmagal je CRNI"); break;
 			}
 		}
 		polje.repaint();
