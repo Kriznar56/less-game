@@ -12,6 +12,7 @@ import javax.swing.JPanel;
 
 import logikaIgre.Igra;
 import logikaIgre.Polje;
+import logikaIgre.Stanje;
 import logikaIgre.TipPolja;
 
 @SuppressWarnings("serial")
@@ -22,9 +23,10 @@ public class IgralnoPolje extends JPanel implements MouseListener {
 	private final static double LINE_WIDTH = 0.025;
 	// cez padding bodo prisle ovire, kjer bodo pac generirane.
 	private final static double PADDING = 0.1;
-	private int oznaceno_i;
-	private int oznaceno_j;
+	static int oznaceno_i;
+	static int oznaceno_j;
 	private boolean oznaci = false;
+	private boolean oznaceno = false;
 	
 
 	public IgralnoPolje(Okno master) {
@@ -120,6 +122,7 @@ public class IgralnoPolje extends JPanel implements MouseListener {
 				    (int)((oznaceno_j+1) * w),
 				    (int)((oznaceno_i + 1) * w),
 				    (int)((oznaceno_j+1) * w));
+			oznaceno = true;
 		}
 
 		
@@ -151,23 +154,39 @@ public class IgralnoPolje extends JPanel implements MouseListener {
 		   0<=j && j<Igra.N &&
 		   0.5 * LINE_WIDTH < di && di < 1.0 - 0.5 * LINE_WIDTH &&
 		   0.5 * LINE_WIDTH < dj && dj < 1.0 - 0.5 * LINE_WIDTH) {
-			master.klikniPolje(i, j);
+			if(oznaceno) {
+				master.klikniPolje(i, j, true);
+			}
+			else {master.klikniPolje(i, j, false);}
 			oznaci_polje(i, j);
 		}
 		
 	}
-
+	//Oznaci polje
 	private void oznaci_polje(int i, int j) {
 		Polje[][] plosca = master.getPlosca();
-		if(plosca[i][j].tip == TipPolja.BELO || plosca[i][j].tip == TipPolja.CRNO) {
-			if(i!=oznaceno_i || j!=oznaceno_j) {
-				oznaceno_i = i;
-				oznaceno_j = j;
-				oznaci = true;
-				repaint();
+		if(master.trenutnoStanje()==Stanje.NA_POTEZI_BEL) {
+			if(plosca[i][j].tip == TipPolja.BELO) {
+				if(i!=oznaceno_i || j!=oznaceno_j) {
+					oznaceno_i = i;
+					oznaceno_j = j;
+					oznaci = true;
+					repaint();
+				}
+			}
+		}
+		if(master.trenutnoStanje()==Stanje.NA_POTEZI_CRN) {
+			if(plosca[i][j].tip == TipPolja.CRNO) {
+				if(i!=oznaceno_i || j!=oznaceno_j) {
+					oznaceno_i = i;
+					oznaceno_j = j;
+					oznaci = true;
+					repaint();
+				}
 			}
 		}
 	}
+	
 
 	@Override
 	public void mouseEntered(MouseEvent e) {

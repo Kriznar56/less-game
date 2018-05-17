@@ -21,7 +21,7 @@ public class Racunalnik extends Strateg {
 	}
 
 	@Override
-	public void klik(int i, int j) {
+	public void klik(int i, int j, boolean oznaceno) {
 		// to bo vrjetno prazno
 
 	}

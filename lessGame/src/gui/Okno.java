@@ -7,6 +7,7 @@ import java.awt.HeadlessException;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
+import java.util.LinkedList;
 
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -17,6 +18,8 @@ import javax.swing.JMenuItem;
 import logikaIgre.Igra;
 import logikaIgre.Polje;
 import logikaIgre.Poteza;
+import logikaIgre.Stanje;
+import logikaIgre.TipPolja;
 
 @SuppressWarnings("serial")
 public class Okno extends JFrame implements ActionListener{
@@ -26,6 +29,7 @@ public class Okno extends JFrame implements ActionListener{
 	private Strateg strategBELI;
 	private Strateg strategCRNI; // ce se spomnes boljse ime za strateg povej.
 	private JMenuItem nova_igra;
+	boolean oznacenoPolje = false;
 	
 	// nekje bova morala upeljati nekaksno 'Point aktivno_polje = null, k' saj sta 2 klika potebna za definicijo poteze.
 	// tam ko repaintas pogledas ce je koordinata polja aktivno in ce je aktivno ga obrobis z neko barvo, ali jo spremenis.
@@ -97,6 +101,7 @@ public class Okno extends JFrame implements ActionListener{
 	}
 	
 	public void odigraj(Poteza p) {
+		System.out.println(String.format("Gremo iz polja %d %d na %d %d",p.getX_start(), p.getY_start(), p.getX_final(), p.getY_final()));
 		igra.odigraj(p);
 		osveziGUI();
 		switch (igra.stanje()) {
@@ -137,14 +142,14 @@ public class Okno extends JFrame implements ActionListener{
 		
 	}
 
-	public void klikniPolje(int i, int j) {
+	public void klikniPolje(int i, int j, boolean oznaceno) {
 		if (igra != null) {
 			switch (igra.stanje()) {
 			case NA_POTEZI_BEL:
-				strategBELI.klik(i, j);
+				strategBELI.klik(i, j, oznaceno);
 				break;
 			case NA_POTEZI_CRN:
-				strategCRNI.klik(i, j);
+				strategCRNI.klik(i, j, oznaceno);
 				break;
 			default:
 				break;
@@ -152,8 +157,28 @@ public class Okno extends JFrame implements ActionListener{
 		}
 	}
 	
+	int oznacenoPolje_i() {
+		return IgralnoPolje.oznaceno_i;
+	}
 	
+	int oznacenoPolje_j() {
+		return IgralnoPolje.oznaceno_j;
+	}
 	
+	boolean jePloscek(int i, int j) {
+		if(igra.plosca[i][j].tip != TipPolja.PRAZNO) {
+			return false;
+		}
+		else {return true;}
+	}
+	
+	LinkedList<Poteza> dobiPoteze() {
+		return igra.seznam_legalnih_potez;
+	}
+	
+	Stanje trenutnoStanje() {
+		return igra.stanje();
+	}
 	
 	// vrne novo kopijo igre
 	
