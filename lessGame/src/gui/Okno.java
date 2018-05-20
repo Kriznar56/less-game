@@ -87,7 +87,7 @@ public class Okno extends JFrame implements ActionListener{
 		if (strategCRNI != null) { strategCRNI.prekini(); }
 		this.igra = new Igra(); //IO exception zaradi ovir
 		strategBELI = new Clovek(this);
-		strategCRNI = new Racunalnik(this);
+		strategCRNI = new Clovek(this);
 		
 		switch (igra.stanje()) {
 		case NA_POTEZI_BEL: strategBELI.na_potezi(); break;
@@ -101,7 +101,6 @@ public class Okno extends JFrame implements ActionListener{
 	}
 	
 	public void odigraj(Poteza p) {
-		System.out.println(String.format("Gremo iz polja %d %d na %d %d",p.getX_start(), p.getY_start(), p.getX_final(), p.getY_final()));
 		igra.odigraj(p);
 		osveziGUI();
 		switch (igra.stanje()) {
@@ -167,9 +166,9 @@ public class Okno extends JFrame implements ActionListener{
 	
 	boolean jePloscek(int i, int j) {
 		if(igra.plosca[i][j].tip != TipPolja.PRAZNO) {
-			return false;
+			return true;
 		}
-		else {return true;}
+		else {return false;}
 	}
 	
 	LinkedList<Poteza> dobiPoteze() {

@@ -158,17 +158,7 @@ public class Igra {
 	
 	public boolean odigraj(Poteza p) {
 		// poglej ce je na seznamu leganih potez.
-		System.out.println("Odigrana poteza: "+p.getX_start()+p.getY_start()+p.getX_final()+p.getY_final());
-		System.out.println("Seznam legalnih potez vsebuje naslednje poteze:");
-		for(int i = 0; i<seznam_legalnih_potez.size(); i++) {
-			System.out.println(""+seznam_legalnih_potez.get(i).getX_start()+seznam_legalnih_potez.get(i).getY_start()+seznam_legalnih_potez.get(i).getX_final()+seznam_legalnih_potez.get(i).getY_final());
-		}	
-		System.out.println("Da vids da res ni objekta za odigrano poteze v seznamu potez:");
-		System.out.println(p);
-		System.out.println(seznam_legalnih_potez);
-		
 		if(seznam_legalnih_potez.contains(p)) {
-			System.out.println("Sem ne pridemo?");
 			// izracunaj ceno poteze in odstej to ceno od ''kredita''.
 			krediti -= cenaPoteze(p.getX_start(), p.getY_start(), p.getX_final(), p.getY_final());
 			// spremeni plosco

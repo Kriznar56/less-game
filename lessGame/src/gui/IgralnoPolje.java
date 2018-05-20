@@ -27,6 +27,7 @@ public class IgralnoPolje extends JPanel implements MouseListener {
 	static int oznaceno_j;
 	private boolean oznaci = false;
 	protected boolean oznaceno = false;
+	private boolean ovire = true;
 	
 
 	public IgralnoPolje(Okno master) {
@@ -57,18 +58,7 @@ public class IgralnoPolje extends JPanel implements MouseListener {
 		g2.fillOval((int)x, (int)y, (int)r , (int)r);
 	}
 	
-	// manjka metoda za ovire
 	
-	private void naslikajOVIRO(Graphics2D g2, int i, int j) {
-		double h = sirina_polja();
-		double w = PADDING;
-		g2.setColor(Color.blue); //morda bi lahko zamenjala barvo.
-		g2.setStroke(new BasicStroke((float) (w * LINE_WIDTH))); //rabiva tu sploh stroke, pravokotnik bo itak nafilan?
-		g2.fillRect((int)i, (int)j, (int)w, (int)h);
-		
-	}
-	
-
 	public Dimension getPreferredSize() {
 		return new Dimension(800, 800);
 	}
@@ -78,6 +68,7 @@ public class IgralnoPolje extends JPanel implements MouseListener {
 }
 	
 	protected void paintComponent(Graphics g) {
+		Polje[][] plosca = master.getPlosca();
 		// se nepopravljeno za najino igro.
 		super.paintComponent(g);
 		Graphics2D g2 = (Graphics2D)g;
@@ -90,9 +81,8 @@ public class IgralnoPolje extends JPanel implements MouseListener {
 		g2.drawLine(0, 0, 0, (int)((Igra.N - LINE_WIDTH) * w));
 		g2.drawLine(0, 0, (int)((Igra.N - LINE_WIDTH) * w), 0);
 		g2.drawLine((int)((Igra.N - LINE_WIDTH) * w), 0, (int)((Igra.N - LINE_WIDTH) * w), (int)((Igra.N - LINE_WIDTH) * w));
-		g2.drawLine(0, (int)((Igra.N - LINE_WIDTH) * w), (int)((Igra.N - LINE_WIDTH) * w), (int)((Igra.N - LINE_WIDTH) * w));
+		g2.drawLine(0, (int)((Igra.N - LINE_WIDTH/4) * w), (int)((Igra.N - LINE_WIDTH) * w), (int)((Igra.N - LINE_WIDTH/4) * w));
 		for (int k = 1; k < Igra.N; k++) {
-			// tu manjkajo se stranske crte.
 			g2.drawLine((int)(k * w),
 					    (int)(LINE_WIDTH * w),
 					    (int)(k * w),
@@ -125,13 +115,41 @@ public class IgralnoPolje extends JPanel implements MouseListener {
 			oznaceno = true;
 			// verjetno se oznaci na false?
 		}
-
-		
+		g2.setColor(Color.red);
+		for(int i = 0; i < Igra.N; i++) {
+			for(int j = 0; j < Igra.N; j++) {
+				if(plosca[i][j].ovira_zgoraj) {
+					g2.drawLine((int)(i * w + w*LINE_WIDTH),
+						    (int)(j * w + w*LINE_WIDTH),
+						    (int)((i+1) * w - w*LINE_WIDTH),
+						    (int)(j * w + w*LINE_WIDTH));
+				}
+				if(plosca[i][j].ovira_desno) {
+					g2.drawLine((int)((i+1) * w - w/2*LINE_WIDTH),
+						    (int)(j * w + w*LINE_WIDTH),
+						    (int)((i+1) * w - w/2*LINE_WIDTH),
+						    (int)((j+1) * w - w*LINE_WIDTH));
+				}
+				if(plosca[i][j].ovira_spodaj) {
+					g2.drawLine((int)(i * w + w*LINE_WIDTH),
+						    (int)((j+1) * w - 2*w/3*LINE_WIDTH),
+						    (int)((i+1) * w - w*LINE_WIDTH),
+						    (int)((j+1) * w - 2*w/3*LINE_WIDTH));
+				}
+				if(plosca[i][j].ovira_levo) {
+					g2.drawLine((int)(i * w + w*LINE_WIDTH),
+						    (int)(j * w + w*LINE_WIDTH),
+						    (int)(i * w + w*LINE_WIDTH),
+						    (int)((j+1) * w - w*LINE_WIDTH));
+				}
+			}
+		}
 		// bele crne
-		Polje[][] plosca = master.getPlosca();
 		if (plosca != null) {
+			g2.setColor(Color.BLUE);
 			for (int k = 0; k < Igra.N; k++) {
 				for (int l = 0; l < Igra.N; l++) {
+					//risanje ovir
 					switch(plosca[k][l].tip) {
 					case BELO: naslikajBELO(g2, k, l); break;
 					case CRNO: naslikajCRNO(g2, k, l); break;
