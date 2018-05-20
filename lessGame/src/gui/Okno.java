@@ -23,7 +23,7 @@ import logikaIgre.TipPolja;
 
 @SuppressWarnings("serial")
 public class Okno extends JFrame implements ActionListener{
-	private IgralnoPolje polje;
+	IgralnoPolje polje;
 	private Igra igra;
 	private JLabel status;
 	private Strateg strategBELI;
@@ -142,14 +142,14 @@ public class Okno extends JFrame implements ActionListener{
 		
 	}
 
-	public void klikniPolje(int i, int j, boolean oznaceno) {
+	public void klikniPolje(int i, int j) {
 		if (igra != null) {
 			switch (igra.stanje()) {
 			case NA_POTEZI_BEL:
-				strategBELI.klik(i, j, oznaceno);
+				strategBELI.klik(i, j);
 				break;
 			case NA_POTEZI_CRN:
-				strategCRNI.klik(i, j, oznaceno);
+				strategCRNI.klik(i, j);
 				break;
 			default:
 				break;

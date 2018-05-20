@@ -23,10 +23,10 @@ public class IgralnoPolje extends JPanel implements MouseListener {
 	private final static double LINE_WIDTH = 0.025;
 	// cez padding bodo prisle ovire, kjer bodo pac generirane.
 	private final static double PADDING = 0.1;
-	static int oznaceno_i;
+	static int oznaceno_i; //mogoce bols point?
 	static int oznaceno_j;
 	private boolean oznaci = false;
-	private boolean oznaceno = false;
+	protected boolean oznaceno = false;
 	
 
 	public IgralnoPolje(Okno master) {
@@ -123,6 +123,7 @@ public class IgralnoPolje extends JPanel implements MouseListener {
 				    (int)((oznaceno_i + 1) * w),
 				    (int)((oznaceno_j+1) * w));
 			oznaceno = true;
+			// verjetno se oznaci na false?
 		}
 
 		
@@ -154,10 +155,7 @@ public class IgralnoPolje extends JPanel implements MouseListener {
 		   0<=j && j<Igra.N &&
 		   0.5 * LINE_WIDTH < di && di < 1.0 - 0.5 * LINE_WIDTH &&
 		   0.5 * LINE_WIDTH < dj && dj < 1.0 - 0.5 * LINE_WIDTH) {
-			if(oznaceno) {
-				master.klikniPolje(i, j, true);
-			}
-			else {master.klikniPolje(i, j, false);}
+			master.klikniPolje(i, j);
 			oznaci_polje(i, j);
 		}
 		

@@ -1,6 +1,7 @@
 package gui;
 import java.util.LinkedList;
 
+import logikaIgre.Igra;
 import logikaIgre.Poteza;
 
 public class Clovek extends Strateg {
@@ -23,15 +24,19 @@ public class Clovek extends Strateg {
 	}
 
 	@Override
-	public void klik(int i, int j, boolean oznaceno) {
+	public void klik(int i, int j) {
 		//Ce je polje ze oznaceno potem odigra potezo iz oznacenega polja na kliknega
-		if(oznaceno) {
-			//Pogledamo ce je polje na katerega hocemo jiti ze zaseden
-			if(master.jePloscek(i, j)) {
+		if(master.polje.oznaceno) { //nisem prepričan glede vidnosti polja.
+			//Pogledamo ce je polje na katerega hocemo se ni zasedeno
+			if(!master.jePloscek(i, j)) {
 				LinkedList<Poteza> poteze = master.dobiPoteze();
-				//Tuki je treba razrest, potezo mors povlect iz seznama legalnih potez, nemors naresto nove poteze ker je to nov objekt in ni enak objektom v seznamu legalnih potez
-				//Nism cist zihr kako bi to naredu, ce mas idejo dej poprav. Tole spodi ni prav!
-				master.odigraj(new Poteza(master.oznacenoPolje_i(), master.oznacenoPolje_j(), i, j));
+				if(poteze.contains(new Poteza(IgralnoPolje.oznaceno_i, IgralnoPolje.oznaceno_j, i, j))) {
+					master.odigraj(new Poteza(IgralnoPolje.oznaceno_i, IgralnoPolje.oznaceno_j, i, j));
+					master.polje.oznaceno = false;
+					master.polje.oznaceno_i = null; //nevem kako to popravt
+					master.polje.oznaceno_j = null; // nevem kako to poprvt
+					
+				}
 			}
 		}
 	}

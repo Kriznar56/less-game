@@ -1,7 +1,8 @@
 package logikaIgre;
 
 public class Poteza {
-	
+
+
 	private int x_zacetna;
 	private int y_zacetna;
 	private int x_koncna;
@@ -32,4 +33,34 @@ public class Poteza {
 	}
 	
 	
+/*	@Override pomoje ne rabva.
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + x_koncna;
+		result = prime * result + x_zacetna;
+		result = prime * result + y_koncna;
+		result = prime * result + y_zacetna;
+		return result;
+	}*/
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Poteza other = (Poteza) obj;
+		if (x_koncna != other.x_koncna)
+			return false;
+		if (x_zacetna != other.x_zacetna)
+			return false;
+		if (y_koncna != other.y_koncna)
+			return false;
+		if (y_zacetna != other.y_zacetna)
+			return false;
+		return true;
+	}
 }
