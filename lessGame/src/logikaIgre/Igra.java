@@ -237,7 +237,7 @@ public class Igra {
 		for(int i = 0; i<N; i++) {
 			for(int j = 0; j<N; j++) {
 				if(plosca[i][j].tip == checkpolje) {
-					for(int k = 0; k<krediti; k++) {
+					for(int k = 0; k<krediti+1; k++) {
 						int premik = k+1;
 						//preverimo, ce so poteze v okolici ''stevilo kreditov'' legalne, saj dalje zagotovo ne moremo.
 						if(jeLegalna(i, j, i+premik, j)) {
