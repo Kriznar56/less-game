@@ -435,18 +435,19 @@ public class Igra {
 					if(plosca[i][y_final].ovira_desno && plosca[i+1][y_final].ovira_levo) {
 						cena_ovir += 2;
 					}
-					if(plosca[i][y_final].ovira_desno || plosca[i+1][y_final].ovira_levo) {
+					else if(plosca[i][y_final].ovira_desno || plosca[i+1][y_final].ovira_levo) {
 						cena_ovir++;
 					}
-					//ploscek preskocimo v primeru ko ni to ta ploscek
-					if(i!=x_start) {
+					else if(i!=x_start) {
 						cena_premika--;
 						i++;
 					}
+					//ploscek preskocimo v primeru ko ni to ta ploscek
 				}
 				else {
 					if(plosca[i][y_final].ovira_desno && plosca[i+1][y_final].ovira_levo) {
 						cena_ovir += 2;
+						break;
 					}
 					else if(plosca[i][y_final].ovira_desno || plosca[i+1][y_final].ovira_levo) {
 						cena_ovir++;
@@ -460,10 +461,10 @@ public class Igra {
 					if(plosca[i][y_final].ovira_levo && plosca[i-1][y_final].ovira_desno) {
 						cena_ovir += 2;
 					}
-					if(plosca[i][y_final].ovira_levo || plosca[i-1][y_final].ovira_desno) {
+					else if(plosca[i][y_final].ovira_levo || plosca[i-1][y_final].ovira_desno) {
 						cena_ovir++;
 					}
-					if(i!=x_start) {
+					else if(i!=x_start) {
 						cena_premika--;
 						i--;
 					}
@@ -471,6 +472,7 @@ public class Igra {
 				else {
 					if(plosca[i][y_final].ovira_levo && plosca[i-1][y_final].ovira_desno) {
 						cena_ovir += 2;
+						break;
 					}
 					if(plosca[i][y_final].ovira_levo || plosca[i-1][y_final].ovira_desno) {
 						cena_ovir++;
@@ -484,10 +486,10 @@ public class Igra {
 					if(plosca[x_final][i].ovira_zgoraj && plosca[x_final][i+1].ovira_spodaj) {
 						cena_ovir += 2;
 					}
-					if(plosca[x_final][i].ovira_zgoraj || plosca[x_final][i+1].ovira_spodaj) {
+					else if(plosca[x_final][i].ovira_zgoraj || plosca[x_final][i+1].ovira_spodaj) {
 						cena_ovir++;
 					}
-					if(i!=y_start) {
+					else if(i!=y_start) {
 						cena_premika--;
 						i++;
 					}
@@ -495,6 +497,7 @@ public class Igra {
 				else {
 					if(plosca[x_final][i].ovira_zgoraj && plosca[x_final][i+1].ovira_spodaj) {
 						cena_ovir += 2;
+						break;
 					}
 					if(plosca[x_final][i].ovira_zgoraj || plosca[x_final][i+1].ovira_spodaj) {
 						cena_ovir++;
@@ -509,10 +512,10 @@ public class Igra {
 					if(plosca[x_final][i].ovira_spodaj && plosca[x_final][i-1].ovira_zgoraj) {
 						cena_ovir += 2;
 					}
-					if(plosca[x_final][i].ovira_spodaj || plosca[x_final][i-1].ovira_zgoraj) {
+					else if(plosca[x_final][i].ovira_spodaj || plosca[x_final][i-1].ovira_zgoraj) {
 						cena_ovir++;
 					}
-					if(i!=y_start) {
+					else if(i!=y_start) {
 						cena_premika--;
 						i--;
 					}
@@ -520,6 +523,7 @@ public class Igra {
 				else {
 					if(plosca[x_final][i].ovira_spodaj && plosca[x_final][i-1].ovira_zgoraj) {
 						cena_ovir += 2;
+						break;
 					}
 					if(plosca[x_final][i].ovira_spodaj || plosca[x_final][i-1].ovira_zgoraj) {
 						cena_ovir++;
