@@ -160,6 +160,18 @@ public class Okno extends JFrame implements ActionListener{
 		return IgralnoPolje.oznaceno_i;
 	}
 	
+	//metoda ki vrne seznam polja v obliki koordinate x in y, da se narisejo polja na katera se uporabnik lahko premakne
+	LinkedList<Integer> mozniPremiki(int i, int j) {
+		LinkedList<Integer> moznaPolja = new LinkedList<Integer>();
+		for(Poteza p: igra.seznam_legalnih_potez){
+			if(p.getX_start()==i && p.getY_start()==j){
+				moznaPolja.add(p.getX_final());
+				moznaPolja.add(p.getY_final());
+			}
+		}
+		return moznaPolja;
+	}
+	
 	int oznacenoPolje_j() {
 		return IgralnoPolje.oznaceno_j;
 	}
