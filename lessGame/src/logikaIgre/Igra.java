@@ -353,11 +353,11 @@ public class Igra {
 					}
 				}
 				if(y_final-y_start > 0) { 
-					//gor
+					//dol
 					for(int i =y_start; i<y_final;  i++) {
 						if(plosca[x_final][i].tip == TipPolja.BELO || plosca[x_final][i].tip == TipPolja.CRNO) {
 							if(i!=y_start) {
-								if(plosca[x_final][i].ovira_zgoraj || plosca[x_final][i+1].ovira_spodaj) {
+								if(plosca[x_final][i].ovira_spodaj || plosca[x_final][i+1].ovira_zgoraj) {
 									return false;
 								}
 								else {
@@ -368,11 +368,11 @@ public class Igra {
 							}
 						}
 						else {
-							if(plosca[x_final][i].ovira_zgoraj && plosca[x_final][i+1].ovira_spodaj) {
+							if(plosca[x_final][i].ovira_spodaj && plosca[x_final][i+1].ovira_zgoraj) {
 								cena_ovir += 2;
 							}
 							else {
-								if(plosca[x_final][i].ovira_zgoraj || plosca[x_final][i+1].ovira_spodaj) {
+								if(plosca[x_final][i].ovira_spodaj || plosca[x_final][i+1].ovira_zgoraj) {
 									cena_ovir++;
 								}
 							}
@@ -381,12 +381,12 @@ public class Igra {
 				}
 				
 				if(y_final-y_start < 0) {
-					//dol
+					//gor
 
 					for(int i =y_start; i>y_final;  i--) {
 						if(plosca[x_final][i].tip == TipPolja.BELO || plosca[x_final][i].tip == TipPolja.CRNO) {
 							if(i!=y_start) {
-								if(plosca[x_final][i].ovira_spodaj || plosca[x_final][i-1].ovira_zgoraj) {
+								if(plosca[x_final][i].ovira_zgoraj || plosca[x_final][i-1].ovira_spodaj) {
 									return false;
 								}
 								else {
@@ -397,11 +397,11 @@ public class Igra {
 							}
 						}
 						else {
-							if(plosca[x_final][i].ovira_spodaj && plosca[x_final][i-1].ovira_zgoraj) {
+							if(plosca[x_final][i].ovira_zgoraj && plosca[x_final][i-1].ovira_spodaj) {
 								cena_ovir += 2;
 							}
 							else {
-								if(plosca[x_final][i].ovira_spodaj || plosca[x_final][i-1].ovira_zgoraj) {
+								if(plosca[x_final][i].ovira_zgoraj || plosca[x_final][i-1].ovira_spodaj) {
 									cena_ovir++;
 								}
 							}
@@ -483,10 +483,10 @@ public class Igra {
 		if(y_final-y_start > 0) { 
 			for(int i =y_start; i<y_final;  i++) {
 				if(plosca[x_final][i].tip == TipPolja.BELO || plosca[x_final][i].tip == TipPolja.CRNO) {
-					if(plosca[x_final][i].ovira_zgoraj && plosca[x_final][i+1].ovira_spodaj) {
+					if(plosca[x_final][i].ovira_spodaj && plosca[x_final][i+1].ovira_zgoraj) {
 						cena_ovir += 2;
 					}
-					else if(plosca[x_final][i].ovira_zgoraj || plosca[x_final][i+1].ovira_spodaj) {
+					else if(plosca[x_final][i].ovira_spodaj || plosca[x_final][i+1].ovira_zgoraj) {
 						cena_ovir++;
 					}
 					else if(i!=y_start) {
@@ -495,11 +495,11 @@ public class Igra {
 					}
 				}
 				else {
-					if(plosca[x_final][i].ovira_zgoraj && plosca[x_final][i+1].ovira_spodaj) {
+					if(plosca[x_final][i].ovira_spodaj && plosca[x_final][i+1].ovira_zgoraj) {
 						cena_ovir += 2;
 						break;
 					}
-					if(plosca[x_final][i].ovira_zgoraj || plosca[x_final][i+1].ovira_spodaj) {
+					if(plosca[x_final][i].ovira_spodaj || plosca[x_final][i+1].ovira_zgoraj) {
 						cena_ovir++;
 					}
 				}
@@ -509,10 +509,10 @@ public class Igra {
 		if(y_final-y_start < 0) {
 			for(int i =y_start; i>y_final;  i--) {
 				if(plosca[x_final][i].tip == TipPolja.BELO || plosca[x_final][i].tip == TipPolja.CRNO) {
-					if(plosca[x_final][i].ovira_spodaj && plosca[x_final][i-1].ovira_zgoraj) {
+					if(plosca[x_final][i].ovira_zgoraj && plosca[x_final][i-1].ovira_spodaj) {
 						cena_ovir += 2;
 					}
-					else if(plosca[x_final][i].ovira_spodaj || plosca[x_final][i-1].ovira_zgoraj) {
+					else if(plosca[x_final][i].ovira_zgoraj || plosca[x_final][i-1].ovira_spodaj) {
 						cena_ovir++;
 					}
 					else if(i!=y_start) {
@@ -521,11 +521,11 @@ public class Igra {
 					}
 				}
 				else {
-					if(plosca[x_final][i].ovira_spodaj && plosca[x_final][i-1].ovira_zgoraj) {
+					if(plosca[x_final][i].ovira_zgoraj && plosca[x_final][i-1].ovira_spodaj) {
 						cena_ovir += 2;
 						break;
 					}
-					if(plosca[x_final][i].ovira_spodaj || plosca[x_final][i-1].ovira_zgoraj) {
+					if(plosca[x_final][i].ovira_zgoraj || plosca[x_final][i-1].ovira_spodaj) {
 						cena_ovir++;
 					}
 				} 
