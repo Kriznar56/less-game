@@ -35,7 +35,7 @@ public class IgralnoPolje extends JPanel implements MouseListener {
 	public IgralnoPolje(Okno master) {
 		super();
 		this.master = master;
-		setBackground(Color.GRAY);
+		setBackground(new Color(0.5f, 0.5f, 0.5f));
 		this.addMouseListener(this);
 		}
 
@@ -118,8 +118,7 @@ public class IgralnoPolje extends JPanel implements MouseListener {
 				    (int)((oznaceno_j+1) * w));
 			oznaceno = true;
 			LinkedList<Integer> moznaPolja = master.mozniPremiki(oznaceno_i, oznaceno_j);
-			Color color = new Color(1.000f, 0.647f, 0.000f, 0.3f);
-			g2.setColor(color);
+			g2.setColor(new Color(1.000f, 0.647f, 0.000f, 0.3f));
 			for(int i = 0; i < moznaPolja.size(); i+=2){
 				g2.fillRect((int)((LINE_WIDTH + moznaPolja.get(i))*w), (int)((LINE_WIDTH + moznaPolja.get(i+1))*w), (int)(w * (1- LINE_WIDTH)), (int)(w * (1- LINE_WIDTH)));
 			}
