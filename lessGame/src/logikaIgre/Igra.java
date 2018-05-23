@@ -295,13 +295,10 @@ public class Igra {
 						//ce preskakujemo ploscek
 						if(plosca[i][y_final].tip == TipPolja.BELO || plosca[i][y_final].tip == TipPolja.CRNO) {
 							//ce je levo oz. desno od ploscka ki ga preskakujemo polje ovira, vrni false ker to ni dovoljeno
-							if(plosca[i][y_final].ovira_desno && plosca[i+1][y_final].ovira_levo) {
-								cena_ovir += 2;
-							}
-							else if(plosca[i][y_final].ovira_desno || plosca[i+1][y_final].ovira_levo) {
-								cena_ovir++;
-							}
-							else if(i!=x_start) {
+							if(i!=x_start) {
+								if(plosca[i-1][y_final].ovira_desno || plosca[i][y_final].ovira_levo || plosca[i][y_final].ovira_desno || plosca[i+1][y_final].ovira_levo) {
+									return false;
+								}
 								jePreskocil = true;
 								cena_premika--;
 								i++;
@@ -324,13 +321,10 @@ public class Igra {
 					for(int i =x_start; i>x_final;  i--) {
 						if(plosca[i][y_final].tip == TipPolja.BELO || plosca[i][y_final].tip == TipPolja.CRNO) {
 							// ko gremo levo je vse isto le parametri se obrnejo
-							if(plosca[i][y_final].ovira_levo && plosca[i-1][y_final].ovira_desno) {
-								cena_ovir += 2;
-							}
-							else if(plosca[i][y_final].ovira_levo || plosca[i-1][y_final].ovira_desno) {
-								cena_ovir++;
-							}
-							else if(i!=x_start) {
+							if(i!=x_start) {
+								if(plosca[i+1][y_final].ovira_levo || plosca[i][y_final].ovira_levo || plosca[i][y_final].ovira_desno || plosca[i+1][y_final].ovira_desno) {
+									return false;
+								}
 								jePreskocil = true;
 								cena_premika--;
 								i--;
@@ -351,13 +345,10 @@ public class Igra {
 					//dol
 					for(int i =y_start; i<y_final;  i++) {
 						if(plosca[x_final][i].tip == TipPolja.BELO || plosca[x_final][i].tip == TipPolja.CRNO) {
-							if(plosca[x_final][i].ovira_spodaj && plosca[x_final][i+1].ovira_zgoraj) {
-								cena_ovir += 2;
-							}
-							else if(plosca[x_final][i].ovira_spodaj || plosca[x_final][i+1].ovira_zgoraj) {
-								cena_ovir++;
-							}
-							else if(i!=y_start) {
+							if(i!=y_start) {
+								if(plosca[x_final][i-1].ovira_spodaj || plosca[x_final][i].ovira_spodaj || plosca[x_final][i].ovira_zgoraj || plosca[x_final][i+1].ovira_zgoraj) {
+									return false;
+								}
 								jePreskocil = true;
 								cena_premika--;
 								i++;
@@ -379,13 +370,10 @@ public class Igra {
 					//gor
 					for(int i =y_start; i>y_final;  i--) {
 						if(plosca[x_final][i].tip == TipPolja.BELO || plosca[x_final][i].tip == TipPolja.CRNO) {
-							if(plosca[x_final][i].ovira_zgoraj && plosca[x_final][i-1].ovira_spodaj) {
-								cena_ovir += 2;
-							}
-							else if(plosca[x_final][i].ovira_zgoraj || plosca[x_final][i-1].ovira_spodaj) {
-								cena_ovir++;
-							}
-							else if(i!=y_start) {
+							if(i!=y_start) {
+								if(plosca[x_final][i+1].ovira_zgoraj || plosca[x_final][i].ovira_spodaj || plosca[x_final][i].ovira_zgoraj || plosca[x_final][i-1].ovira_spodaj) {
+									return false;
+								}
 								jePreskocil = true;
 								cena_premika--;
 								i--;
