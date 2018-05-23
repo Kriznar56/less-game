@@ -22,6 +22,9 @@ public class LogikaIgreTest extends TestCase{
 		//Preverimo da je na zacetku stevilo kreditov res 3
 		assertEquals(3, igra.krediti);
 		assertEquals(TipPolja.BELO, igra.plosca[1][4].tip);
+		System.out.println("______________________");
+		System.out.println(igra.jeLegalna(0, 5, 2, 5));
+		System.out.println(igra.cenaPoteze(0, 5, 2, 5));
 		//Naredimo eno potezo iz seznama potez
 		igra.odigraj(igra.seznam_legalnih_potez.get(0));
 		//Sedaj mora biti stevilo kreditov manjse

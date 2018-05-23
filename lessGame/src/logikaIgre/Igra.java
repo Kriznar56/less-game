@@ -295,28 +295,26 @@ public class Igra {
 						//ce preskakujemo ploscek
 						if(plosca[i][y_final].tip == TipPolja.BELO || plosca[i][y_final].tip == TipPolja.CRNO) {
 							//ce je levo oz. desno od ploscka ki ga preskakujemo polje ovira, vrni false ker to ni dovoljeno
-							if(i!=x_start) {
-								if(plosca[i][y_final].ovira_desno || plosca[i+1][y_final].ovira_levo) {
-									return false;
-								}
-								else {
-									//ker smo preskocili eno polje moramo odsteti 1 od cene premika, in prestavimo se na naslednje polje
-									jePreskocil = true;
-									cena_premika--;
-									i++;
-								}
+							if(plosca[i][y_final].ovira_desno && plosca[i+1][y_final].ovira_levo) {
+								cena_ovir += 2;
+							}
+							else if(plosca[i][y_final].ovira_desno || plosca[i+1][y_final].ovira_levo) {
+								cena_ovir++;
+							}
+							else if(i!=x_start) {
+								jePreskocil = true;
+								cena_premika--;
+								i++;
 							}
 						}
 						else {
 							//ce sta dve oviri na meji 
 							if(plosca[i][y_final].ovira_desno && plosca[i+1][y_final].ovira_levo) {
 								cena_ovir += 2;
+								break;
 							}
-							else {
-								//ce je ena ovira na meji
-								if(plosca[i][y_final].ovira_desno || plosca[i+1][y_final].ovira_levo) {
-									cena_ovir++;
-								}
+							else if(plosca[i][y_final].ovira_desno || plosca[i+1][y_final].ovira_levo) {
+								cena_ovir++;
 							}
 						}
 					}
@@ -326,25 +324,25 @@ public class Igra {
 					for(int i =x_start; i>x_final;  i--) {
 						if(plosca[i][y_final].tip == TipPolja.BELO || plosca[i][y_final].tip == TipPolja.CRNO) {
 							// ko gremo levo je vse isto le parametri se obrnejo
-							if(i!=x_start) {
-								if(plosca[i][y_final].ovira_levo || plosca[i-1][y_final].ovira_desno) {
-									return false;
-								}
-								else {
-									jePreskocil = true;
-									cena_premika--;
-									i--;
-								}
+							if(plosca[i][y_final].ovira_levo && plosca[i-1][y_final].ovira_desno) {
+								cena_ovir += 2;
+							}
+							else if(plosca[i][y_final].ovira_levo || plosca[i-1][y_final].ovira_desno) {
+								cena_ovir++;
+							}
+							else if(i!=x_start) {
+								jePreskocil = true;
+								cena_premika--;
+								i--;
 							}
 						}
 						else {
 							if(plosca[i][y_final].ovira_levo && plosca[i-1][y_final].ovira_desno) {
 								cena_ovir += 2;
+								break;
 							}
-							else {
-								if(plosca[i][y_final].ovira_levo || plosca[i-1][y_final].ovira_desno) {
-									cena_ovir++;
-								}
+							if(plosca[i][y_final].ovira_levo || plosca[i-1][y_final].ovira_desno) {
+								cena_ovir++;
 							}
 						}
 					}
@@ -353,25 +351,25 @@ public class Igra {
 					//dol
 					for(int i =y_start; i<y_final;  i++) {
 						if(plosca[x_final][i].tip == TipPolja.BELO || plosca[x_final][i].tip == TipPolja.CRNO) {
-							if(i!=y_start) {
-								if(plosca[x_final][i].ovira_spodaj || plosca[x_final][i+1].ovira_zgoraj) {
-									return false;
-								}
-								else {
-									jePreskocil = true;
-									cena_premika--;
-									i++;
-								}
+							if(plosca[x_final][i].ovira_spodaj && plosca[x_final][i+1].ovira_zgoraj) {
+								cena_ovir += 2;
+							}
+							else if(plosca[x_final][i].ovira_spodaj || plosca[x_final][i+1].ovira_zgoraj) {
+								cena_ovir++;
+							}
+							else if(i!=y_start) {
+								jePreskocil = true;
+								cena_premika--;
+								i++;
 							}
 						}
 						else {
 							if(plosca[x_final][i].ovira_spodaj && plosca[x_final][i+1].ovira_zgoraj) {
 								cena_ovir += 2;
+								break;
 							}
-							else {
-								if(plosca[x_final][i].ovira_spodaj || plosca[x_final][i+1].ovira_zgoraj) {
-									cena_ovir++;
-								}
+							if(plosca[x_final][i].ovira_spodaj || plosca[x_final][i+1].ovira_zgoraj) {
+								cena_ovir++;
 							}
 						}
 					}
@@ -379,43 +377,39 @@ public class Igra {
 				
 				if(y_final-y_start < 0) {
 					//gor
-
 					for(int i =y_start; i>y_final;  i--) {
 						if(plosca[x_final][i].tip == TipPolja.BELO || plosca[x_final][i].tip == TipPolja.CRNO) {
-							if(i!=y_start) {
-								if(plosca[x_final][i].ovira_zgoraj || plosca[x_final][i-1].ovira_spodaj) {
-									return false;
-								}
-								else {
-									jePreskocil = true;
-									cena_premika--;
-									i--;
-								}
+							if(plosca[x_final][i].ovira_zgoraj && plosca[x_final][i-1].ovira_spodaj) {
+								cena_ovir += 2;
+							}
+							else if(plosca[x_final][i].ovira_zgoraj || plosca[x_final][i-1].ovira_spodaj) {
+								cena_ovir++;
+							}
+							else if(i!=y_start) {
+								jePreskocil = true;
+								cena_premika--;
+								i--;
 							}
 						}
 						else {
 							if(plosca[x_final][i].ovira_zgoraj && plosca[x_final][i-1].ovira_spodaj) {
 								cena_ovir += 2;
+								break;
 							}
-							else {
-								if(plosca[x_final][i].ovira_zgoraj || plosca[x_final][i-1].ovira_spodaj) {
-									cena_ovir++;
-								}
+							if(plosca[x_final][i].ovira_zgoraj || plosca[x_final][i-1].ovira_spodaj) {
+								cena_ovir++;
 							}
 						} 
 					}
 				}
-				
-				if(jePreskocil && cena_premika > 1) {
+				if(jePreskocil && (cena_premika+cena_ovir) > 1) {
 					return false;
 				}
-				if(cena_ovir + cena_premika <= krediti) {
+				else if(cena_ovir + cena_premika <= krediti) {
 					return true;
 				}
-				else {
-					// poteza je predraga
-					return false;
-				}
+				// poteza je predraga
+				return false;
 			}
 		}
 	}

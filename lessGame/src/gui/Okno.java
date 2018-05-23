@@ -84,18 +84,18 @@ public class Okno extends JFrame implements ActionListener{
 	
 
 	public void nova_igra() throws IOException {
-		if (strategBELI != null) { strategBELI.prekini(); }
-		if (strategCRNI != null) { strategCRNI.prekini(); }
+		if(strategBELI != null) {strategBELI.prekini();}
+		if(strategCRNI != null) {strategCRNI.prekini();}
+		if(IgralnoPolje.oznaci) {IgralnoPolje.oznaci=false;}
 		this.igra = new Igra(); //IO exception zaradi ovir
 		strategBELI = new Clovek(this, Igralec.BEL);
-		strategCRNI = new Racunalnik(this, Igralec.CRN);
+		strategCRNI = new Clovek(this, Igralec.CRN);
 		
 		switch (igra.stanje()) {
 		case NA_POTEZI_BEL: strategBELI.na_potezi(); break;
 		case NA_POTEZI_CRN: strategCRNI.na_potezi(); break;
 		default: break;
 		}
-		
 		osveziGUI();
 		repaint();
 	

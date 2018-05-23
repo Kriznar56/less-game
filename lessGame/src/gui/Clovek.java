@@ -36,8 +36,8 @@ public class Clovek extends Strateg {
 				if(poteze.contains(new Poteza(IgralnoPolje.oznaceno_i, IgralnoPolje.oznaceno_j, i, j))) {
 					master.odigraj(new Poteza(IgralnoPolje.oznaceno_i, IgralnoPolje.oznaceno_j, i, j));
 					master.polje.oznaceno = false;
-					master.polje.oznaceno_i = 7; //nevem kako to popravt
-					master.polje.oznaceno_j = 7; // nevem kako to poprvt
+					master.polje.oznaceno_i = 7; 
+					master.polje.oznaceno_j = 7; 
 					
 				}
 			}

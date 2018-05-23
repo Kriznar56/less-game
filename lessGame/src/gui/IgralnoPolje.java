@@ -27,7 +27,7 @@ public class IgralnoPolje extends JPanel implements MouseListener {
 	private final static double PADDING = 0.1;
 	static int oznaceno_i; //mogoce bols point?
 	static int oznaceno_j;
-	private boolean oznaci = false;
+	static boolean oznaci = false;
 	protected boolean oznaceno = false;
 	
 
@@ -121,7 +121,7 @@ public class IgralnoPolje extends JPanel implements MouseListener {
 			for(int i = 0; i < moznaPolja.size(); i+=2){
 				g2.fillRect((int)((LINE_WIDTH + moznaPolja.get(i))*w), (int)((LINE_WIDTH + moznaPolja.get(i+1))*w), (int)(w * (1- LINE_WIDTH)), (int)(w * (1- LINE_WIDTH)));
 			}
-			// verjetno se oznaci na false?
+			oznaci = false;
 		}
 		//ovire
 		g2.setColor(Color.red);
@@ -167,7 +167,6 @@ public class IgralnoPolje extends JPanel implements MouseListener {
 				}
 			}
 		}
-		// dodati morava se ovire in neko metodo da popravi aktivno polje., verjetno mora biti torej tu nekje aktivno?
 	}
 	@Override // Isto kot pri TicTacToe
 	public void mouseClicked(MouseEvent e) {
