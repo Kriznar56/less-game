@@ -27,7 +27,6 @@ public class IgralnoPolje extends JPanel implements MouseListener {
 	static int oznaceno_j;
 	private boolean oznaci = false;
 	protected boolean oznaceno = false;
-	private boolean ovire = true;
 	
 
 	public IgralnoPolje(Okno master) {
