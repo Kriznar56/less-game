@@ -12,19 +12,16 @@ public class Igra {
 	// Work in progress.
 	public static final int N = 6; //<- delava samo za dva igralca oz. vs. racunalnik.
 	
-	public Polje[][] plosca;
+	public static Polje[][] plosca;
 	private Igralec naPotezi;
 	public int krediti;
 	public boolean testing;
-	private LinkedList<Point> zacetna_crna = new LinkedList<Point>();
-	private LinkedList<Point> zacetna_bela =  new LinkedList<Point>();  // uporabni listi pri preverjanju zmagovalca
+	private static LinkedList<Point> zacetna_crna = new LinkedList<Point>();
+	private static LinkedList<Point> zacetna_bela =  new LinkedList<Point>();  // uporabni listi pri preverjanju zmagovalca
 	public LinkedList<Poteza> seznam_legalnih_potez = new LinkedList<Poteza>();
 	public LinkedList<LinkedList<String>> ovire =  new LinkedList<LinkedList<String>>(); 
-	/**
-	 * List manjkajocih funkcij: None
-	 */
-	
-	{ 		
+
+	static { 		
 		// Iniciraliziramo zacetne bele in crne in inicializiramo plosco
 		plosca = new Polje[N][N];
 		for(int i = 0; i<N; i++) {

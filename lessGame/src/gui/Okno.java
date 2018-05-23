@@ -16,6 +16,7 @@ import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 
 import logikaIgre.Igra;
+import logikaIgre.Igralec;
 import logikaIgre.Polje;
 import logikaIgre.Poteza;
 import logikaIgre.Stanje;
@@ -86,8 +87,8 @@ public class Okno extends JFrame implements ActionListener{
 		if (strategBELI != null) { strategBELI.prekini(); }
 		if (strategCRNI != null) { strategCRNI.prekini(); }
 		this.igra = new Igra(); //IO exception zaradi ovir
-		strategBELI = new Clovek(this);
-		strategCRNI = new Clovek(this);
+		strategBELI = new Clovek(this, Igralec.BEL);
+		strategCRNI = new Racunalnik(this, Igralec.CRN);
 		
 		switch (igra.stanje()) {
 		case NA_POTEZI_BEL: strategBELI.na_potezi(); break;

@@ -1,13 +1,28 @@
 package inteligenca;
 
+import java.awt.Point;
+import java.util.LinkedList;
+
 import logikaIgre.Igra;
 import logikaIgre.Igralec;
 import logikaIgre.Polje;
+import logikaIgre.TipPolja;
 
 public class Ocena {
 	public static final int ZMAGA = (1 << 20); // vrednost zmage, to neki nardi
 	public static final int ZGUBA = -ZMAGA;
+	private static LinkedList<Point> mojaPolja = new LinkedList<Point>();
+	private static LinkedList<Point> nasprotnikovaPolja = new LinkedList<Point>();
 
+	private static int vrednostPozicije(boolean b, Point p) {
+		//racunamo razdaljo ce smo beli do zgornjega desnega kota in ce smo crni do spodnjega levega
+		if(b) {
+			return (5-(int)p.getX()+(int)p.getY());
+		}
+		else {
+			return (int)(5+(int)p.getX()-(int)p.getY());
+		}
+	}
 	
 	public static int oceniPozicijo(Igralec jaz, Igra igra) {
 		switch (igra.stanje()) {
@@ -18,7 +33,35 @@ public class Ocena {
 		case NA_POTEZI_BEL:
 		case NA_POTEZI_CRN:
 			Polje[][] plosca = igra.getPlosca();
-			//Tuki naprej pride prava koda, morm pogledat se predavanje
+			for(int i = 0; i<Igra.N; i++) {
+				for(int j = 0; j<Igra.N; j++) {
+					if(jaz == Igralec.CRN) {
+						if(plosca[i][j].tip==TipPolja.CRNO) {
+							mojaPolja.add(new Point(i, j));
+						}
+						else if(plosca[i][j].tip == TipPolja.BELO) {
+							nasprotnikovaPolja.add(new Point(i, j));
+						}
+					}
+					if(jaz == Igralec.BEL) {
+						if(plosca[i][j].tip==TipPolja.BELO) {
+							mojaPolja.add(new Point(i, j));
+						}
+						else if(plosca[i][j].tip == TipPolja.CRNO) {
+							nasprotnikovaPolja.add(new Point(i, j));
+						}
+					}
+				}
+			}
+			//Najprej bomo ocenili samo tako da bomo pogledali koliko ima vsak ploscek x in y razdaljo do zgornjega ali spodnjega kota
+			int vrednostBELI = 0;
+			int vrednostCRNI = 0;
+			for(Point p: mojaPolja) {
+				vrednostBELI += vrednostPozicije(true, p);
+				vrednostCRNI += vrednostPozicije(false, p);
+			}
+			System.out.println((vrednostBELI-vrednostCRNI/2));
+			return (jaz==Igralec.BEL ? (vrednostBELI-vrednostCRNI/2) : (vrednostCRNI-vrednostBELI/2));
 			
 		}
 		assert false;

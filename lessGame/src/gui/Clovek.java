@@ -2,14 +2,17 @@ package gui;
 import java.util.LinkedList;
 
 import logikaIgre.Igra;
+import logikaIgre.Igralec;
 import logikaIgre.Poteza;
 
 public class Clovek extends Strateg {
 	
 	private Okno master;
+	private Igralec jaz;
 	
-	public Clovek(Okno master) {
+	public Clovek(Okno master, Igralec jaz) {
 			this.master = master;
+			this.jaz = jaz;
 	}
 	@Override
 	public void na_potezi() {
