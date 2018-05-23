@@ -16,6 +16,7 @@ import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 
 import logikaIgre.Igra;
+import logikaIgre.Igralec;
 import logikaIgre.Polje;
 import logikaIgre.Poteza;
 import logikaIgre.Stanje;
@@ -86,8 +87,8 @@ public class Okno extends JFrame implements ActionListener{
 		if (strategBELI != null) { strategBELI.prekini(); }
 		if (strategCRNI != null) { strategCRNI.prekini(); }
 		this.igra = new Igra(); //IO exception zaradi ovir
-		strategBELI = new Clovek(this);
-		strategCRNI = new Clovek(this);
+		strategBELI = new Clovek(this, Igralec.BEL);
+		strategCRNI = new Racunalnik(this, Igralec.CRN);
 		
 		switch (igra.stanje()) {
 		case NA_POTEZI_BEL: strategBELI.na_potezi(); break;
@@ -158,6 +159,18 @@ public class Okno extends JFrame implements ActionListener{
 	
 	int oznacenoPolje_i() {
 		return IgralnoPolje.oznaceno_i;
+	}
+	
+	//metoda ki vrne seznam polja v obliki koordinate x in y, da se narisejo polja na katera se uporabnik lahko premakne
+	LinkedList<Integer> mozniPremiki(int i, int j) {
+		LinkedList<Integer> moznaPolja = new LinkedList<Integer>();
+		for(Poteza p: igra.seznam_legalnih_potez){
+			if(p.getX_start()==i && p.getY_start()==j){
+				moznaPolja.add(p.getX_final());
+				moznaPolja.add(p.getY_final());
+			}
+		}
+		return moznaPolja;
 	}
 	
 	int oznacenoPolje_j() {

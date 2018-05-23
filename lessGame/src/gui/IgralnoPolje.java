@@ -5,8 +5,10 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.RenderingHints;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.util.LinkedList;
 
 import javax.swing.JPanel;
 
@@ -32,7 +34,7 @@ public class IgralnoPolje extends JPanel implements MouseListener {
 	public IgralnoPolje(Okno master) {
 		super();
 		this.master = master;
-		setBackground(Color.GRAY);
+		setBackground(new Color(0.5f, 0.5f, 0.5f));
 		this.addMouseListener(this);
 		}
 
@@ -71,7 +73,9 @@ public class IgralnoPolje extends JPanel implements MouseListener {
 		// se nepopravljeno za najino igro.
 		super.paintComponent(g);
 		Graphics2D g2 = (Graphics2D)g;
-		// širina kvadratka
+		g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
+                RenderingHints.VALUE_ANTIALIAS_ON);
+		// sirina kvadratka
 		double w = sirina_polja();
 		// črte
 		g2.setColor(Color.black);
@@ -79,7 +83,7 @@ public class IgralnoPolje extends JPanel implements MouseListener {
 		// naraisi polje
 		g2.drawLine(0, 0, 0, (int)((Igra.N - LINE_WIDTH) * w));
 		g2.drawLine(0, 0, (int)((Igra.N - LINE_WIDTH) * w), 0);
-		g2.drawLine((int)((Igra.N - LINE_WIDTH) * w), 0, (int)((Igra.N - LINE_WIDTH) * w), (int)((Igra.N - LINE_WIDTH) * w));
+		g2.drawLine((int)((Igra.N - LINE_WIDTH/4) * w), 0, (int)((Igra.N - LINE_WIDTH/4) * w), (int)((Igra.N - LINE_WIDTH) * w));
 		g2.drawLine(0, (int)((Igra.N - LINE_WIDTH/4) * w), (int)((Igra.N - LINE_WIDTH) * w), (int)((Igra.N - LINE_WIDTH/4) * w));
 		for (int k = 1; k < Igra.N; k++) {
 			g2.drawLine((int)(k * w),
@@ -112,8 +116,14 @@ public class IgralnoPolje extends JPanel implements MouseListener {
 				    (int)((oznaceno_i + 1) * w),
 				    (int)((oznaceno_j+1) * w));
 			oznaceno = true;
+			LinkedList<Integer> moznaPolja = master.mozniPremiki(oznaceno_i, oznaceno_j);
+			g2.setColor(new Color(1.000f, 0.647f, 0.000f, 0.3f));
+			for(int i = 0; i < moznaPolja.size(); i+=2){
+				g2.fillRect((int)((LINE_WIDTH + moznaPolja.get(i))*w), (int)((LINE_WIDTH + moznaPolja.get(i+1))*w), (int)(w * (1- LINE_WIDTH)), (int)(w * (1- LINE_WIDTH)));
+			}
 			// verjetno se oznaci na false?
 		}
+		//ovire
 		g2.setColor(Color.red);
 		for(int i = 0; i < Igra.N; i++) {
 			for(int j = 0; j < Igra.N; j++) {
