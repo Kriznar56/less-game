@@ -20,7 +20,7 @@ public class Ocena {
 			return (5-(int)p.getX()+(int)p.getY());
 		}
 		else {
-			return (int)(5+(int)p.getX()-(int)p.getY());
+			return (5+(int)p.getX()-(int)p.getY());
 		}
 	}
 	
@@ -57,10 +57,11 @@ public class Ocena {
 			int vrednostBELI = 0;
 			int vrednostCRNI = 0;
 			for(Point p: mojaPolja) {
-				vrednostBELI += vrednostPozicije(true, p);
 				vrednostCRNI += vrednostPozicije(false, p);
 			}
-			System.out.println((vrednostBELI-vrednostCRNI/2));
+			for(Point p: nasprotnikovaPolja) {
+				vrednostBELI += vrednostPozicije(true, p);
+			}
 			return (jaz==Igralec.BEL ? (vrednostBELI-vrednostCRNI/2) : (vrednostCRNI-vrednostBELI/2));
 			
 		}

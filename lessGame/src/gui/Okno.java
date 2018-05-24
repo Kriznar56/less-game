@@ -89,7 +89,7 @@ public class Okno extends JFrame implements ActionListener{
 		if(IgralnoPolje.oznaci) {IgralnoPolje.oznaci=false;}
 		this.igra = new Igra(); //IO exception zaradi ovir
 		strategBELI = new Clovek(this, Igralec.BEL);
-		strategCRNI = new Clovek(this, Igralec.CRN);
+		strategCRNI = new Racunalnik(this, Igralec.CRN);
 		
 		switch (igra.stanje()) {
 		case NA_POTEZI_BEL: strategBELI.na_potezi(); break;

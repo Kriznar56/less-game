@@ -2,6 +2,7 @@ package inteligenca;
 
 import java.util.LinkedList;
 import java.util.Random;
+import java.util.concurrent.TimeUnit;
 
 import javax.swing.SwingWorker;
 
@@ -30,6 +31,16 @@ public class Minimax extends SwingWorker<Poteza, Object> {
 		assert (p.poteza != null);
 		return p.poteza;
 	}
+	
+	@Override
+	public void done() {
+		try {
+			Poteza p = this.get();
+			TimeUnit.SECONDS.sleep(1);
+			if (p != null) { master.odigraj(p); }
+		} catch (Exception e) {
+		}
+}
 
 	private OcenjenaPoteza minimax(int g, Igra igra) {
 		Igralec naPotezi = null;
@@ -72,6 +83,7 @@ public class Minimax extends SwingWorker<Poteza, Object> {
 			}
 		}
 		assert (najboljsePoteze != null);
+		System.out.println("tuki smo?");
 		Random rand = new Random();
 		return new OcenjenaPoteza(najboljsePoteze.get(rand.nextInt(najboljsePoteze.size())), ocenaNajboljse);
 	}
