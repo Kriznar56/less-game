@@ -63,4 +63,12 @@ public class Poteza {
 			return false;
 		return true;
 	}
+
+	@Override
+	public String toString() {
+		return "Poteza [x_zacetna=" + x_zacetna + ", y_zacetna=" + y_zacetna + ", x_koncna=" + x_koncna + ", y_koncna="
+				+ y_koncna + "]";
+	}
+	
+	
 }

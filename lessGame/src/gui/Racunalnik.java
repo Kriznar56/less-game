@@ -19,7 +19,7 @@ public class Racunalnik extends Strateg {
 	@Override
 	public void na_potezi() {
 		// Zaènemo razmišljati
-		mislec = new Minimax(master, 2, jaz);
+		mislec = new Minimax(master, 5, jaz);
 		mislec.execute();
 	}
 
@@ -32,8 +32,6 @@ public class Racunalnik extends Strateg {
 
 	@Override
 	public void klik(int i, int j) {
-		// to bo vrjetno prazno
-
 	}
 
 }

@@ -13,7 +13,7 @@ public class Igra {
 	public static final int N = 6; //<- delava samo za dva igralca oz. vs. racunalnik.
 	
 	public static Polje[][] plosca;
-	private Igralec naPotezi;
+	public Igralec naPotezi;
 	public int krediti;
 	public boolean testing;
 	private static LinkedList<Point> zacetna_crna = new LinkedList<Point>();

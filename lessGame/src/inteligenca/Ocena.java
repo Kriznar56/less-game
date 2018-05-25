@@ -9,7 +9,7 @@ import logikaIgre.Polje;
 import logikaIgre.TipPolja;
 
 public class Ocena {
-	public static final int ZMAGA = (1 << 20); // vrednost zmage, to neki nardi
+	public static final int ZMAGA = (1 << 20); // vrednost zmage, 1 prestavi za 20 mest binomsko to pride 1048576
 	public static final int ZGUBA = -ZMAGA;
 	private static LinkedList<Point> mojaPolja = new LinkedList<Point>();
 	private static LinkedList<Point> nasprotnikovaPolja = new LinkedList<Point>();
@@ -62,7 +62,7 @@ public class Ocena {
 			for(Point p: nasprotnikovaPolja) {
 				vrednostBELI += vrednostPozicije(true, p);
 			}
-			return (jaz==Igralec.BEL ? (vrednostBELI-vrednostCRNI/2) : (vrednostCRNI-vrednostBELI/2));
+			return (jaz==Igralec.BEL ? vrednostBELI : vrednostCRNI);
 			
 		}
 		assert false;
