@@ -2,7 +2,7 @@ package inteligenca;
 
 import java.util.LinkedList;
 import java.util.Random;
-import java.util.concurrent.TimeUnit;
+//import java.util.concurrent.TimeUnit;
 
 import javax.swing.SwingWorker;
 
@@ -44,6 +44,7 @@ public class Minimax extends SwingWorker<Poteza, Object> {
 	private OcenjenaPoteza minimax(int g, Igra igra) {
 		Igralec naPotezi = null;
 		switch (igra.stanje()) {
+
 		case NA_POTEZI_BEL: naPotezi = Igralec.BEL; break;
 		case NA_POTEZI_CRN: naPotezi = Igralec.CRN; break;
 		case ZMAGAL_BEL:
@@ -61,21 +62,28 @@ public class Minimax extends SwingWorker<Poteza, Object> {
 		LinkedList<Poteza> najboljsePoteze = new LinkedList<Poteza>();
 		int ocenaNajboljse = 0;
 		//gremo cez vse trenutno dovoljene poteze in jih v kopiji odigramo
+		
 		for(Poteza p: igra.seznam_legalnih_potez) { 						//ERROR: Zakaj ne pride ven iz for loopa in gre samo 1x vanj?
 			Igra kopija = new Igra(igra);
 			kopija.odigraj(p);
 			int ocenaP;
 			//ce se je po odigrani potezi zamenjal igralec na potezi povecamo globino, drugace ne
 			if(kopija.naPotezi == naPotezi) {
+				System.out.println("sem na potezi"+g);
 				ocenaP = minimax(g, kopija).vrednost;
+				
 			}
 			else {
 				ocenaP = minimax(g+1, kopija).vrednost;
+				System.out.println("nisem na potezi"+g);
+				
 			}
-			// Èe je p boljša poteza, si jo zabeležimo
+			// ï¿½e je p boljï¿½a poteza, si jo zabeleï¿½imo
 			if ((naPotezi == jaz && ocenaP >= ocenaNajboljse) // maksimiziramo
 				|| (naPotezi != jaz && ocenaP <= ocenaNajboljse) // minimiziramo
 				) {
+				System.out.println("maksimiziramo");
+				System.out.println(ocenaP);
 				//ce je ocena trenutne enaka oceni najboljse jo dodamo na seznam najboljsih potez
 				if(ocenaP==ocenaNajboljse) {
 					najboljsePoteze.add(p);
@@ -89,9 +97,9 @@ public class Minimax extends SwingWorker<Poteza, Object> {
 					ocenaNajboljse = ocenaP;	
 				}
 			}
-			System.out.println("jst bi se mogu naprintat tok kokr je legalnih potez se pa samo enkrat");
+			
 		}
-		System.out.println("se neki");
+		System.out.println(najboljsePoteze);
 		assert (najboljsePoteze != null);
 		Random rand = new Random();
 		return new OcenjenaPoteza(najboljsePoteze.get(rand.nextInt(najboljsePoteze.size())), ocenaNajboljse);

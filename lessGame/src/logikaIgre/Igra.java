@@ -12,10 +12,9 @@ public class Igra {
 	// Work in progress.
 	public static final int N = 6; //<- delava samo za dva igralca oz. vs. racunalnik.
 	
-	public static Polje[][] plosca;
+	public Polje[][] plosca;
 	public Igralec naPotezi;
 	public int krediti;
-	public boolean testing;
 	private static LinkedList<Point> zacetna_crna = new LinkedList<Point>();
 	private static LinkedList<Point> zacetna_bela =  new LinkedList<Point>();  // uporabni listi pri preverjanju zmagovalca
 	public LinkedList<Poteza> seznam_legalnih_potez = new LinkedList<Poteza>();
@@ -23,7 +22,6 @@ public class Igra {
 
 	static { 		
 		// Iniciraliziramo zacetne bele in crne in inicializiramo plosco
-		plosca = new Polje[N][N];
 		for(int i = 0; i<N; i++) {
 			for(int j = 0; j<N; j++) {
 				if(i<= 1 && j>=4) {
@@ -51,7 +49,6 @@ public class Igra {
 	 * @throws IOException 
 	 */
 	public Igra() throws IOException {
-		testing = true;
 		plosca = new Polje[N][N];
 		ovire = dobiOvire();
 		// Nastavi zgornja-leva polja na bela, ter spodnja desna na crna
@@ -101,12 +98,24 @@ public class Igra {
 	}
 	
 	public Igra(Igra igra) {
-		this.plosca = igra.plosca;
+
+		this.plosca = new Polje[N][N];
+		for (int i = 0; i<N; i++) {
+			for (int j = 0; j<N; j++) {
+				this.plosca[i][j] = new Polje();
+				this.plosca[i][j].tip = igra.plosca[i][j].tip;
+				this.plosca[i][j].ovira_desno = igra.plosca[i][j].ovira_desno;
+				this.plosca[i][j].ovira_levo = igra.plosca[i][j].ovira_levo;
+				this.plosca[i][j].ovira_spodaj = igra.plosca[i][j].ovira_spodaj;
+				this.plosca[i][j].ovira_zgoraj = igra.plosca[i][j].ovira_zgoraj;
+			}
+		}
 		this.naPotezi = igra.naPotezi;
 		this.krediti = igra.krediti;
-		this.ovire = igra.ovire;
-		this.seznam_legalnih_potez = igra.seznam_legalnih_potez;
-		this.testing = igra.testing; // <- kriznar, kaj je ze ta param?
+		posodobi_legalne_poteze();
+		
+		
+		
 		
 	}
 	

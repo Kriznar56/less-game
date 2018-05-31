@@ -4,6 +4,7 @@ import java.io.IOException;
 
 import junit.framework.TestCase;
 import logikaIgre.Igra;
+import logikaIgre.Polje;
 import logikaIgre.Stanje;
 import logikaIgre.TipPolja;
 
@@ -31,6 +32,15 @@ public class LogikaIgreTest extends TestCase{
 		//Naredimo se dve potezi in potem mora biti na potezi crni	
 		igra.odigraj(igra.seznam_legalnih_potez.get(0));
 		igra.odigraj(igra.seznam_legalnih_potez.get(0));
-		assertEquals(Stanje.NA_POTEZI_CRN, igra.stanje());
-	}
+		Igra kopijatest = new Igra(igra);
+		System.out.print(igra.plosca);
+		kopijatest.odigraj(kopijatest.seznam_legalnih_potez.get(0));
+		int k = 0;
+		for(Polje p: igra.plosca[0]) {
+		System.out.print(p == kopijatest.plosca[0][k]);
+		k++;
+		}
+	
+		
+}
 }

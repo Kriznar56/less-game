@@ -11,6 +11,7 @@ public class Less {
 		JFrame glavno_okno = new Okno();
 		glavno_okno.pack();
 		glavno_okno.setVisible(true);
+	
 		
 
 	}
