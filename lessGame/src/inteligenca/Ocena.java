@@ -33,6 +33,10 @@ public class Ocena {
 		case NA_POTEZI_BEL:
 		case NA_POTEZI_CRN:
 			Polje[][] plosca = igra.getPlosca();
+			mojaPolja.clear();
+			nasprotnikovaPolja.clear();
+			int vrednostBELI = 0;
+			int vrednostCRNI = 0;
 			for(int i = 0; i<Igra.N; i++) {
 				for(int j = 0; j<Igra.N; j++) {
 					if(jaz == Igralec.CRN) {
@@ -54,14 +58,13 @@ public class Ocena {
 				}
 			}
 			//Najprej bomo ocenili samo tako da bomo pogledali koliko ima vsak ploscek x in y razdaljo do zgornjega ali spodnjega kota
-			int vrednostBELI = 0;
-			int vrednostCRNI = 0;
 			for(Point p: mojaPolja) {
 				vrednostCRNI += vrednostPozicije(false, p);
 			}
 			for(Point p: nasprotnikovaPolja) {
 				vrednostBELI += vrednostPozicije(true, p);
 			}
+			//System.out.println("ocena je "+(jaz==Igralec.BEL ? vrednostBELI : vrednostCRNI));
 			return (jaz==Igralec.BEL ? vrednostBELI : vrednostCRNI);
 			
 		}

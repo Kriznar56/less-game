@@ -2,9 +2,10 @@ package inteligenca;
 
 import java.util.LinkedList;
 import java.util.Random;
-//import java.util.concurrent.TimeUnit;
+
 
 import javax.swing.SwingWorker;
+
 
 import gui.Okno;
 import logikaIgre.Igra;
@@ -17,6 +18,10 @@ public class Minimax extends SwingWorker<Poteza, Object> {
 	private int globina;
 	//Crni ali Beli igralec
 	private Igralec jaz;
+	private LinkedList<Poteza> zeOdigrane = new LinkedList<Poteza>();
+	private LinkedList<Poteza> najboljseOdigrane = new LinkedList<Poteza>();
+	private int ocenaNajboljse = 36;
+	private boolean zamenjalo = false;
 	
 	public Minimax(Okno master, int globina, Igralec jaz) {
 		this.master = master;
@@ -27,6 +32,8 @@ public class Minimax extends SwingWorker<Poteza, Object> {
 	@Override
 	protected Poteza doInBackground() throws Exception {
 		Igra igra = master.copyIgra();
+		//Thread.sleep(500);
+		//System.out.println("__________________________________________________________");
 		OcenjenaPoteza p = minimax(0, igra);
 		assert (p.poteza != null);
 		return p.poteza;
@@ -36,7 +43,9 @@ public class Minimax extends SwingWorker<Poteza, Object> {
 	public void done() {
 		try {
 			Poteza p = this.get();
-			if (p != null) { master.odigraj(p); }
+			if (p != null) { 
+				master.odigraj(p);
+				}
 		} catch (Exception e) {
 		}
 	}
@@ -44,7 +53,6 @@ public class Minimax extends SwingWorker<Poteza, Object> {
 	private OcenjenaPoteza minimax(int g, Igra igra) {
 		Igralec naPotezi = null;
 		switch (igra.stanje()) {
-
 		case NA_POTEZI_BEL: naPotezi = Igralec.BEL; break;
 		case NA_POTEZI_CRN: naPotezi = Igralec.CRN; break;
 		case ZMAGAL_BEL:
@@ -59,50 +67,54 @@ public class Minimax extends SwingWorker<Poteza, Object> {
 			return new OcenjenaPoteza(null, Ocena.oceniPozicijo(jaz, igra));
 		}
 		//Naredimo prazen list najboljsih potez
-		LinkedList<Poteza> najboljsePoteze = new LinkedList<Poteza>();
-		int ocenaNajboljse = 0;
+		Poteza najboljsa = null;
 		//gremo cez vse trenutno dovoljene poteze in jih v kopiji odigramo
-		
-		for(Poteza p: igra.seznam_legalnih_potez) { 						//ERROR: Zakaj ne pride ven iz for loopa in gre samo 1x vanj?
+		for(Poteza p: igra.seznam_legalnih_potez) { 
+			//System.out.println("...............................");
+			//System.out.println("nova runda poteza "+p);
+			int ocenaP;
 			Igra kopija = new Igra(igra);
 			kopija.odigraj(p);
-			int ocenaP;
+			//System.out.println("Tolike je se kreditov na voljo: "+kopija.krediti);
 			//ce se je po odigrani potezi zamenjal igralec na potezi povecamo globino, drugace ne
 			if(kopija.naPotezi == naPotezi) {
-				System.out.println("sem na potezi"+g);
+				zeOdigrane.add(p);
+				//System.out.println("rekurzija vendar sem se vedno na potezi");
 				ocenaP = minimax(g, kopija).vrednost;
-				
 			}
 			else {
-				ocenaP = minimax(g+1, kopija).vrednost;
-				System.out.println("nisem na potezi"+g);
-				
+				//System.out.println("rekurzija nebom vec na potezi");
+				zamenjalo = true;
+				ocenaP = minimax(g+1, kopija).vrednost;	
 			}
-			// �e je p bolj�a poteza, si jo zabele�imo
-			if ((naPotezi == jaz && ocenaP >= ocenaNajboljse) // maksimiziramo
-				|| (naPotezi != jaz && ocenaP <= ocenaNajboljse) // minimiziramo
+			// ce je p boljsa poteza, si jo zabelezimo
+			if ((naPotezi == jaz && ocenaP <= ocenaNajboljse) // maksimiziramo
+				|| (naPotezi != jaz && ocenaP >= ocenaNajboljse) // minimiziramo
 				) {
-				System.out.println("maksimiziramo");
-				System.out.println(ocenaP);
-				//ce je ocena trenutne enaka oceni najboljse jo dodamo na seznam najboljsih potez
-				if(ocenaP==ocenaNajboljse) {
-					najboljsePoteze.add(p);
-				}
-				//ce najdemo boljso potezo kot trenutne najboljse pobrisemo trenutne najboljse ter dodamo to potezo
-				else if((najboljsePoteze.isEmpty()
-						|| (naPotezi == jaz && ocenaP > ocenaNajboljse) 
-						|| (naPotezi != jaz && ocenaP < ocenaNajboljse))){
-					najboljsePoteze.clear();
-					najboljsePoteze.add(p);
-					ocenaNajboljse = ocenaP;	
+				if((najboljsa == null
+					|| (naPotezi == jaz && ocenaP < ocenaNajboljse) 
+					|| (naPotezi != jaz && ocenaP > ocenaNajboljse))){
+					if(!zeOdigrane.isEmpty()) {
+						najboljseOdigrane = zeOdigrane;
+						//System.out.println("najboljsa poteza trenutno je "+najboljseOdigrane.get(0));
+					}
+					else {
+						najboljseOdigrane.clear();
+						najboljsa = p;
+						//System.out.println("najboljsa poteza trenutno je "+najboljsa);
+					}
+					ocenaNajboljse = ocenaP;
 				}
 			}
-			
 		}
-		System.out.println(najboljsePoteze);
-		assert (najboljsePoteze != null);
-		Random rand = new Random();
-		return new OcenjenaPoteza(najboljsePoteze.get(rand.nextInt(najboljsePoteze.size())), ocenaNajboljse);
+		//System.out.println("5. Ocena najboljse je: "+ocenaNajboljse);
+		//System.out.println("");
+		assert (najboljsa != null);
+		if(!najboljseOdigrane.isEmpty()) {
+			return new OcenjenaPoteza(najboljseOdigrane.get(0), ocenaNajboljse);
+		}
+		return new OcenjenaPoteza(najboljsa, ocenaNajboljse);
 	}
+
 
 }

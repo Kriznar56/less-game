@@ -66,7 +66,7 @@ public class Poteza {
 
 	@Override
 	public String toString() {
-		return "Poteza [x_zacetna=" + x_zacetna + ", y_zacetna=" + y_zacetna + ", x_koncna=" + x_koncna + ", y_koncna="
+		return "Poteza [x_z=" + x_zacetna + ", y_z=" + y_zacetna + ", x_k=" + x_koncna + ", y_k="
 				+ y_koncna + "]";
 	}
 	
