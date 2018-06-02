@@ -8,6 +8,7 @@ import logikaIgre.Igra;
 import logikaIgre.Igralec;
 import logikaIgre.Poteza;
 
+//Algoritem alpha beta pruning
 public class AlphaBeta extends SwingWorker<Poteza, Object> {
 	
 	private Okno master;
