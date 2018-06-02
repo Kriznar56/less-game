@@ -1,5 +1,8 @@
 package inteligenca;
 
+import java.util.LinkedList;
+import java.util.Random;
+
 //import java.util.LinkedList;
 //import java.util.Random;
 
@@ -67,7 +70,7 @@ public class Minimax extends SwingWorker<Poteza, Object> {
 			return new OcenjenaPoteza(null, Ocena.oceniPozicijo(jaz, igra));
 		}
 		//Naredimo prazen list najboljsih potez
-		Poteza najboljsa = null;
+		LinkedList<Poteza> najboljsePoteze= new LinkedList<Poteza>();
 		int ocenaNajboljse = 0;
 		//gremo cez vse trenutno dovoljene poteze in jih v kopiji odigramo
 		for(Poteza p: igra.seznam_legalnih_potez) { 
@@ -75,16 +78,22 @@ public class Minimax extends SwingWorker<Poteza, Object> {
 			kopija.odigraj(p);
 			if(kopija.naPotezi != naPotezi) {g++;}
 			int ocenaP = minimax(g, kopija).vrednost;
-			if (najboljsa == null // še nimamo kandidata za najboljšo potezo
-					|| (naPotezi == jaz && ocenaP > ocenaNajboljse) // maksimiziramo
-					|| (naPotezi != jaz && ocenaP < ocenaNajboljse) // minimiziramo
+			if (najboljsePoteze.isEmpty() // še nimamo kandidata za najboljšo potezo
+					|| (naPotezi == jaz && ocenaP >= ocenaNajboljse) // maksimiziramo
+					|| (naPotezi != jaz && ocenaP <= ocenaNajboljse) // minimiziramo
 					) {
-					najboljsa = p;
+				if((naPotezi == jaz && ocenaP > ocenaNajboljse)
+						|| (naPotezi != jaz && ocenaP < ocenaNajboljse)) {
+					najboljsePoteze.clear();
+					najboljsePoteze.add(p);
 					ocenaNajboljse = ocenaP;
 				}
+				else {najboljsePoteze.add(p);}
+			}
 		}
-		assert (najboljsa != null);
-		return new OcenjenaPoteza(najboljsa, ocenaNajboljse);
+		assert (!najboljsePoteze.isEmpty());
+		Random r = new Random();
+		return new OcenjenaPoteza(najboljsePoteze.get(r.nextInt(najboljsePoteze.size())), ocenaNajboljse);
 	}
 
 
