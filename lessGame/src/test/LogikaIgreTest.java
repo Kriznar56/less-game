@@ -18,6 +18,7 @@ public class LogikaIgreTest extends TestCase{
 	
 		
 		Igra igra = new Igra();
+		System.out.print(igra.cenaPoteze(0, 4, 5, 3));
 		//Na zacetku na potezi beli
 		assertEquals(Stanje.NA_POTEZI_BEL, igra.stanje());
 		//Preverimo da je na zacetku stevilo kreditov res 3
@@ -32,14 +33,9 @@ public class LogikaIgreTest extends TestCase{
 		//Naredimo se dve potezi in potem mora biti na potezi crni	
 		igra.odigraj(igra.seznam_legalnih_potez.get(0));
 		igra.odigraj(igra.seznam_legalnih_potez.get(0));
-		Igra kopijatest = new Igra(igra);
-		System.out.print(igra.plosca);
-		kopijatest.odigraj(kopijatest.seznam_legalnih_potez.get(0));
-		int k = 0;
-		for(Polje p: igra.plosca[0]) {
-		System.out.print(p == kopijatest.plosca[0][k]);
-		k++;
-		}
+
+		
+
 	
 		
 }
