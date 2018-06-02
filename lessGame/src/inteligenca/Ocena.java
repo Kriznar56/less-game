@@ -17,10 +17,10 @@ public class Ocena {
 	private static int vrednostPozicije(boolean b, Point p) {
 		//racunamo razdaljo ce smo beli do zgornjega desnega kota in ce smo crni do spodnjega levega
 		if(b) {
-			return (5-(int)p.getX()+(int)p.getY());
+			return (5+(int)p.getX()-(int)p.getY());
 		}
 		else {
-			return (5+(int)p.getX()-(int)p.getY());
+			return (5-(int)p.getX()+(int)p.getY());
 		}
 	}
 	

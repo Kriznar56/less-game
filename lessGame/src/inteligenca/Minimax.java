@@ -71,23 +71,8 @@ public class Minimax extends SwingWorker<Poteza, Object> {
 		int ocenaNajboljse = 0;
 		//gremo cez vse trenutno dovoljene poteze in jih v kopiji odigramo
 		for(Poteza p: igra.seznam_legalnih_potez) { 
-			//System.out.println("...............................");
-			//System.out.println("nova runda poteza "+p);
-			// int ocenaP;
 			Igra kopija = new Igra(igra);
 			kopija.odigraj(p);
-			
-			//System.out.println("Tolike je se kreditov na voljo: "+kopija.krediti);
-			//ce se je po odigrani potezi zamenjal igralec na potezi povecamo globino, drugace ne
-			//if(kopija.naPotezi == naPotezi) {
-				//zeOdigrane.add(p);
-				//System.out.println("rekurzija vendar sem se vedno na potezi");
-				//int ocenaP = minimax(g, kopija).vrednost;
-			//}
-			//else {
-				//System.out.println("rekurzija nebom vec na potezi");
-				//zamenjalo = true;
-				//int ocenaP = minimax(g+1, kopija).vrednost;
 			if(kopija.naPotezi != naPotezi) {g++;}
 			int ocenaP = minimax(g, kopija).vrednost;
 			if (najboljsa == null // še nimamo kandidata za najboljšo potezo
@@ -98,34 +83,7 @@ public class Minimax extends SwingWorker<Poteza, Object> {
 					ocenaNajboljse = ocenaP;
 				}
 		}
-			// ce je p boljsa poteza, si jo zabelezimo
-//			if ((naPotezi == jaz && ocenaP <= ocenaNajboljse) // maksimiziramo
-//				|| (naPotezi != jaz && ocenaP >= ocenaNajboljse) // minimiziramo
-//				) {
-//				if((najboljsa == null
-//					|| (naPotezi == jaz && ocenaP < ocenaNajboljse) 
-//					|| (naPotezi != jaz && ocenaP > ocenaNajboljse))){
-//					if(!zeOdigrane.isEmpty()) {
-//						najboljseOdigrane = zeOdigrane;
-//						//System.out.println("najboljsa poteza trenutno je "+najboljseOdigrane.get(0));
-//					}
-//					else {
-//						//najboljseOdigrane.clear();
-//						najboljsa = p;
-//						//System.out.println("najboljsa poteza trenutno je "+najboljsa);
-//					}
-//					ocenaNajboljse = ocenaP;
-//				}
-//			}
-//		}
-		//System.out.println("5. Ocena najboljse je: "+ocenaNajboljse);
-		//System.out.println("");
 		assert (najboljsa != null);
-//		if(!najboljseOdigrane.isEmpty()) {
-//			return new OcenjenaPoteza(najboljseOdigrane.get(0), ocenaNajboljse);
-//		}
-		System.out.print(najboljsa);
-		System.out.print(ocenaNajboljse);
 		return new OcenjenaPoteza(najboljsa, ocenaNajboljse);
 	}
 
