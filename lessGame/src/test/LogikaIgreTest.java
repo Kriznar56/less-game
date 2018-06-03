@@ -26,7 +26,7 @@ public class LogikaIgreTest extends TestCase{
 		assertEquals(TipPolja.BELO, igra.plosca[1][4].tip);
 		System.out.println("______________________");
 		System.out.println(igra.jeLegalna(0, 5, 2, 5));
-		System.out.println(igra.cenaPoteze(0, 5, 2, 5));
+		System.out.println(igra.cenaPoteze(0, 5, 5, 0));
 		//Naredimo eno potezo iz seznama potez
 		igra.odigraj(igra.seznam_legalnih_potez.get(0));
 		//Sedaj mora biti stevilo kreditov manjse
