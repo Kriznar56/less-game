@@ -173,7 +173,9 @@ public class Okno extends JFrame implements ActionListener{
 			}
 		}
 		if(e.getSource() == razveljavi){
-			//TUKI pride tvoja koda
+			//this.igra = igra.undo;
+			//osveziGUI();
+			//repaint();
 		}
 	}
 	
