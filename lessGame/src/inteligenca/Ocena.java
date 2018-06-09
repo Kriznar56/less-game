@@ -63,50 +63,73 @@ public class Ocena {
 	}
 	
 	public static int cenaDoCilja(int x1, int y1, Igra igra, boolean Bela) {
-		int[][] cene = new int[6][6]; // naredimo matriko 6x6 polno ničel
+		int[][] cene = new int[6][6];// naredimo matriko 6x6 polno ničel
 		if(Bela) {
 			for(int i = x1; i<=5; i++){
 				for(int j = y1; j>=0; j--) {
 					if(i== x1 && j == y1) {
-						continue;
 					}
 					else{
-						int dol = cene[i][j+1] + 1; // koliko bi stal premik s polja pod poljem
+						int dol;
+						int levo;
+						if(j!=5) {
+						dol = cene[i][j+1] + 1; // koliko bi stal premik s polja pod poljem
 						if(igra.plosca[i][j].ovira_spodaj) {dol++;} //ima polje oviro spodaj?
-						if(igra.plosca[i][j+1].ovira_zgoraj) {dol++;} //ima polje spodaj oviro zgoraj?
-						int levo = cene[i-1][j] + 1; //podobno za levo
+						if(igra.plosca[i][j+1].ovira_zgoraj) {dol++;}
+						}//ima polje spodaj oviro zgoraj?
+						else {dol=(1 << 20);}
+						if(i!=0) {
+						levo = cene[i-1][j] + 1; //podobno za levo
 						if(igra.plosca[i][j].ovira_levo) {levo++;}
 						if(igra.plosca[i-1][j].ovira_desno) {levo++;} 
+						}
+						else {levo = (1 << 20);}
 						cene[i][j] = Math.min(dol, levo); //vrni najnižjo ceno
 					}
 				}	
 			}
-			System.out.print(cene);
 			return cene[5][5]; //vrni najnižjo ceno premika do ciljnega kota
 		}
 		else {//ce nismo beli smo crni in gledamo ceno do spodnjega levega kota
 			for(int i = x1; i>=0; i--) {
+				
 				for(int j = y1; j<=5; j++) {
+					
 					if(i== x1 && j == y1) {
-						continue;
 					}
 					else {
-					int gor = cene[i][j-1] + 1;
+					int gor;
+					int desno;
+					if(j!=0) {
+					gor = cene[i][j-1] + 1;
 					if(igra.plosca[i][j].ovira_zgoraj) {gor++;}
 					if(igra.plosca[i][j-1].ovira_spodaj) {gor++;}
-					int desno = cene[i+1][j] +1;
+					}
+					else {gor = (1 << 20);}
+				
+					if(i!=5) {
+					desno = cene[i+1][j] +1;
+					
 					if(igra.plosca[i][j].ovira_desno) {desno++;}
 					if(igra.plosca[i+1][j].ovira_levo) {desno++;}
+					}
+					else {desno = (1 << 20);}
+				
+					
 					cene[i][j] = Math.min(gor, desno);
+					if(gor == (1 << 20)) {System.out.println("cena"+cene[i][j]+"gor"+gor+"desno"+desno );
+					
+					}
 					}
 				}
 			}
-			System.out.print(cene);
 			return cene[0][0];
 			
 		}
 		
 	}
+	
+	
 	
 	public static int oceniPozicijo(Igralec jaz, Igra igra) {
 		switch (igra.stanje()) {
@@ -133,13 +156,13 @@ public class Ocena {
 			}
 			//Najprej bomo ocenili samo tako da bomo pogledali koliko ima vsak ploscek x in y razdaljo do zgornjega ali spodnjega kota
 			for(Point p: crnaPolja) {
-				vrednostCRNI -= cenaDoCilja(p.x, p.y, igra, false);
-				//vrednostCRNI += vrednostPozicije(false, p, igra);
+				//vrednostCRNI += cenaDoCilja(p.x, p.y, igra, false);
+				vrednostCRNI += vrednostPozicije(false, p, igra);
 				vrednostCRNI += sosednjiPloscki(false, p, plosca);
 			}
 			for(Point p: belaPolja) {
-				vrednostCRNI -= cenaDoCilja(p.x, p.y, igra, true);
-				//vrednostBELI += vrednostPozicije(true, p, igra);
+				//vrednostCRNI += cenaDoCilja(p.x, p.y, igra, true);
+				vrednostBELI += vrednostPozicije(true, p, igra);
 				vrednostBELI += sosednjiPloscki(true, p, plosca);
 			}
 			return (jaz==Igralec.BEL ? (vrednostBELI-vrednostCRNI/4) : (vrednostCRNI-vrednostBELI/4));
