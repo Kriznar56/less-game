@@ -105,7 +105,7 @@ public class Ocena {
 		
 	}
 	
-	public static int oceniPozicijo(Igralec jaz, Igra igra) {
+	public int oceniPozicijo(Igralec jaz, Igra igra) {
 		switch (igra.stanje()) {
 		case ZMAGAL_BEL:
 			return (jaz == Igralec.BEL ? ZMAGA : ZGUBA);
@@ -130,11 +130,13 @@ public class Ocena {
 			}
 			//Najprej bomo ocenili samo tako da bomo pogledali koliko ima vsak ploscek x in y razdaljo do zgornjega ali spodnjega kota
 			for(Point p: crnaPolja) {
-				vrednostCRNI += vrednostPozicije(false, p, igra);
+				vrednostCRNI -= cenaDoCilja(p.x, p.y, igra, false);
+				//vrednostCRNI += vrednostPozicije(false, p, igra);
 				vrednostCRNI += sosednjiPloscki(false, p, plosca);
 			}
 			for(Point p: belaPolja) {
-				vrednostBELI += vrednostPozicije(true, p, igra);
+				vrednostCRNI -= cenaDoCilja(p.x, p.y, igra, true);
+				//vrednostBELI += vrednostPozicije(true, p, igra);
 				vrednostBELI += sosednjiPloscki(true, p, plosca);
 			}
 			return (jaz==Igralec.BEL ? (vrednostBELI-vrednostCRNI/4) : (vrednostCRNI-vrednostBELI/4));
