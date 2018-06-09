@@ -77,21 +77,11 @@ public class Ocena {
 			int vrednostCRNI = 0;
 			for(int i = 0; i<Igra.N; i++) {
 				for(int j = 0; j<Igra.N; j++) {
-					if(jaz == Igralec.CRN) {
-						if(plosca[i][j].tip==TipPolja.CRNO) {
-							crnaPolja.add(new Point(i, j));
-						}
-						else if(plosca[i][j].tip == TipPolja.BELO) {
-							belaPolja.add(new Point(i, j));
-						}
+					if(plosca[i][j].tip==TipPolja.CRNO) {
+						crnaPolja.add(new Point(i, j));
 					}
-					if(jaz == Igralec.BEL) {
-						if(plosca[i][j].tip==TipPolja.BELO) {
-							crnaPolja.add(new Point(i, j));
-						}
-						else if(plosca[i][j].tip == TipPolja.CRNO) {
-							belaPolja.add(new Point(i, j));
-						}
+					else if(plosca[i][j].tip == TipPolja.BELO) {
+						belaPolja.add(new Point(i, j));
 					}
 				}
 			}
@@ -104,8 +94,7 @@ public class Ocena {
 				vrednostBELI += vrednostPozicije(true, p, igra);
 				vrednostBELI += sosednjiPloscki(true, p, plosca);
 			}
-			//System.out.println("ocena je "+(jaz==Igralec.BEL ? vrednostBELI : vrednostCRNI));
-			return (jaz==Igralec.BEL ? (vrednostBELI) : (vrednostCRNI));
+			return (jaz==Igralec.BEL ? (vrednostBELI-vrednostCRNI/4) : (vrednostCRNI-vrednostBELI/4));
 			
 		}
 		assert false;

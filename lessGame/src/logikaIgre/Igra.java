@@ -5,6 +5,7 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.LinkedList;
+import java.util.Random;
 
 
 
@@ -13,6 +14,7 @@ public class Igra {
 	public static final int N = 6; //<- delava samo za dva igralca oz. vs. racunalnik.
 	
 	public Polje[][] plosca;
+	public Igra undo;
 	public Igralec naPotezi;
 	public int krediti;
 	private static LinkedList<Point> zacetna_crna = new LinkedList<Point>();
@@ -98,7 +100,6 @@ public class Igra {
 	}
 	
 	public Igra(Igra igra) {
-
 		this.plosca = new Polje[N][N];
 		for (int i = 0; i<N; i++) {
 			for (int j = 0; j<N; j++) {
@@ -113,10 +114,7 @@ public class Igra {
 		this.naPotezi = igra.naPotezi;
 		this.krediti = igra.krediti;
 		posodobi_legalne_poteze();
-		
-		
-		
-		
+
 	}
 	
 	// vrne plosco, trenutno uporabljeno v IgralnoPolje
@@ -207,20 +205,30 @@ public class Igra {
 		FileReader fileOvire = new FileReader("ovire.txt");
 		BufferedReader buffOvire = new BufferedReader(fileOvire);
 		LinkedList<LinkedList<String>> ovire = new LinkedList<LinkedList<String>>();
+		Random rnd = new Random();
+		LinkedList<Integer> rndList = new LinkedList<Integer>();
 		for(int j=0; j<N; j++) {
 			ovire.add(new LinkedList<String>());
+			int number = rnd.nextInt(50);
+			while(rndList.contains(number)) {
+				number = rnd.nextInt(50);
+			}
+			rndList.add(number);
 		}
+		System.out.println(rndList);
 		String linija;
-		Integer j = 0;
-		
+		int j = 0;
+		int k = 0;
 		while((linija = buffOvire.readLine()) != null) {
-			String[] vrstica = linija.split("");
-				for(int i=0; i<N*2; i++) {
-					ovire.get(j).add(vrstica[i]);
-				}
-			j++;
+			if(rndList.contains(k)) {
+				String[] vrstica = linija.split("");
+					for(int i=0; i<N*2; i++) {
+						ovire.get(j).add(vrstica[i]);
+					}
+				j++;
+			}
+			k++;
 		}
-		
 		fileOvire.close();
 		return ovire;
 	}
