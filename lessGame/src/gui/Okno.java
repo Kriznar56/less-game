@@ -29,8 +29,13 @@ public class Okno extends JFrame implements ActionListener{
 	private JLabel status;
 	private Strateg strategBELI;
 	private Strateg strategCRNI; // ce se spomnes boljse ime za strateg povej.
-	private JMenuItem nova_igra;
+	private JMenuItem igraClovekRacunalnik;
+	private JMenuItem igraRacunalnikClovek;
+	private JMenuItem igraClovekClovek;
+	private JMenuItem igraRacunalnikRacunalnik;
 	boolean oznacenoPolje = false;
+	private JMenuItem razveljavi;
+
 	
 	// nekje bova morala upeljati nekaksno 'Point aktivno_polje = null, k' saj sta 2 klika potebna za definicijo poteze.
 	// tam ko repaintas pogledas ce je koordinata polja aktivno in ce je aktivno ga obrobis z neko barvo, ali jo spremenis.
@@ -47,9 +52,29 @@ public class Okno extends JFrame implements ActionListener{
 		this.setJMenuBar(menu_bar);
 		JMenu igra_menu = new JMenu("Igra");
 		menu_bar.add(igra_menu);
-		nova_igra = new JMenuItem("Nova igra");
-		igra_menu.add(nova_igra);
-		nova_igra.addActionListener(this);
+		JMenu uredi = new JMenu("Uredi");
+		menu_bar.add(uredi);
+		
+		
+		igraClovekRacunalnik = new JMenuItem("Človek – Računalnik");
+		igra_menu.add(igraClovekRacunalnik);
+		igraClovekRacunalnik.addActionListener(this);
+		
+		igraRacunalnikClovek = new JMenuItem("Računalnik – Človek");
+		igra_menu.add(igraRacunalnikClovek);
+		igraRacunalnikClovek.addActionListener(this);
+
+		igraRacunalnikRacunalnik = new JMenuItem("Računalnik – Računalnik");
+		igra_menu.add(igraRacunalnikRacunalnik);
+		igraRacunalnikRacunalnik.addActionListener(this);
+
+		igraClovekClovek = new JMenuItem("Človek – Človek");
+		igra_menu.add(igraClovekClovek);
+		igraClovekClovek.addActionListener(this);
+		
+		razveljavi = new JMenuItem("Razveljavi");
+		uredi.add(razveljavi);
+		razveljavi.addActionListener(this);
 	
 		// igralno polje
 		polje = new IgralnoPolje(this);
@@ -73,7 +98,7 @@ public class Okno extends JFrame implements ActionListener{
 		getContentPane().add(status, status_layout);
 		
 		// zacnemo novo igro
-		nova_igra();
+		nova_igra(new Clovek(this, Igralec.BEL), new Racunalnik(this, Igralec.CRN) );
 	}
 	
 	public Polje[][] getPlosca() {
@@ -83,13 +108,13 @@ public class Okno extends JFrame implements ActionListener{
 	
 	
 
-	public void nova_igra() throws IOException {
+	public void nova_igra(Strateg noviStrategBELI, Strateg noviStrategCRNI) throws IOException {
 		if(strategBELI != null) {strategBELI.prekini();}
 		if(strategCRNI != null) {strategCRNI.prekini();}
 		if(IgralnoPolje.oznaci) {IgralnoPolje.oznaci=false;}
 		this.igra = new Igra(); //IO exception zaradi ovir
-		strategBELI = new Clovek(this, Igralec.BEL);
-		strategCRNI = new Racunalnik(this, Igralec.CRN);
+		strategBELI = noviStrategBELI;
+		strategCRNI = noviStrategCRNI;
 		
 		switch (igra.stanje()) {
 		case NA_POTEZI_BEL: strategBELI.na_potezi(); break;
@@ -115,13 +140,40 @@ public class Okno extends JFrame implements ActionListener{
 	
 	public void actionPerformed(ActionEvent e) {
 		// morava dodati se ostale opcije v menuju
-		if (e.getSource() == nova_igra) {
+		if (e.getSource() == igraClovekRacunalnik) {
 			try {
-				nova_igra(); //zaradi IO exceptiona pri ovirah
+				nova_igra(new Clovek(this, Igralec.BEL),
+						  new Racunalnik(this, Igralec.CRN));
 			} catch (IOException e1) {
-				// TODO Auto-generated catch block
 				e1.printStackTrace();
 			}
+		}
+		else if (e.getSource() == igraRacunalnikClovek) {
+			try {
+				nova_igra(new Racunalnik(this, Igralec.BEL),
+						  new Clovek(this, Igralec.CRN));
+			} catch (IOException e1) {
+				e1.printStackTrace();
+			}
+		}
+		else if (e.getSource() == igraRacunalnikRacunalnik) {
+			try {
+				nova_igra(new Racunalnik(this, Igralec.BEL),
+						  new Racunalnik(this, Igralec.CRN));
+			} catch (IOException e1) {
+				e1.printStackTrace();
+			}
+		}
+		else if (e.getSource() == igraClovekClovek) {
+			try {
+				nova_igra(new Clovek(this, Igralec.BEL),
+				          new Clovek(this, Igralec.CRN));
+			} catch (IOException e1) {
+				e1.printStackTrace();
+			}
+		}
+		if(e.getSource() == razveljavi){
+			//TUKI pride tvoja koda
 		}
 	}
 	
