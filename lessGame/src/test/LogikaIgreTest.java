@@ -19,7 +19,14 @@ public class LogikaIgreTest extends TestCase{
 	
 		
 		Igra igra = new Igra();
-		//Ocena.cenaDoCilja(4, 4, igra, true);
+//		int [][] test = Ocena.cenaDoCilja(4, 2, igra, false);
+//		for(int j = 0; j<6; j++) {
+//			for(int i = 0; i<6; i++){
+//				System.out.print(test[i][j]+" ");
+//			}
+//			System.out.println();
+//		}
+//		Ocena.cenaDoCilja(4, 4, igra, true);
 		//System.out.print(igra.cenaPoteze(0, 4, 5, 3));
 		//Na zacetku na potezi beli
 		//assertEquals(Stanje.NA_POTEZI_BEL, igra.stanje());
