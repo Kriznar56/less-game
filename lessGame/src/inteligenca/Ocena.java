@@ -62,7 +62,7 @@ public class Ocena {
 		return vrednost;
 	}
 	
-	public int cenaDoCilja(int x1, int y1, Igra igra, boolean Bela) {
+	public static int cenaDoCilja(int x1, int y1, Igra igra, boolean Bela) {
 		int[][] cene = new int[6][6]; // naredimo matriko 6x6 polno ničel
 		if(Bela) {
 			for(int i = x1; i<=5; i++){
@@ -81,6 +81,7 @@ public class Ocena {
 					}
 				}	
 			}
+			System.out.print(cene);
 			return cene[5][5]; //vrni najnižjo ceno premika do ciljnega kota
 		}
 		else {//ce nismo beli smo crni in gledamo ceno do spodnjega levega kota
@@ -100,12 +101,14 @@ public class Ocena {
 					}
 				}
 			}
+			System.out.print(cene);
 			return cene[0][0];
+			
 		}
 		
 	}
 	
-	public int oceniPozicijo(Igralec jaz, Igra igra) {
+	public static int oceniPozicijo(Igralec jaz, Igra igra) {
 		switch (igra.stanje()) {
 		case ZMAGAL_BEL:
 			return (jaz == Igralec.BEL ? ZMAGA : ZGUBA);
