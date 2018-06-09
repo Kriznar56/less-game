@@ -62,7 +62,50 @@ public class Ocena {
 		return vrednost;
 	}
 	
-	public static int oceniPozicijo(Igralec jaz, Igra igra) {
+	public int cenaDoCilja(int x1, int y1, Igra igra, boolean Bela) {
+		int[][] cene = new int[6][6]; // naredimo matriko 6x6 polno ničel
+		if(Bela) {
+			for(int i = x1; i<=5; i++){
+				for(int j = y1; j>=0; j--) {
+					if(i== x1 && j == y1) {
+						continue;
+					}
+					else{
+						int dol = cene[i][j+1] + 1; // koliko bi stal premik s polja pod poljem
+						if(igra.plosca[i][j].ovira_spodaj) {dol++;} //ima polje oviro spodaj?
+						if(igra.plosca[i][j+1].ovira_zgoraj) {dol++;} //ima polje spodaj oviro zgoraj?
+						int levo = cene[i-1][j] + 1; //podobno za levo
+						if(igra.plosca[i][j].ovira_levo) {levo++;}
+						if(igra.plosca[i-1][j].ovira_desno) {levo++;} 
+						cene[i][j] = Math.min(dol, levo); //vrni najnižjo ceno
+					}
+				}	
+			}
+			return cene[5][5]; //vrni najnižjo ceno premika do ciljnega kota
+		}
+		else {//ce nismo beli smo crni in gledamo ceno do spodnjega levega kota
+			for(int i = x1; i>=0; i--) {
+				for(int j = y1; j<=5; j++) {
+					if(i== x1 && j == y1) {
+						continue;
+					}
+					else {
+					int gor = cene[i][j-1] + 1;
+					if(igra.plosca[i][j].ovira_zgoraj) {gor++;}
+					if(igra.plosca[i][j-1].ovira_spodaj) {gor++;}
+					int desno = cene[i+1][j] +1;
+					if(igra.plosca[i][j].ovira_desno) {desno++;}
+					if(igra.plosca[i+1][j].ovira_levo) {desno++;}
+					cene[i][j] = Math.min(gor, desno);
+					}
+				}
+			}
+			return cene[0][0];
+		}
+		
+	}
+	
+	public int oceniPozicijo(Igralec jaz, Igra igra) {
 		switch (igra.stanje()) {
 		case ZMAGAL_BEL:
 			return (jaz == Igralec.BEL ? ZMAGA : ZGUBA);
@@ -87,11 +130,13 @@ public class Ocena {
 			}
 			//Najprej bomo ocenili samo tako da bomo pogledali koliko ima vsak ploscek x in y razdaljo do zgornjega ali spodnjega kota
 			for(Point p: crnaPolja) {
-				vrednostCRNI += vrednostPozicije(false, p, igra);
+				vrednostCRNI -= cenaDoCilja(p.x, p.y, igra, false);
+				//vrednostCRNI += vrednostPozicije(false, p, igra);
 				vrednostCRNI += sosednjiPloscki(false, p, plosca);
 			}
 			for(Point p: belaPolja) {
-				vrednostBELI += vrednostPozicije(true, p, igra);
+				vrednostCRNI -= cenaDoCilja(p.x, p.y, igra, true);
+				//vrednostBELI += vrednostPozicije(true, p, igra);
 				vrednostBELI += sosednjiPloscki(true, p, plosca);
 			}
 			return (jaz==Igralec.BEL ? (vrednostBELI-vrednostCRNI/4) : (vrednostCRNI-vrednostBELI/4));
