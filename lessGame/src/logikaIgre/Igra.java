@@ -215,7 +215,6 @@ public class Igra {
 			}
 			rndList.add(number);
 		}
-		System.out.println(rndList);
 		String linija;
 		int j = 0;
 		int k = 0;

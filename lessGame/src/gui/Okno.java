@@ -35,6 +35,7 @@ public class Okno extends JFrame implements ActionListener{
 	private JMenuItem igraRacunalnikRacunalnik;
 	boolean oznacenoPolje = false;
 	private JMenuItem razveljavi;
+	private LinkedList<Igra> stanja = new LinkedList<Igra>();
 
 	
 	// nekje bova morala upeljati nekaksno 'Point aktivno_polje = null, k' saj sta 2 klika potebna za definicijo poteze.
@@ -127,6 +128,7 @@ public class Okno extends JFrame implements ActionListener{
 	}
 	
 	public void odigraj(Poteza p) {
+		stanja.add(copyIgra());
 		igra.odigraj(p);
 		osveziGUI();
 		switch (igra.stanje()) {
@@ -134,7 +136,6 @@ public class Okno extends JFrame implements ActionListener{
 		case NA_POTEZI_CRN: strategCRNI.na_potezi(); break;
 		case ZMAGAL_BEL: break;
 		case ZMAGAL_CRN: break;
-	
 		}
 	}
 	
@@ -173,7 +174,7 @@ public class Okno extends JFrame implements ActionListener{
 			}
 		}
 		if(e.getSource() == razveljavi){
-			//TUKI pride tvoja koda
+			razveljavi();
 		}
 	}
 	
@@ -248,6 +249,23 @@ public class Okno extends JFrame implements ActionListener{
 	
 	public Igra copyIgra() {
 		return new Igra(igra);
+	}
+	
+	private void razveljavi() {
+		if(!stanja.isEmpty()) {
+			strategBELI.prekini();
+			strategCRNI.prekini();
+			if(IgralnoPolje.oznaci) {IgralnoPolje.oznaci=false;}
+			igra = stanja.getLast();
+			switch (igra.stanje()) {
+			case NA_POTEZI_BEL: strategBELI.na_potezi(); break;
+			case NA_POTEZI_CRN: strategCRNI.na_potezi(); break;
+			default: break;
+			}
+			stanja.remove(stanja.getLast());
+			osveziGUI();
+			repaint();
+		}
 	}
 
 }
