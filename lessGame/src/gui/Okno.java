@@ -179,7 +179,7 @@ public class Okno extends JFrame implements ActionListener{
 	}
 	
 	private void osveziGUI() {
-		//isto kot v kodi tictactoe, samo da sem odstranil case NEODLOCENO
+		//isto kot v kodi tictactoe, samo da sem odstranil case NEODLOCENO.
 		if (igra == null) {
 			status.setText("Igra ni v teku.");
 		}
