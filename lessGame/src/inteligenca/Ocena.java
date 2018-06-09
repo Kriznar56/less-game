@@ -62,6 +62,49 @@ public class Ocena {
 		return vrednost;
 	}
 	
+	public int cenaDoCilja(int x1, int y1, Igra igra, boolean Bela) {
+		int[][] cene = new int[6][6]; // naredimo matriko 6x6 polno ničel
+		if(Bela) {
+			for(int i = x1; i<=5; i++){
+				for(int j = y1; j>=0; j--) {
+					if(i== x1 && j == y1) {
+						continue;
+					}
+					else{
+						int dol = cene[i][j+1] + 1; // koliko bi stal premik s polja pod poljem
+						if(igra.plosca[i][j].ovira_spodaj) {dol++;} //ima polje oviro spodaj?
+						if(igra.plosca[i][j+1].ovira_zgoraj) {dol++;} //ima polje spodaj oviro zgoraj?
+						int levo = cene[i-1][j] + 1; //podobno za levo
+						if(igra.plosca[i][j].ovira_levo) {levo++;}
+						if(igra.plosca[i-1][j].ovira_desno) {levo++;} 
+						cene[i][j] = Math.min(dol, levo); //vrni najnižjo ceno
+					}
+				}	
+			}
+			return cene[5][5]; //vrni najnižjo ceno premika do ciljnega kota
+		}
+		else {//ce nismo beli smo crni in gledamo ceno do spodnjega levega kota
+			for(int i = x1; i>=0; i--) {
+				for(int j = y1; j<=5; j++) {
+					if(i== x1 && j == y1) {
+						continue;
+					}
+					else {
+					int gor = cene[i][j-1] + 1;
+					if(igra.plosca[i][j].ovira_zgoraj) {gor++;}
+					if(igra.plosca[i][j-1].ovira_spodaj) {gor++;}
+					int desno = cene[i+1][j] +1;
+					if(igra.plosca[i][j].ovira_desno) {desno++;}
+					if(igra.plosca[i+1][j].ovira_levo) {desno++;}
+					cene[i][j] = Math.min(gor, desno);
+					}
+				}
+			}
+			return cene[0][0];
+		}
+		
+	}
+	
 	public static int oceniPozicijo(Igralec jaz, Igra igra) {
 		switch (igra.stanje()) {
 		case ZMAGAL_BEL:
