@@ -27,6 +27,8 @@ public class Okno extends JFrame implements ActionListener{
 	IgralnoPolje polje;
 	private Igra igra;
 	private JLabel status;
+	private JLabel krediti;
+	private JLabel stopnja_tez;
 	private Strateg strategBELI;
 	private Strateg strategCRNI; // ce se spomnes boljse ime za strateg povej.
 	private JMenuItem igraClovekRacunalnik;
@@ -59,9 +61,9 @@ public class Okno extends JFrame implements ActionListener{
 		this.setJMenuBar(menu_bar);
 		JMenu igra_menu = new JMenu("Igra");
 		menu_bar.add(igra_menu);
-		JMenu uredi = new JMenu("Uredi");
+		JMenu uredi = new JMenu("Uredi potezo");
 		menu_bar.add(uredi);
-		JMenu stopnja = new JMenu("Stopnja");
+		JMenu stopnja = new JMenu("Stopnja težavnosti");
 		menu_bar.add(stopnja);
 		
 		
@@ -119,7 +121,8 @@ public class Okno extends JFrame implements ActionListener{
 		polje_layout.weighty = 1.0;
 		getContentPane().add(polje, polje_layout);
 		
-		// statusna vrstica za sporocila
+		// statusna vrstica za sporocila, preostale kredite in stopnjo računalnika
+		//status igre
 		status = new JLabel();
 		status.setFont(new Font("SansSerif",
 							    Font.PLAIN,
@@ -129,6 +132,29 @@ public class Okno extends JFrame implements ActionListener{
 		status_layout.gridy = 1;
 		status_layout.anchor = GridBagConstraints.CENTER;
 		getContentPane().add(status, status_layout);
+		
+		//krediti
+		krediti = new JLabel();
+		krediti.setFont(new Font("SansSerif",
+			    Font.PLAIN,
+			    20));
+		GridBagConstraints krediti_layout = new GridBagConstraints();
+		krediti_layout.gridx = 0;
+		krediti_layout.gridy = 1;
+		krediti_layout.anchor = GridBagConstraints.WEST;
+		getContentPane().add(krediti, krediti_layout);
+		
+		//stopnja težavnosti
+		stopnja_tez = new JLabel();
+		stopnja_tez.setFont(new Font("SansSerif",
+			    Font.PLAIN,
+			    20));
+		GridBagConstraints stopnja_tez_layout = new GridBagConstraints();
+		stopnja_tez_layout.gridx = 0;
+		stopnja_tez_layout.gridy = 1;
+		stopnja_tez_layout.anchor = GridBagConstraints.EAST;
+		getContentPane().add(stopnja_tez, stopnja_tez_layout);
+		
 		
 		// zacnemo novo igro
 		nova_igra(new Clovek(this, Igralec.BEL), new Racunalnik(this, Igralec.CRN) );
@@ -209,20 +235,20 @@ public class Okno extends JFrame implements ActionListener{
 		else if(e.getSource() == razveljavi){razveljavi(); }
 		
 		else if(strategBELI.getClass().getName() == "gui.Racunalnik") {
-			if(e.getSource() == stopnja1){strategBELI.tezavnost(1); }
-			else if(e.getSource() == stopnja2){strategBELI.tezavnost(2); }
-			else if(e.getSource() == stopnja3){strategBELI.tezavnost(3); }
-			else if(e.getSource() == stopnja4){strategBELI.tezavnost(4); }
-			else if(e.getSource() == stopnja5){strategBELI.tezavnost(5); }
-			else if(e.getSource() == stopnja6){strategBELI.tezavnost(6); }
+			if(e.getSource() == stopnja1){strategBELI.tezavnost(1); osveziGUI();}
+			else if(e.getSource() == stopnja2){strategBELI.tezavnost(2); osveziGUI();}
+			else if(e.getSource() == stopnja3){strategBELI.tezavnost(3); osveziGUI();}
+			else if(e.getSource() == stopnja4){strategBELI.tezavnost(4); osveziGUI();}
+			else if(e.getSource() == stopnja5){strategBELI.tezavnost(5); osveziGUI();}
+			else if(e.getSource() == stopnja6){strategBELI.tezavnost(6); osveziGUI();}
 		}
 		else if(strategCRNI.getClass().getName() == "gui.Racunalnik") {
-			if(e.getSource() == stopnja1){strategCRNI.tezavnost(1); }
-			else if(e.getSource() == stopnja2){strategCRNI.tezavnost(2); }
-			else if(e.getSource() == stopnja3){strategCRNI.tezavnost(3); }
-			else if(e.getSource() == stopnja4){strategCRNI.tezavnost(4); }
-			else if(e.getSource() == stopnja5){strategCRNI.tezavnost(5); }
-			else if(e.getSource() == stopnja6){strategCRNI.tezavnost(6); }
+			if(e.getSource() == stopnja1){strategCRNI.tezavnost(1); osveziGUI();}
+			else if(e.getSource() == stopnja2){strategCRNI.tezavnost(2); osveziGUI();}
+			else if(e.getSource() == stopnja3){strategCRNI.tezavnost(3); osveziGUI();}
+			else if(e.getSource() == stopnja4){strategCRNI.tezavnost(4); osveziGUI();}
+			else if(e.getSource() == stopnja5){strategCRNI.tezavnost(5); osveziGUI();}
+			else if(e.getSource() == stopnja6){strategCRNI.tezavnost(6); osveziGUI();}
 		}
 		
 	}
@@ -233,6 +259,14 @@ public class Okno extends JFrame implements ActionListener{
 			status.setText("Igra ni v teku.");
 		}
 		else {
+			krediti.setText("Preostali krediti: "+ String.valueOf(igra.krediti));
+			if(strategCRNI.getClass().getName() != "gui.Racunalnik" && strategBELI.getClass().getName() != "gui.Racunalnik") {
+				stopnja_tez.setText("");
+			}
+			else {
+				stopnja_tez.setText(String.valueOf("Stopnja težavnosti: "+Racunalnik.stopnja));
+				
+			}
 			switch(igra.stanje()) {
 			case NA_POTEZI_BEL: status.setText("Na potezi je BEL"); break;
 			case NA_POTEZI_CRN: status.setText("Na potezi je CRN"); break;

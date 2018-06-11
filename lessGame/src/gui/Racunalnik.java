@@ -13,7 +13,7 @@ public class Racunalnik extends Strateg {
 	private Okno master;
 	private Igralec jaz;
 	private SwingWorker<Poteza, Object> mislec;
-	private int stopnja = 3;
+	protected static int stopnja = 3;
 	public Racunalnik(Okno master, Igralec jaz) {
 		this.master = master;
 		this.jaz = jaz;
