@@ -18,45 +18,34 @@ public class Ocena {
  * upoštevaj nasprotnikovo stanje in ga dodaj kot 'negativne točke'
  * trenutno maksimizira ceno do svojega doma, namest da bi minimiziral ceno do cilja <- popravi
 */
-	private static int vrednostPozicije(boolean b, Point p, Igra igra) {
-		//racunamo razdaljo ce smo beli do zgornjega desnega kota in ce smo crni do spodnjega levega
-		if(b) {//BELI
-			return (5+(int)p.getX()-(int)p.getY());
-			//return igra.cenaPoteze((int)p.getX(), (int)p.getY(), 0, 5); //test s trenutno ceno poteze <- neoptimalno
-		}
-		else {//CRNI
-			return (5-(int)p.getX()+(int)p.getY());
-			//return igra.cenaPoteze((int)p.getX(), (int)p.getY(), 5, 0); //test s trenutno ceno poteze <- neoptimalno
-		}
-	}
-	//Funkcija ki doda konstanto 0.1 za vsak sosednji ploscek
+	//Funkcija ki doda konstanto 0.25 za vsak sosednji ploscek
 	private static int sosednjiPloscki( boolean igralec, Point p, Polje[][] plosca) {
 		int vrednost = 0;
 		if(igralec) {
 			if((int)p.getX()==5 && (int)p.getY()==0) {}
 			else if((int)p.getX()==5) {
-				if(plosca[(int)p.getX()][(int)p.getY()-1].tip==TipPolja.CRNO) { vrednost+=1/2;}
+				if(plosca[(int)p.getX()][(int)p.getY()-1].tip==TipPolja.CRNO) { vrednost+=1/4;}
 			}
 			else if((int)p.getY()==0) {
-				if(plosca[(int)p.getX()+1][(int)p.getY()].tip==TipPolja.CRNO) { vrednost+=1/2;}
+				if(plosca[(int)p.getX()+1][(int)p.getY()].tip==TipPolja.CRNO) { vrednost+=1/4;}
 			}
 			else {
-				if(plosca[(int)p.getX()+1][(int)p.getY()].tip==TipPolja.CRNO) { vrednost+=1/2;}
-				if(plosca[(int)p.getX()][(int)p.getY()-1].tip==TipPolja.CRNO) { vrednost+=1/2;}
+				if(plosca[(int)p.getX()+1][(int)p.getY()].tip==TipPolja.CRNO) { vrednost+=1/4;}
+				if(plosca[(int)p.getX()][(int)p.getY()-1].tip==TipPolja.CRNO) { vrednost+=1/4;}
 			}
 	
 		}
 		else {
 			if((int)p.getX()==0 && (int)p.getY()==5) {}
 			else if((int)p.getX()==0) {
-				if(plosca[(int)p.getX()][(int)p.getY()+1].tip==TipPolja.CRNO) { vrednost+=1/2;}
+				if(plosca[(int)p.getX()][(int)p.getY()+1].tip==TipPolja.CRNO) { vrednost+=1/4;}
 			}
 			else if((int)p.getY()==5) {
-				if(plosca[(int)p.getX()-1][(int)p.getY()].tip==TipPolja.CRNO) { vrednost+=1/2;}
+				if(plosca[(int)p.getX()-1][(int)p.getY()].tip==TipPolja.CRNO) { vrednost+=1/4;}
 			}
 			else {
-				if(plosca[(int)p.getX()-1][(int)p.getY()].tip==TipPolja.CRNO) { vrednost+=1/2;}
-				if(plosca[(int)p.getX()][(int)p.getY()+1].tip==TipPolja.CRNO) { vrednost+=1/2;}
+				if(plosca[(int)p.getX()-1][(int)p.getY()].tip==TipPolja.CRNO) { vrednost+=1/4;}
+				if(plosca[(int)p.getX()][(int)p.getY()+1].tip==TipPolja.CRNO) { vrednost+=1/4;}
 			}
 		}
 		return vrednost;
