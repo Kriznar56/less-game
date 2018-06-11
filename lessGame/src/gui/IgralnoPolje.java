@@ -22,7 +22,7 @@ public class IgralnoPolje extends JPanel implements MouseListener {
 	//mogoce bi se lahko odlocila za en jezik
 	private Okno master;
 	//line width nekoliko manjsi kot v tictactoe primeru
-	private final static double LINE_WIDTH = 0.025;
+	private final static double LINE_WIDTH = 0.02;
 	// cez padding bodo prisle ovire, kjer bodo pac generirane.
 	private final static double PADDING = 0.1;
 	static int oznaceno_i; //mogoce bols point?
