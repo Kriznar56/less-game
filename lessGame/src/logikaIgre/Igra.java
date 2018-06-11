@@ -45,8 +45,6 @@ public class Igra {
 	/**
 	 * Generira zacetno stanje igre, na potezi bel igralec in ima 3 preostale poteze.
 	 * Beli zacne desno spodaj, crni levo zgoraj.
-	 * Kasneje bomo dodali se stene/ovire, kot so v polni igri.
-	 * ko bodo dodane ovire je treba tudi nakljucno generirati plosco.
 	 * Prav tako vsakemu polju dodelimo ovire, glej dokumentacijo funckije "dobiOvire()".									
 	 * @throws IOException 
 	 */
@@ -161,25 +159,7 @@ public class Igra {
 	 */
 	
 	public boolean odigraj(Poteza p) {
-//		undo.plosca = new Polje[N][N];
-//		for (int i = 0; i<N; i++) {
-//			for (int j = 0; j<N; j++) {
-//				undo.plosca[i][j] = new Polje();
-//				undo.plosca[i][j].tip = this.plosca[i][j].tip;
-//				undo.plosca[i][j].ovira_desno = this.plosca[i][j].ovira_desno;
-//				undo.plosca[i][j].ovira_levo = this.plosca[i][j].ovira_levo;
-//				undo.plosca[i][j].ovira_spodaj = this.plosca[i][j].ovira_spodaj;
-//				undo.plosca[i][j].ovira_zgoraj = this.plosca[i][j].ovira_zgoraj;
-//			}
-//		}
-//		undo.naPotezi = this.naPotezi;
-//		undo.krediti = this.krediti;
-//		undo.seznam_legalnih_potez = this.seznam_legalnih_potez;
-		// poglej ce je na seznamu leganih potez.
 		if(seznam_legalnih_potez.contains(p)) {
-		
-		
-			//
 			// izracunaj ceno poteze in odstej to ceno od ''kredita''.
 			krediti -= cenaPoteze(p.getX_start(), p.getY_start(), p.getX_final(), p.getY_final());
 			// spremeni plosco
@@ -217,8 +197,6 @@ public class Igra {
 	 */
 	
 	public LinkedList<LinkedList<String>> dobiOvire() throws IOException{
-		// dodaj da nakljucno izbere 6 vrstic izmed vseh v txt datoteki
-		// da program deluje, si je treba tekstovno datoteki namestiki v mapo projekta/workspaca(kjer je tudi mapa 'src')
 		FileReader fileOvire = new FileReader("ovire.txt");
 		BufferedReader buffOvire = new BufferedReader(fileOvire);
 		LinkedList<LinkedList<String>> ovire = new LinkedList<LinkedList<String>>();
@@ -289,7 +267,6 @@ public class Igra {
 			}
 		}
 	
-	//Se zavedava, da sta funkciji jeLegalna in cenaPoteze med bolj gr�imi, namerava popraviti
 	
 	/**
 	 * Preveri, ce je poteza legalna.

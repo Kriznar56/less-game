@@ -30,7 +30,7 @@ public class Okno extends JFrame implements ActionListener{
 	private JLabel krediti;
 	private JLabel stopnja_tez;
 	private Strateg strategBELI;
-	private Strateg strategCRNI; // ce se spomnes boljse ime za strateg povej.
+	private Strateg strategCRNI;
 	private JMenuItem igraClovekRacunalnik;
 	private JMenuItem igraRacunalnikClovek;
 	private JMenuItem igraClovekClovek;
@@ -45,10 +45,6 @@ public class Okno extends JFrame implements ActionListener{
 	private JMenuItem razveljavi;
 	private LinkedList<Igra> stanja = new LinkedList<Igra>();
 
-	
-	// nekje bova morala upeljati nekaksno 'Point aktivno_polje = null, k' saj sta 2 klika potebna za definicijo poteze.
-	// tam ko repaintas pogledas ce je koordinata polja aktivno in ce je aktivno ga obrobis z neko barvo, ali jo spremenis.
-	// zdi se mi da je bolje, da je point ker je plosca[i][j] Polje, v katerem ne shranjujeva njegove trenutne koordinate.
 	
 
 	public Okno() throws HeadlessException, IOException {

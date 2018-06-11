@@ -18,10 +18,6 @@ public class Minimax extends SwingWorker<Poteza, Object> {
 	private int globina;
 	//Crni ali Beli igralec
 	private Igralec jaz;
-	//private LinkedList<Poteza> zeOdigrane = new LinkedList<Poteza>();
-//	private LinkedList<Poteza> najboljseOdigrane = new LinkedList<Poteza>();
-	//private int ocenaNajboljse = 36;
-	//private boolean zamenjalo = false;
 	
 	public Minimax(Okno master, int globina, Igralec jaz) {
 		this.master = master;

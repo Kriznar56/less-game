@@ -16,14 +16,10 @@ public class Clovek extends Strateg {
 	}
 	@Override
 	public void na_potezi() {
-		// TODO Auto-generated method stub
-
 	}
 
 	@Override
 	public void prekini() {
-		// TODO Auto-generated method stub
-
 	}
 	
 	@Override

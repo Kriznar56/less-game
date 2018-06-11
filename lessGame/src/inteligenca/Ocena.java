@@ -13,11 +13,7 @@ public class Ocena {
 	public static final int ZGUBA = -ZMAGA;
 	private static LinkedList<Point> crnaPolja = new LinkedList<Point>();
 	private static LinkedList<Point> belaPolja = new LinkedList<Point>();
-/*TO DO
- * upoštevaj sosednje ploščke, več ko jih imaš v smeri cilja bolje je
- * upoštevaj nasprotnikovo stanje in ga dodaj kot 'negativne točke'
- * trenutno maksimizira ceno do svojega doma, namest da bi minimiziral ceno do cilja <- popravi
-*/
+
 	//Funkcija ki doda konstanto 0.25 za vsak sosednji ploscek
 	private static int sosednjiPloscki( boolean igralec, Point p, Polje[][] plosca) {
 		int vrednost = 0;
@@ -51,6 +47,7 @@ public class Ocena {
 		return vrednost;
 	}
 	
+	//Dinamicno zracunana najboljsa pot do cilja
 	public static int cenaDoCilja(int x1, int y1, Igra igra, boolean Bela) {
 		int[][] cene = new int[6][6];// naredimo matriko 6x6 polno ničel
 		if(Bela) {
@@ -77,16 +74,11 @@ public class Ocena {
 					}
 				}	
 			}
-			//System.out.println(cene[5][5]);
-			//return cene
 			return cene[5][0]; //vrni najnižjo ceno premika do ciljnega kota
-
 		}
 		else {//ce nismo beli smo crni in gledamo ceno do spodnjega levega kota
 			for(int i = x1; i>=0; i--) {
-				
 				for(int j = y1; j<=5; j++) {
-					
 					if(i== x1 && j == y1) {
 					}
 					else {
@@ -97,29 +89,20 @@ public class Ocena {
 					if(igra.plosca[i][j].ovira_zgoraj) {gor++;}
 					if(igra.plosca[i][j-1].ovira_spodaj) {gor++;}
 					}
-					else {gor = (1 << 20);}
-				
+					else {gor = (1 << 20);}	
 					if(i!=5 && (i+1 <=x1)) {
-					desno = cene[i+1][j] +1;
-					
+					desno = cene[i+1][j] +1;				
 					if(igra.plosca[i][j].ovira_desno) {desno++;}
 					if(igra.plosca[i+1][j].ovira_levo) {desno++;}
 					}
 					else {desno = (1 << 20);}
-				
-					
 					cene[i][j] = Math.min(gor, desno);
-					//if(gor == (1 << 20)) {System.out.println("cena"+cene[i][j]+"gor"+gor+"desno"+desno );
-					
-					
 					}
 				}
 			}
 			//return cene
 			return cene[0][5];
-			
 		}
-		
 	}
 	
 	

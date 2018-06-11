@@ -33,16 +33,6 @@ public class Poteza {
 	}
 	
 	
-/*	@Override pomoje ne rabva.
-	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + x_koncna;
-		result = prime * result + x_zacetna;
-		result = prime * result + y_koncna;
-		result = prime * result + y_zacetna;
-		return result;
-	}*/
 
 	@Override
 	public boolean equals(Object obj) {
