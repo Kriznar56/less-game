@@ -13,6 +13,7 @@ public class Racunalnik extends Strateg {
 	private Okno master;
 	private Igralec jaz;
 	private SwingWorker<Poteza, Object> mislec;
+	private int stopnja = 3;
 	public Racunalnik(Okno master, Igralec jaz) {
 		this.master = master;
 		this.jaz = jaz;
@@ -20,7 +21,7 @@ public class Racunalnik extends Strateg {
 	@Override
 	public void na_potezi() {
 		// Začnemo razmišljati
-		mislec = new Minimax(master, 5, jaz);
+		mislec = new Minimax(master, stopnja, jaz);
 		mislec.execute();
 	}
 
@@ -33,6 +34,11 @@ public class Racunalnik extends Strateg {
 
 	@Override
 	public void klik(int i, int j) {
+	}
+	
+	@Override
+	public void tezavnost(int k) {
+		stopnja = k;
 	}
 
 }

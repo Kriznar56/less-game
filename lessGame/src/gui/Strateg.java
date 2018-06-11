@@ -7,6 +7,8 @@ public abstract class Strateg {
 	public abstract void prekini();
 	
 	public abstract void klik(int i, int j);
+
+	public abstract void tezavnost(int k);
 	
 
 }

@@ -25,6 +25,11 @@ public class Clovek extends Strateg {
 		// TODO Auto-generated method stub
 
 	}
+	
+	@Override
+	public void tezavnost(int k) {
+
+	}
 
 	@Override
 	public void klik(int i, int j) {
@@ -43,5 +48,6 @@ public class Clovek extends Strateg {
 			}
 		}
 	}
+
 
 }

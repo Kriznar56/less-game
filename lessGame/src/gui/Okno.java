@@ -33,6 +33,12 @@ public class Okno extends JFrame implements ActionListener{
 	private JMenuItem igraRacunalnikClovek;
 	private JMenuItem igraClovekClovek;
 	private JMenuItem igraRacunalnikRacunalnik;
+	private JMenuItem stopnja1;
+	private JMenuItem stopnja2;
+	private JMenuItem stopnja3;
+	private JMenuItem stopnja4;
+	private JMenuItem stopnja5;
+	private JMenuItem stopnja6;
 	boolean oznacenoPolje = false;
 	private JMenuItem razveljavi;
 	private LinkedList<Igra> stanja = new LinkedList<Igra>();
@@ -55,6 +61,8 @@ public class Okno extends JFrame implements ActionListener{
 		menu_bar.add(igra_menu);
 		JMenu uredi = new JMenu("Uredi");
 		menu_bar.add(uredi);
+		JMenu stopnja = new JMenu("Stopnja");
+		menu_bar.add(stopnja);
 		
 		
 		igraClovekRacunalnik = new JMenuItem("Človek – Računalnik");
@@ -76,7 +84,31 @@ public class Okno extends JFrame implements ActionListener{
 		razveljavi = new JMenuItem("Razveljavi");
 		uredi.add(razveljavi);
 		razveljavi.addActionListener(this);
+		
+		stopnja1 = new JMenuItem("1");
+		stopnja.add(stopnja1);
+		stopnja1.addActionListener(this);
+		
+		stopnja2 = new JMenuItem("2");
+		stopnja.add(stopnja2);
+		stopnja2.addActionListener(this);
+		
+		stopnja3 = new JMenuItem("3");
+		stopnja.add(stopnja3);
+		stopnja3.addActionListener(this);
+		
+		stopnja4 = new JMenuItem("4");
+		stopnja.add(stopnja4);
+		stopnja4.addActionListener(this);
+		
+		stopnja5 = new JMenuItem("5");
+		stopnja.add(stopnja5);
+		stopnja5.addActionListener(this);
 	
+		stopnja6 = new JMenuItem("6");
+		stopnja.add(stopnja6);
+		stopnja6.addActionListener(this);
+		
 		// igralno polje
 		polje = new IgralnoPolje(this);
 		GridBagConstraints polje_layout = new GridBagConstraints();
@@ -116,7 +148,6 @@ public class Okno extends JFrame implements ActionListener{
 		this.igra = new Igra(); //IO exception zaradi ovir
 		strategBELI = noviStrategBELI;
 		strategCRNI = noviStrategCRNI;
-		
 		switch (igra.stanje()) {
 		case NA_POTEZI_BEL: strategBELI.na_potezi(); break;
 		case NA_POTEZI_CRN: strategCRNI.na_potezi(); break;
@@ -174,9 +205,26 @@ public class Okno extends JFrame implements ActionListener{
 				e1.printStackTrace();
 			}
 		}
-		if(e.getSource() == razveljavi){
-			razveljavi();
+		
+		else if(e.getSource() == razveljavi){razveljavi(); }
+		
+		else if(strategBELI.getClass().getName() == "gui.Racunalnik") {
+			if(e.getSource() == stopnja1){strategBELI.tezavnost(1); }
+			else if(e.getSource() == stopnja2){strategBELI.tezavnost(2); }
+			else if(e.getSource() == stopnja3){strategBELI.tezavnost(3); }
+			else if(e.getSource() == stopnja4){strategBELI.tezavnost(4); }
+			else if(e.getSource() == stopnja5){strategBELI.tezavnost(5); }
+			else if(e.getSource() == stopnja6){strategBELI.tezavnost(6); }
 		}
+		else if(strategCRNI.getClass().getName() == "gui.Racunalnik") {
+			if(e.getSource() == stopnja1){strategBELI.tezavnost(1); }
+			else if(e.getSource() == stopnja2){strategCRNI.tezavnost(2); }
+			else if(e.getSource() == stopnja3){strategCRNI.tezavnost(3); }
+			else if(e.getSource() == stopnja4){strategCRNI.tezavnost(4); }
+			else if(e.getSource() == stopnja5){strategCRNI.tezavnost(5); }
+			else if(e.getSource() == stopnja6){strategCRNI.tezavnost(6); }
+		}
+		
 	}
 	
 	private void osveziGUI() {
