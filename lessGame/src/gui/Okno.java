@@ -217,7 +217,7 @@ public class Okno extends JFrame implements ActionListener{
 			else if(e.getSource() == stopnja6){strategBELI.tezavnost(6); }
 		}
 		else if(strategCRNI.getClass().getName() == "gui.Racunalnik") {
-			if(e.getSource() == stopnja1){strategBELI.tezavnost(1); }
+			if(e.getSource() == stopnja1){strategCRNI.tezavnost(1); }
 			else if(e.getSource() == stopnja2){strategCRNI.tezavnost(2); }
 			else if(e.getSource() == stopnja3){strategCRNI.tezavnost(3); }
 			else if(e.getSource() == stopnja4){strategCRNI.tezavnost(4); }
