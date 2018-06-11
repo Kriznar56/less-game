@@ -21,7 +21,7 @@ public class Racunalnik extends Strateg {
 	@Override
 	public void na_potezi() {
 		// Začnemo razmišljati
-		System.out.println(stopnja);
+		
 		mislec = new Minimax(master, stopnja, jaz);
 		mislec.execute();
 	}
