@@ -74,6 +74,7 @@ public class Ocena {
 					}
 				}	
 			}
+		
 			return cene[5][0]; //vrni najnižjo ceno premika do ciljnega kota
 		}
 		else {//ce nismo beli smo crni in gledamo ceno do spodnjega levega kota
@@ -110,11 +111,13 @@ public class Ocena {
 	public static int oceniPozicijo(Igralec jaz, Igra igra) {
 		switch (igra.stanje()) {
 		case ZMAGAL_BEL:
-			return (jaz == Igralec.BEL ? ZMAGA : ZGUBA);
+			//System.out.println("Zmagal Bel");
+			return (jaz == Igralec.BEL ? ZMAGA : ZGUBA); 
 		case ZMAGAL_CRN:
+			//System.out.println("Zmagal Crn");
 			return (jaz == Igralec.CRN ? ZMAGA : ZGUBA);
 		case NA_POTEZI_BEL:
-		case NA_POTEZI_CRN:
+			//System.out.println("BELO");
 			Polje[][] plosca = igra.getPlosca();
 			crnaPolja.clear();
 			belaPolja.clear();
@@ -133,15 +136,40 @@ public class Ocena {
 			//Najprej bomo ocenili samo tako da bomo pogledali koliko ima vsak ploscek x in y razdaljo do zgornjega ali spodnjega kota
 			for(Point p: crnaPolja) {
 				vrednostCRNI -= cenaDoCilja(p.x, p.y, igra, false);
-				//vrednostCRNI += vrednostPozicije(false, p, igra);
 				vrednostCRNI += sosednjiPloscki(false, p, plosca);
 			}
 			for(Point p: belaPolja) {
 				vrednostBELI -= cenaDoCilja(p.x, p.y, igra, true);
-				//vrednostBELI += vrednostPozicije(true, p, igra);
 				vrednostBELI += sosednjiPloscki(true, p, plosca);
 			}
 			return (jaz==Igralec.BEL ? (vrednostBELI-vrednostCRNI/4) : (vrednostCRNI-vrednostBELI/4));
+		case NA_POTEZI_CRN:
+			//System.out.println("CRNO");
+			Polje[][] plosca1 = igra.getPlosca();
+			crnaPolja.clear();
+			belaPolja.clear();
+			int vrednostBELI1 = 0;
+			int vrednostCRNI1 = 0;
+			for(int i = 0; i<Igra.N; i++) {
+				for(int j = 0; j<Igra.N; j++) {
+					if(plosca1[i][j].tip==TipPolja.CRNO) {
+						crnaPolja.add(new Point(i, j));
+					}
+					else if(plosca1[i][j].tip == TipPolja.BELO) {
+						belaPolja.add(new Point(i, j));
+					}
+				}
+			}
+			//Najprej bomo ocenili samo tako da bomo pogledali koliko ima vsak ploscek x in y razdaljo do zgornjega ali spodnjega kota
+			for(Point p: crnaPolja) {
+				vrednostCRNI1 -= cenaDoCilja(p.x, p.y, igra, false);
+				vrednostCRNI1 += sosednjiPloscki(false, p, plosca1);
+			}
+			for(Point p: belaPolja) {
+				vrednostBELI1 -= cenaDoCilja(p.x, p.y, igra, true);
+				vrednostBELI1 += sosednjiPloscki(true, p, plosca1);
+			}
+			return (jaz==Igralec.BEL ? (vrednostBELI1-vrednostCRNI1/4) : (vrednostCRNI1-vrednostBELI1/4));
 			
 		}
 		assert false;

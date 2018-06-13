@@ -69,15 +69,21 @@ public class Minimax extends SwingWorker<Poteza, Object> {
 			kopija.odigraj(p);
 			if(kopija.naPotezi != naPotezi) {g++;}
 			int ocenaP = minimax(g, kopija).vrednost;
+			
 			if (najboljsa == null // še nimamo kandidata za najboljšo potezo
 					|| (naPotezi == jaz && ocenaP > ocenaNajboljse) // maksimiziramo
 					|| (naPotezi != jaz && ocenaP < ocenaNajboljse) // minimiziramo
 					) {
 					najboljsa = p;
 					ocenaNajboljse = ocenaP;
-				}
+			}
 		}
 		assert (najboljsa != null);
+		
+		//if(ocenaNajboljse > (10 << 19 )) {
+			System.out.println(ocenaNajboljse);
+			System.out.println(jaz);
+		//}
 		return new OcenjenaPoteza(najboljsa, ocenaNajboljse);
 	}
 

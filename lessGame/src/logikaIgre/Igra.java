@@ -4,6 +4,8 @@ import java.awt.Point;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.util.LinkedList;
 import java.util.Random;
 
@@ -199,6 +201,12 @@ public class Igra {
 	public LinkedList<LinkedList<String>> dobiOvire() throws IOException{
 		FileReader fileOvire = new FileReader("ovire.txt");
 		BufferedReader buffOvire = new BufferedReader(fileOvire);
+		
+//		InputStream is = getClass().getResourceAsStream("ovire.txt");
+//	    InputStreamReader isr = new InputStreamReader(is);
+//	    BufferedReader buffOvire = new BufferedReader(isr);
+//	
+
 		LinkedList<LinkedList<String>> ovire = new LinkedList<LinkedList<String>>();
 		Random rnd = new Random();
 		LinkedList<Integer> rndList = new LinkedList<Integer>();
