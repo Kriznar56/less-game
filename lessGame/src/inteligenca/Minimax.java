@@ -54,11 +54,7 @@ public class Minimax extends SwingWorker<Poteza, Object> {
 		case ZMAGAL_CRN:
 			return new OcenjenaPoteza(null, (jaz == Igralec.CRN ? Ocena.ZMAGA+g*1000000+igra.krediti*100 : Ocena.ZGUBA-g*1000000-10*Ocena.oceniPozicijo(Igralec.BEL, igra)));
 		}
-//		case ZMAGAL_BEL:
-//			return new OcenjenaPoteza(null, (jaz == Igralec.BEL ? Ocena.ZMAGA+g*10000+Ocena.oceniPozicijo(jaz, igra)+igra.krediti*1000 : Ocena.ZGUBA-g*10000+Ocena.oceniPozicijo(Igralec.CRN, igra)+igra.krediti*1000));
-//		case ZMAGAL_CRN:
-//			return new OcenjenaPoteza(null, (jaz == Igralec.CRN ? Ocena.ZMAGA+g*10000+Ocena.oceniPozicijo(jaz, igra)+igra.krediti*1000 : Ocena.ZGUBA-g*10000+Ocena.oceniPozicijo(Igralec.BEL, igra)+igra.krediti*1000));
-//		}
+
 		assert (naPotezi != null);
 		if (g >= globina) {
 			// dosegli smo najvecjo dovoljeno globino, zato

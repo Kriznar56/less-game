@@ -50,13 +50,7 @@ public class AlphaBeta2 extends SwingWorker<Poteza, Object> {
 		case ZMAGAL_CRN:
 			return new OcenjenaPoteza(null, (jaz == Igralec.CRN ? Ocena.ZMAGA+g*1000000+igra.krediti*100 : Ocena.ZGUBA-g*1000000-10*Ocena.oceniPozicijo(Igralec.BEL, igra)));
 		}
-//	case ZMAGAL_BEL:
-//		//System.out.println("najdena zmagovalna poteza");
-//		return new OcenjenaPoteza(null, (jaz == Igralec.BEL ? Ocena.ZMAGA-g*1000000+Ocena.oceniPozicijo(jaz, igra)+igra.krediti*10 : Ocena.ZGUBA+g*1000000+Ocena.oceniPozicijo(Igralec.CRN, igra)+igra.krediti*10));
-//	case ZMAGAL_CRN:
-//		//System.out.println("najdena zmagovalna poteza");
-//		return new OcenjenaPoteza(null, (jaz == Igralec.CRN ? Ocena.ZMAGA-g*1000000+Ocena.oceniPozicijo(jaz, igra)+igra.krediti*10 : Ocena.ZGUBA+g*1000000+Ocena.oceniPozicijo(Igralec.BEL, igra)+igra.krediti*10));
-//	}
+
 		assert (naPotezi != null);
 		if (g >= globina) {
 			// dosegli smo najvecjo dovoljeno globino, zato
