@@ -24,7 +24,7 @@ public class AlphaBeta extends SwingWorker<Poteza, Object> {
 	@Override
 	protected Poteza doInBackground() throws Exception {
 		Igra igra = master.copyIgra();
-		OcenjenaPoteza p = alphaBeta(0, igra, -(1 << 20), (1 << 20), true);
+		OcenjenaPoteza p = alphaBeta(0, igra, -(1 << 22), (1 << 22), true);
 		assert (p.poteza != null);
 		return p.poteza;
 	}
@@ -46,9 +46,9 @@ public class AlphaBeta extends SwingWorker<Poteza, Object> {
 		case NA_POTEZI_BEL: naPotezi = Igralec.BEL; break;
 		case NA_POTEZI_CRN: naPotezi = Igralec.CRN; break;
 		case ZMAGAL_BEL:
-			return new OcenjenaPoteza(null, (jaz == Igralec.BEL ? Ocena.ZMAGA : Ocena.ZGUBA));
+			return new OcenjenaPoteza(null, (jaz == Igralec.BEL ? Ocena.ZMAGA-g*100000+Ocena.oceniPozicijo(jaz, igra) : Ocena.ZGUBA+g*100000+Ocena.oceniPozicijo(Igralec.CRN, igra)));
 		case ZMAGAL_CRN:
-			return new OcenjenaPoteza(null, (jaz == Igralec.CRN ? Ocena.ZMAGA : Ocena.ZGUBA));
+			return new OcenjenaPoteza(null, (jaz == Igralec.CRN ? Ocena.ZMAGA-g*100000+Ocena.oceniPozicijo(jaz, igra) : Ocena.ZGUBA+g*100000+Ocena.oceniPozicijo(Igralec.BEL, igra)));
 		}
 		assert (naPotezi != null);
 		if (g >= globina) {
@@ -57,8 +57,8 @@ public class AlphaBeta extends SwingWorker<Poteza, Object> {
 		Poteza najboljsa = null;
 		int ocenaNajboljse = 0;
 		if(maksimiziramo) {
-			int ocenaP = -(1 << 20);
-			for(Poteza p: igra.seznam_legalnih_potez) {
+			int ocenaP = -Ocena.ZGUBA*10;
+			for(Poteza p: igra.seznam_legalnih_potez()) {
 				Igra kopija = new Igra(igra);
 				kopija.odigraj(p);
 				if(kopija.naPotezi != naPotezi) {
@@ -77,8 +77,8 @@ public class AlphaBeta extends SwingWorker<Poteza, Object> {
 			}
 		}
 		else{
-			int ocenaP = (1 << 20);
-			for(Poteza p: igra.seznam_legalnih_potez) {
+			int ocenaP = Ocena.ZMAGA*10;
+			for(Poteza p: igra.seznam_legalnih_potez()) {
 				Igra kopija = new Igra(igra);
 				kopija.odigraj(p);
 				if(kopija.naPotezi != naPotezi) {

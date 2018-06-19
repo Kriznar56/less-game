@@ -2,7 +2,7 @@ package logikaIgre;
 
 import java.awt.Point;
 import java.io.BufferedReader;
-import java.io.FileReader;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -11,17 +11,16 @@ import java.util.Random;
 
 
 
+
 public class Igra {
-	// Work in progress.
 	public static final int N = 6; //<- delava samo za dva igralca oz. vs. racunalnik.
 	
 	public Polje[][] plosca;
 	public Igra undo;
 	public Igralec naPotezi;
 	public int krediti;
-	private static LinkedList<Point> zacetna_crna = new LinkedList<Point>();
-	private static LinkedList<Point> zacetna_bela =  new LinkedList<Point>();  // uporabni listi pri preverjanju zmagovalca
-	public LinkedList<Poteza> seznam_legalnih_potez = new LinkedList<Poteza>();
+	public static LinkedList<Point> zacetna_crna = new LinkedList<Point>();
+	public static LinkedList<Point> zacetna_bela =  new LinkedList<Point>();  // uporabni listi pri preverjanju zmagovalca
 	public LinkedList<LinkedList<String>> ovire =  new LinkedList<LinkedList<String>>(); 
 
 	static { 		
@@ -96,7 +95,6 @@ public class Igra {
 		}
 		naPotezi = Igralec.BEL;
 		krediti = 3;
-		posodobi_legalne_poteze();
 	}
 	
 	public Igra(Igra igra) {
@@ -113,7 +111,6 @@ public class Igra {
 		}
 		this.naPotezi = igra.naPotezi;
 		this.krediti = igra.krediti;
-		posodobi_legalne_poteze();
 
 	}
 	
@@ -161,7 +158,7 @@ public class Igra {
 	 */
 	
 	public boolean odigraj(Poteza p) {
-		if(seznam_legalnih_potez.contains(p)) {
+		if(seznam_legalnih_potez().contains(p)) {
 			// izracunaj ceno poteze in odstej to ceno od ''kredita''.
 			krediti -= cenaPoteze(p.getX_start(), p.getY_start(), p.getX_final(), p.getY_final());
 			// spremeni plosco
@@ -180,7 +177,15 @@ public class Igra {
 				else {naPotezi = Igralec.BEL;}
 				krediti = 3;
 			}
-			posodobi_legalne_poteze();
+			if(seznam_legalnih_potez().isEmpty()) {
+				if(naPotezi == Igralec.BEL) {
+					naPotezi = Igralec.CRN;
+				}
+				else {
+					naPotezi = Igralec.BEL;
+				}
+				krediti = 3;
+			}
 			return true;
 		}
 		else {
@@ -199,13 +204,11 @@ public class Igra {
 	 */
 	
 	public LinkedList<LinkedList<String>> dobiOvire() throws IOException{
-		FileReader fileOvire = new FileReader("ovire.txt");
-		BufferedReader buffOvire = new BufferedReader(fileOvire);
-		
-//		InputStream is = getClass().getResourceAsStream("ovire.txt");
-//	    InputStreamReader isr = new InputStreamReader(is);
-//	    BufferedReader buffOvire = new BufferedReader(isr);
-//	
+		InputStream is = Igra.class.getResourceAsStream("/resources/ovire.txt");
+		assert(is != null);
+	    InputStreamReader isr = new InputStreamReader(is);
+	    BufferedReader buffOvire = new BufferedReader(isr);
+	 
 
 		LinkedList<LinkedList<String>> ovire = new LinkedList<LinkedList<String>>();
 		Random rnd = new Random();
@@ -231,7 +234,6 @@ public class Igra {
 			}
 			k++;
 		}
-		fileOvire.close();
 		return ovire;
 	}
 	
@@ -241,8 +243,8 @@ public class Igra {
 	/**
 	 * posodobi seznam legalnih potez
 	 */
-	public void posodobi_legalne_poteze() {
-		seznam_legalnih_potez.clear();
+	public LinkedList<Poteza> seznam_legalnih_potez() {
+		LinkedList<Poteza> seznam_legalnih_potez = new LinkedList<Poteza>();
 		TipPolja checkpolje = TipPolja.PRAZNO;
 		if(naPotezi == Igralec.BEL) {
 			checkpolje = TipPolja.BELO;
@@ -273,6 +275,7 @@ public class Igra {
 					}
 				}
 			}
+		return seznam_legalnih_potez;
 		}
 	
 	

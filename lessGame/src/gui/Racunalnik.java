@@ -3,17 +3,17 @@ package gui;
 import javax.swing.SwingWorker;
 
 import inteligenca.AlphaBeta;
+import inteligenca.AlphaBeta2;
 import inteligenca.Minimax;
 import logikaIgre.Igralec;
 import logikaIgre.Poteza;
 
-// samo stub. morava se vse dodati.
 
 public class Racunalnik extends Strateg {
 	private Okno master;
 	private Igralec jaz;
 	private SwingWorker<Poteza, Object> mislec;
-	protected static int stopnja = 3;
+	protected static int stopnja = 4;
 	public Racunalnik(Okno master, Igralec jaz) {
 		this.master = master;
 		this.jaz = jaz;
@@ -21,7 +21,7 @@ public class Racunalnik extends Strateg {
 	@Override
 	public void na_potezi() {
 		// Začnemo razmišljati
-		mislec = new Minimax(master, stopnja, jaz);
+		mislec = new AlphaBeta2(master, stopnja, jaz);
 		mislec.execute();
 	}
 

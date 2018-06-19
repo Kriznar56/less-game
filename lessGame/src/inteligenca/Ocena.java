@@ -9,39 +9,39 @@ import logikaIgre.Polje;
 import logikaIgre.TipPolja;
 
 public class Ocena {
-	public static final int ZMAGA = (1 << 20); // vrednost zmage, 1 prestavi za 20 mest binomsko to pride 1048576
+	public static final int ZMAGA = (1 << 22); // vrednost zmage, 1 prestavi za 22 mest binomsko to pride 41943040
 	public static final int ZGUBA = -ZMAGA;
 	private static LinkedList<Point> crnaPolja = new LinkedList<Point>();
 	private static LinkedList<Point> belaPolja = new LinkedList<Point>();
 
-	//Funkcija ki doda konstanto 0.25 za vsak sosednji ploscek
+	//Funkcija ki doda konstanto 1 za vsak sosednji ploscek
 	private static int sosednjiPloscki( boolean igralec, Point p, Polje[][] plosca) {
 		int vrednost = 0;
 		if(igralec) {
 			if((int)p.getX()==5 && (int)p.getY()==0) {}
 			else if((int)p.getX()==5) {
-				if(plosca[(int)p.getX()][(int)p.getY()-1].tip==TipPolja.CRNO) { vrednost+=1/4;}
+				if(plosca[(int)p.getX()][(int)p.getY()-1].tip==TipPolja.CRNO) { vrednost+=1;}
 			}
 			else if((int)p.getY()==0) {
-				if(plosca[(int)p.getX()+1][(int)p.getY()].tip==TipPolja.CRNO) { vrednost+=1/4;}
+				if(plosca[(int)p.getX()+1][(int)p.getY()].tip==TipPolja.CRNO) { vrednost+=1;}
 			}
 			else {
-				if(plosca[(int)p.getX()+1][(int)p.getY()].tip==TipPolja.CRNO) { vrednost+=1/4;}
-				if(plosca[(int)p.getX()][(int)p.getY()-1].tip==TipPolja.CRNO) { vrednost+=1/4;}
+				if(plosca[(int)p.getX()+1][(int)p.getY()].tip==TipPolja.CRNO) { vrednost+=1;}
+				if(plosca[(int)p.getX()][(int)p.getY()-1].tip==TipPolja.CRNO) { vrednost+=1;}
 			}
 	
 		}
 		else {
 			if((int)p.getX()==0 && (int)p.getY()==5) {}
 			else if((int)p.getX()==0) {
-				if(plosca[(int)p.getX()][(int)p.getY()+1].tip==TipPolja.CRNO) { vrednost+=1/4;}
+				if(plosca[(int)p.getX()][(int)p.getY()+1].tip==TipPolja.CRNO) { vrednost+=1;}
 			}
 			else if((int)p.getY()==5) {
-				if(plosca[(int)p.getX()-1][(int)p.getY()].tip==TipPolja.CRNO) { vrednost+=1/4;}
+				if(plosca[(int)p.getX()-1][(int)p.getY()].tip==TipPolja.CRNO) { vrednost+=1;}
 			}
 			else {
-				if(plosca[(int)p.getX()-1][(int)p.getY()].tip==TipPolja.CRNO) { vrednost+=1/4;}
-				if(plosca[(int)p.getX()][(int)p.getY()+1].tip==TipPolja.CRNO) { vrednost+=1/4;}
+				if(plosca[(int)p.getX()-1][(int)p.getY()].tip==TipPolja.CRNO) { vrednost+=1;}
+				if(plosca[(int)p.getX()][(int)p.getY()+1].tip==TipPolja.CRNO) { vrednost+=1;}
 			}
 		}
 		return vrednost;
@@ -74,8 +74,16 @@ public class Ocena {
 					}
 				}	
 			}
-		
-			return cene[5][0]; //vrni najnižjo ceno premika do ciljnega kota
+			if(Igra.zacetna_crna.contains(new Point(x1, y1))){
+				//če sem v ciljnem kvadratu dam višjo oceno.
+				return cene[5][0] - 1500;
+			}
+			else{
+				
+				return cene[5][0];
+			}
+
+			 //vrni najnižjo ceno premika do ciljnega kota
 		}
 		else {//ce nismo beli smo crni in gledamo ceno do spodnjega levega kota
 			for(int i = x1; i>=0; i--) {
@@ -101,24 +109,22 @@ public class Ocena {
 					}
 				}
 			}
-			//return cene
-			return cene[0][5];
+			if(Igra.zacetna_bela.contains(new Point(x1, y1))){
+				
+				return cene[0][5] - 1500;
+			}
+			else {
+			return cene[0][5]; 
+			}
+
+			
 		}
 	}
 	
 	
 	
 	public static int oceniPozicijo(Igralec jaz, Igra igra) {
-		switch (igra.stanje()) {
-		case ZMAGAL_BEL:
-			//System.out.println("Zmagal Bel");
-			return (jaz == Igralec.BEL ? ZMAGA : ZGUBA); 
-		case ZMAGAL_CRN:
-			//System.out.println("Zmagal Crn");
-			return (jaz == Igralec.CRN ? ZMAGA : ZGUBA);
-		case NA_POTEZI_BEL:
-			//System.out.println("BELO");
-			Polje[][] plosca = igra.getPlosca();
+		Polje[][] plosca = igra.getPlosca();
 			crnaPolja.clear();
 			belaPolja.clear();
 			int vrednostBELI = 0;
@@ -135,45 +141,14 @@ public class Ocena {
 			}
 			//Najprej bomo ocenili samo tako da bomo pogledali koliko ima vsak ploscek x in y razdaljo do zgornjega ali spodnjega kota
 			for(Point p: crnaPolja) {
-				vrednostCRNI -= cenaDoCilja(p.x, p.y, igra, false);
+				vrednostCRNI -= cenaDoCilja(p.x, p.y, igra, false)*4;
 				vrednostCRNI += sosednjiPloscki(false, p, plosca);
 			}
 			for(Point p: belaPolja) {
-				vrednostBELI -= cenaDoCilja(p.x, p.y, igra, true);
+				vrednostBELI -= cenaDoCilja(p.x, p.y, igra, true)*4;
 				vrednostBELI += sosednjiPloscki(true, p, plosca);
 			}
-			return (jaz==Igralec.BEL ? (vrednostBELI-vrednostCRNI/4) : (vrednostCRNI-vrednostBELI/4));
-		case NA_POTEZI_CRN:
-			//System.out.println("CRNO");
-			Polje[][] plosca1 = igra.getPlosca();
-			crnaPolja.clear();
-			belaPolja.clear();
-			int vrednostBELI1 = 0;
-			int vrednostCRNI1 = 0;
-			for(int i = 0; i<Igra.N; i++) {
-				for(int j = 0; j<Igra.N; j++) {
-					if(plosca1[i][j].tip==TipPolja.CRNO) {
-						crnaPolja.add(new Point(i, j));
-					}
-					else if(plosca1[i][j].tip == TipPolja.BELO) {
-						belaPolja.add(new Point(i, j));
-					}
-				}
-			}
-			//Najprej bomo ocenili samo tako da bomo pogledali koliko ima vsak ploscek x in y razdaljo do zgornjega ali spodnjega kota
-			for(Point p: crnaPolja) {
-				vrednostCRNI1 -= cenaDoCilja(p.x, p.y, igra, false);
-				vrednostCRNI1 += sosednjiPloscki(false, p, plosca1);
-			}
-			for(Point p: belaPolja) {
-				vrednostBELI1 -= cenaDoCilja(p.x, p.y, igra, true);
-				vrednostBELI1 += sosednjiPloscki(true, p, plosca1);
-			}
-			return (jaz==Igralec.BEL ? (vrednostBELI1-vrednostCRNI1/4) : (vrednostCRNI1-vrednostBELI1/4));
-			
-		}
-		assert false;
-		return 666;
-	}
+			return (jaz==Igralec.BEL ? (vrednostBELI*16-vrednostCRNI*4) : (vrednostCRNI*16-vrednostBELI*4));
 
+	}
 }

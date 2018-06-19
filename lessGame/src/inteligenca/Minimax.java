@@ -49,11 +49,16 @@ public class Minimax extends SwingWorker<Poteza, Object> {
 		switch (igra.stanje()) {
 		case NA_POTEZI_BEL: naPotezi = Igralec.BEL; break;
 		case NA_POTEZI_CRN: naPotezi = Igralec.CRN; break;
-		case ZMAGAL_BEL:
-			return new OcenjenaPoteza(null, (jaz == Igralec.BEL ? Ocena.ZMAGA : Ocena.ZGUBA));
+		case ZMAGAL_BEL: //ko zmaga, zeli zmagati v cim manj potezah in imeti cim vec kreditov, ko izgubiš želiš imeti cim boljsi polozaj, in zelis izgubiti cim kasneje.
+			return new OcenjenaPoteza(null, (jaz == Igralec.BEL ? Ocena.ZMAGA+g*1000000+igra.krediti*100 : Ocena.ZGUBA-g*1000000-10*Ocena.oceniPozicijo(Igralec.CRN, igra)));
 		case ZMAGAL_CRN:
-			return new OcenjenaPoteza(null, (jaz == Igralec.CRN ? Ocena.ZMAGA : Ocena.ZGUBA));
+			return new OcenjenaPoteza(null, (jaz == Igralec.CRN ? Ocena.ZMAGA+g*1000000+igra.krediti*100 : Ocena.ZGUBA-g*1000000-10*Ocena.oceniPozicijo(Igralec.BEL, igra)));
 		}
+//		case ZMAGAL_BEL:
+//			return new OcenjenaPoteza(null, (jaz == Igralec.BEL ? Ocena.ZMAGA+g*10000+Ocena.oceniPozicijo(jaz, igra)+igra.krediti*1000 : Ocena.ZGUBA-g*10000+Ocena.oceniPozicijo(Igralec.CRN, igra)+igra.krediti*1000));
+//		case ZMAGAL_CRN:
+//			return new OcenjenaPoteza(null, (jaz == Igralec.CRN ? Ocena.ZMAGA+g*10000+Ocena.oceniPozicijo(jaz, igra)+igra.krediti*1000 : Ocena.ZGUBA-g*10000+Ocena.oceniPozicijo(Igralec.BEL, igra)+igra.krediti*1000));
+//		}
 		assert (naPotezi != null);
 		if (g >= globina) {
 			// dosegli smo najvecjo dovoljeno globino, zato
@@ -64,7 +69,7 @@ public class Minimax extends SwingWorker<Poteza, Object> {
 		Poteza najboljsa = null;
 		int ocenaNajboljse = 0;
 		//gremo cez vse trenutno dovoljene poteze in jih v kopiji odigramo
-		for(Poteza p: igra.seznam_legalnih_potez) { 
+		for(Poteza p: igra.seznam_legalnih_potez()) { 
 			Igra kopija = new Igra(igra);
 			kopija.odigraj(p);
 			if(kopija.naPotezi != naPotezi) {g++;}
@@ -79,11 +84,8 @@ public class Minimax extends SwingWorker<Poteza, Object> {
 			}
 		}
 		assert (najboljsa != null);
-		
-		//if(ocenaNajboljse > (10 << 19 )) {
-			System.out.println(ocenaNajboljse);
-			System.out.println(jaz);
-		//}
+
+			
 		return new OcenjenaPoteza(najboljsa, ocenaNajboljse);
 	}
 

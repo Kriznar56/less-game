@@ -42,7 +42,7 @@ public class LogikaIgreTest extends TestCase{
 		//Naredimo se dve potezi in potem mora biti na potezi crni	
 		//igra.odigraj(igra.seznam_legalnih_potez.get(0));
 		//igra.odigraj(igra.seznam_legalnih_potez.get(0));
-		
+		System.out.println(10 << 20);
 
 		
 

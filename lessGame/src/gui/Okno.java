@@ -41,6 +41,8 @@ public class Okno extends JFrame implements ActionListener{
 	private JMenuItem stopnja4;
 	private JMenuItem stopnja5;
 	private JMenuItem stopnja6;
+	private JMenuItem stopnja7;
+	private JMenuItem stopnja8;
 	boolean oznacenoPolje = false;
 	private JMenuItem razveljavi;
 	private LinkedList<Igra> stanja = new LinkedList<Igra>();
@@ -106,6 +108,14 @@ public class Okno extends JFrame implements ActionListener{
 		stopnja6 = new JMenuItem("6");
 		stopnja.add(stopnja6);
 		stopnja6.addActionListener(this);
+		
+		stopnja7 = new JMenuItem("7");
+		stopnja.add(stopnja7);
+		stopnja7.addActionListener(this);
+	
+		stopnja8 = new JMenuItem("8");
+		stopnja.add(stopnja8);
+		stopnja8.addActionListener(this);
 		
 		// igralno polje
 		polje = new IgralnoPolje(this);
@@ -237,6 +247,8 @@ public class Okno extends JFrame implements ActionListener{
 			else if(e.getSource() == stopnja4){strategBELI.tezavnost(4); osveziGUI();}
 			else if(e.getSource() == stopnja5){strategBELI.tezavnost(5); osveziGUI();}
 			else if(e.getSource() == stopnja6){strategBELI.tezavnost(6); osveziGUI();}
+			else if(e.getSource() == stopnja7){strategBELI.tezavnost(7); osveziGUI();}
+			else if(e.getSource() == stopnja8){strategBELI.tezavnost(8); osveziGUI();}
 		}
 		else if(strategCRNI.getClass().getName() == "gui.Racunalnik") {
 			if(e.getSource() == stopnja1){strategCRNI.tezavnost(1); osveziGUI();}
@@ -245,6 +257,8 @@ public class Okno extends JFrame implements ActionListener{
 			else if(e.getSource() == stopnja4){strategCRNI.tezavnost(4); osveziGUI();}
 			else if(e.getSource() == stopnja5){strategCRNI.tezavnost(5); osveziGUI();}
 			else if(e.getSource() == stopnja6){strategCRNI.tezavnost(6); osveziGUI();}
+			else if(e.getSource() == stopnja7){strategCRNI.tezavnost(7); osveziGUI();}
+			else if(e.getSource() == stopnja8){strategCRNI.tezavnost(8); osveziGUI();}
 		}
 		
 	}
@@ -296,7 +310,7 @@ public class Okno extends JFrame implements ActionListener{
 	//metoda ki vrne seznam polja v obliki koordinate x in y, da se narisejo polja na katera se uporabnik lahko premakne
 	LinkedList<Integer> mozniPremiki(int i, int j) {
 		LinkedList<Integer> moznaPolja = new LinkedList<Integer>();
-		for(Poteza p: igra.seznam_legalnih_potez){
+		for(Poteza p: igra.seznam_legalnih_potez()){
 			if(p.getX_start()==i && p.getY_start()==j){
 				moznaPolja.add(p.getX_final());
 				moznaPolja.add(p.getY_final());
@@ -317,7 +331,7 @@ public class Okno extends JFrame implements ActionListener{
 	}
 	
 	LinkedList<Poteza> dobiPoteze() {
-		return igra.seznam_legalnih_potez;
+		return igra.seznam_legalnih_potez();
 	}
 	
 	Stanje trenutnoStanje() {
@@ -343,7 +357,7 @@ public class Okno extends JFrame implements ActionListener{
 			}
 			stanja.remove(stanja.getLast());
 			osveziGUI();
-			repaint();
+			
 		}
 	}
 
